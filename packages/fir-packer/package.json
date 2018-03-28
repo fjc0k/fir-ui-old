@@ -1,6 +1,6 @@
 {
   "name": "fir-packer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "fir-ui 打包器",
   "main": "src/index.js",
   "author": "fjc0k",
