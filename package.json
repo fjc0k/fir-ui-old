@@ -2,6 +2,7 @@
 	"devDependencies": {
 		"eslint": "^4.19.1",
 		"eslint-config-fir": "^0.0.3",
+		"fir-packer": "^0.0.3",
 		"lerna": "^2.9.0"
 	},
 	"eslintConfig": {
