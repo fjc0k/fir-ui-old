@@ -14,7 +14,10 @@
     "serve": "vue serve demo/main.js",
     "build": "vue-cli-service build --target lib --name fir src/main.js",
     "test": "vue-cli-service test",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "add": "node scripts/add-component.js",
+    "export": "node scripts/export-components.js",
+    "publish": "lerna publish --conventional-commits"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.6",
