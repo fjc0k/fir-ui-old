@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.1.4...fir-ui@0.2.0) (2018-03-29)
+
+
+### Features
+
+* **Select:** add component ([f885ead](https://github.com/fjc0k/fir-ui/commit/f885ead))
+
+
+
+
 <a name="0.1.4"></a>
 ## [0.1.4](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.1.3...fir-ui@0.1.4) (2018-03-29)
 
