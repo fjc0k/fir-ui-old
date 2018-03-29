@@ -30,6 +30,7 @@
     "cac": "^4.4.4",
     "eslint-config-fir": "^0.0.4",
     "fs-extra": "^5.0.0",
+    "klaw": "^2.1.1",
     "lerna": "^2.9.0",
     "lodash": "^4.17.5",
     "stylus": "^0.54.5",

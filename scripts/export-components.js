@@ -2,7 +2,7 @@ const _ = require('lodash')
 const path = require('path')
 const fs = require('fs-extra')
 const klaw = require('klaw')
-const { vueComponentExt } = require('config')
+const { vueComponentExt } = require('./config')
 
 const SRC_PATH = path.resolve(__dirname, '../src')
 const COMPONENTS_PATH = path.join(SRC_PATH, 'components')

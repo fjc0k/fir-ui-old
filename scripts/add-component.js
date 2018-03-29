@@ -5,7 +5,7 @@ const cac = require('cac')
 const path = require('path')
 const fs = require('fs-extra')
 const { execSync } = require('child_process')
-const { cssExt, vueComponentExt } = require('config')
+const { cssExt, vueComponentExt } = require('./config')
 
 const TEMPLATES_PATH = path.resolve(__dirname, './templates')
 
@@ -32,7 +32,12 @@ const SELECTORS_CSS_TEMPLATE = t('selectors' + cssExt)
 const cli = cac()
 
 cli
-  .command('*', 'Add new component', ([componentName], options) => {
+  .command('*', '新增组件', ([componentName], options) => {
+    if (!componentName) {
+      console.error('\n✘ 组件名不能为空\n')
+      return
+    }
+
     const cName = _.camelCase(componentName)
     const kName = _.kebabCase(componentName)
 
