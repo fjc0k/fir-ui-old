@@ -1,10 +1,12 @@
+/* eslint new-cap: 0, capitalized-comments: 0 */
+
 const _ = require('lodash')
 const cac = require('cac')
 const path = require('path')
 const fs = require('fs-extra')
 const { execSync } = require('child_process')
+const { cssExt, vueComponentExt } = require('config')
 
-const CSS_FILE_EXT = '.styl'
 const TEMPLATES_PATH = path.resolve(__dirname, './templates')
 
 const r = path.resolve.bind(path, __dirname)
@@ -14,16 +16,18 @@ const t = _.flow([
   template => values => _.template(template)(values).trim() + '\n'
 ])
 
+const EXPORT_COMPONENTS_SCRIPT = r('export-components.js')
+
 const COMPONENT_JS_PATH = r('../src/components')
 const COMPONENT_CSS_PATH = r('../src/styles/components')
 const COMPONENT_VAR_CSS_PATH = r('../src/styles/settings/variables')
 const COMPONENTS_JSON_FILE = r('../src/components.json')
-const SELECTORS_CSS_FILE = r('../src/styles/settings/selectors' + CSS_FILE_EXT)
+const SELECTORS_CSS_FILE = r('../src/styles/settings/selectors' + cssExt)
 
-const COMPONENT_JS_TEMPLATE = t('component.js')
-const COMPONENT_CSS_TEMPLATE = t('component' + CSS_FILE_EXT)
-const COMPONENT_VAR_CSS_TEMPLATE = t('component.var' + CSS_FILE_EXT)
-const SELECTORS_CSS_TEMPLATE = t('selectors' + CSS_FILE_EXT)
+const COMPONENT_JS_TEMPLATE = t('component' + vueComponentExt)
+const COMPONENT_CSS_TEMPLATE = t('component' + cssExt)
+const COMPONENT_VAR_CSS_TEMPLATE = t('component.var' + cssExt)
+const SELECTORS_CSS_TEMPLATE = t('selectors' + cssExt)
 
 const cli = cac()
 
@@ -42,19 +46,19 @@ cli
 
     // component.js
     fs.outputFileSync(
-      path.join(COMPONENT_JS_PATH, options.parent || kName, `${kName}.js`),
+      path.join(COMPONENT_JS_PATH, options.parent || kName, kName + vueComponentExt),
       COMPONENT_JS_TEMPLATE({ options, component: componentName })
     )
 
     // component.scss
     fs.outputFileSync(
-      path.join(COMPONENT_CSS_PATH, `${kName}${CSS_FILE_EXT}`),
+      path.join(COMPONENT_CSS_PATH, kName + cssExt),
       COMPONENT_CSS_TEMPLATE({ options, component: componentName })
     )
 
     // component.var.scss
     fs.outputFileSync(
-      path.join(COMPONENT_VAR_CSS_PATH, `${kName}${CSS_FILE_EXT}`),
+      path.join(COMPONENT_VAR_CSS_PATH, kName + cssExt),
       COMPONENT_VAR_CSS_TEMPLATE({ options, component: componentName })
     )
 
@@ -64,8 +68,8 @@ cli
       SELECTORS_CSS_TEMPLATE({ options, components })
     )
 
-    // export components
-    execSync('yarn run export')
+    // Export components
+    execSync('node ' + EXPORT_COMPONENTS_SCRIPT)
   })
   .option('parent', {
     desc: '父组件是?',

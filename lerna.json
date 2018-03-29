@@ -6,5 +6,10 @@
   ],
   "version": "independent",
   "npmClient": "yarn",
-  "npmClientArgs": ["--prod=false"]
+  "npmClientArgs": ["--prod=false"],
+  "command": {
+    "publish": {
+      "message": "chore(release): publish"
+    }
+  }
 }
