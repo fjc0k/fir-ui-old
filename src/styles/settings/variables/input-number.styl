@@ -1,0 +1,20 @@
+@import "base";
+
+$inputNumber := {
+  height: 1.6em,
+  inputBox: {
+    width: 3em
+  },
+  button: {
+    font: {
+      size: $font.size.base,
+      color: $color.black
+    },
+    active: {
+      backgroundColor: shade($color.white, 10%),
+      font: {
+        color: tint($color.black, 40%)
+      }
+    }
+  }
+}

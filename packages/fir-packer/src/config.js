@@ -8,5 +8,3 @@ exports.pkg = fs.readJsonSync(
 ) || {}
 
 exports.browsers = exports.pkg.browsers || ['iOS 6', 'Android 4.0']
-
-exports.isDev = process.env.NODE_ENV === 'development'

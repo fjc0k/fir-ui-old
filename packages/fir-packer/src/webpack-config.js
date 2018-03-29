@@ -4,7 +4,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const nodeExternals = require('webpack-node-externals')
 const autoPrefixer = require('autoprefixer')
 const babelConfig = require('./babel-config')
-const { browsers, realPath, isDev } = require('./config')
+const { browsers, realPath } = require('./config')
 
 const formats = {
   cjs: ['.cjs', 'commonjs2', false],
@@ -24,6 +24,7 @@ module.exports = bundles => {
 
   return (
     bundles.map(({
+      mode = 'production',
       library,
       entry,
       format,
@@ -32,9 +33,10 @@ module.exports = bundles => {
       alias = {}
     }) => {
       outDir = realPath(outDir)
+      const isDev = mode === 'development'
 
       return {
-        mode: isDev ? 'development' : 'production',
+        mode,
         entry: _.mapValues(entry, file => realPath(file)),
         output: {
           path: outDir,

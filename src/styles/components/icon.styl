@@ -1,0 +1,33 @@
+@import "../settings";
+
+$iconFontStyle {
+  font-family: $icon.font.family !important;
+  font-size: $icon.font.size;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// common
+.{$.icon} {
+  line-height: 1;
+}
+
+// font-class
+$_selector = '[class*=" ' + $icon.font.family + '-"], [class^="' + $icon.font.family + '-"]'
+
+{$_selector} {
+  @extend $iconFontStyle;
+}
+
+// symbol
+.{$.icon}_svg {
+  @extend $iconFontStyle;
+  > svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: -.15em;
+    fill: currentColor;
+    overflow: hidden;
+  }
+}

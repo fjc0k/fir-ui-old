@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 const _ = require('lodash')
 const cac = require('cac')
-const klawSync = require('klaw-sync')
-const path = require('path')
 const babel = require('./babel')
 const webpack = require('./webpack')
-const { realPath, pkg } = require('./config')
+const poi = require('./poi')
+const { pkg } = require('./config')
 
 const packageName = pkg.name || 'app'
 const cli = cac()
@@ -37,7 +36,7 @@ cli
   })
   .option('entry', {
     desc: '入口文件',
-    default: 'src/index.js'
+    default: pkg.main || 'src/index.js'
   })
   .option('outDir', {
     desc: '打包至文件夹',
@@ -64,23 +63,10 @@ cli
 cli
   .command('compile', 'JS编译机', (_, { src, to }) => {
     console.log('\n✔ JS编译中...\n')
-    const _src = realPath(src)
-    const _to = realPath(to)
-    const files = klawSync(_src, {
-      nodir: true,
-      filter: ({ path }) => path.endsWith('.js')
-    })
-    Promise
-      .all(
-        files.map(file => babel(
-          file.path,
-          path.resolve(_to, path.relative(_src, file.path))
-        ))
-      )
-      .then(
-        () => console.log('✔ JS编译完成！\n'),
-        console.error
-      )
+    babel({ src, to }).then(
+      () => console.log('✔ JS编译完成！\n'),
+      console.error
+    )
   })
   .option('src', {
     desc: '待编译文件夹',
@@ -89,6 +75,17 @@ cli
   .option('to', {
     desc: '目标文件夹',
     default: 'lib'
+  })
+
+cli
+  .command('dev', 'JS开发机', ([_entry], { entry }) => {
+    poi({
+      entry: _entry || entry
+    })
+  })
+  .option('entry', {
+    desc: '入口文件',
+    default: pkg.main || 'src/index.js'
   })
 
 cli.parse()

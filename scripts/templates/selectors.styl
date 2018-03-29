@@ -1,0 +1,7 @@
+$ := {
+<%=
+  _.keys(components).map(component => {
+    return '  ' + _.camelCase(component) + ': \'' + components[component] + '\''
+  }).join(',\n')
+%>
+}

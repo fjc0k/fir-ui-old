@@ -1,0 +1,26 @@
+@import "base";
+@import "list";
+
+$item := {
+  body: {
+    minHeight: 2.85em,
+    padding: .5em $list.padding.left,
+    gap: .2em,
+  },
+  desc: {
+    font: {
+      size: .7em,
+      color: $color.text.secondary
+    }
+  },
+  note: {
+    font: {
+      size: .75em,
+      color: $color.text.secondary
+    }
+  },
+  arrow: {
+    size: 1em,
+    color: $color.text.placeholder
+  }
+}
