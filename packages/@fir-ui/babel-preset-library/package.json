@@ -1,6 +1,6 @@
 {
   "name": "@fir-ui/babel-preset-library",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Babel preset for fir-ui",
   "main": "index.js",
   "author": "fjc0k",
