@@ -1,7 +1,7 @@
 // 控制组件的可见性
 
 import betterSync from 'vue-better-sync'
-import { isFunction } from 'lodash-es'
+import { isFunction } from 'lodash'
 
 export default (defaultVisible, isModel) => ({
   mixins: [

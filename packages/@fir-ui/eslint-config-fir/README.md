@@ -12,7 +12,7 @@
 
 ## 📥 安装
 ```shell
-yarn add eslint-config-fir -D
+yarn add @fir-ui/eslint-config-fir -D
 ```
 
 ## 🔧 使用
@@ -20,7 +20,7 @@ yarn add eslint-config-fir -D
 ```json
 {
   "eslintConfig": {
-    "extends": "fir"
+    "extends": "@fir-ui/fir"
   }
 }
 ```

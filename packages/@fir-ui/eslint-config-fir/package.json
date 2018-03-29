@@ -1,10 +1,13 @@
 {
-  "name": "eslint-config-fir",
-  "version": "0.0.4",
+  "name": "@fir-ui/eslint-config-fir",
+  "version": "0.0.1",
   "description": "ESLint config for fir-ui",
   "main": "index.js",
   "author": "fjc0k",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "eslint-config-xo": "^0.20.1"
   }

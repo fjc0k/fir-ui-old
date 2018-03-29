@@ -1,0 +1,29 @@
+{
+  "name": "@fir-ui/babel-preset-library",
+  "version": "0.0.1",
+  "description": "Babel preset for fir-ui",
+  "main": "index.js",
+  "author": "fjc0k",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@babel/helper-plugin-utils": "^7.0.0-beta.42",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.42",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.42",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.42",
+    "babel-plugin-lodash": "^3.3.2",
+    "fast-async": "^6.3.1"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.0.0-beta.42"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.42"
+  }
+}

@@ -1,6 +1,6 @@
 import betterSync from 'vue-better-sync'
 import { input as CN, field as fieldClassName } from '@/components.json'
-import { isFunction, toNumber } from 'lodash-es'
+import { isFunction, toNumber } from 'lodash'
 
 export default {
   name: CN,

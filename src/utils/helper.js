@@ -1,6 +1,6 @@
 /* eslint max-depth: 0 complexity: 0 */
 
-import { forOwn, isArray, toString } from 'lodash-es'
+import { forOwn, isArray, toString } from 'lodash'
 
 export function genFunctionalData() {
   const finalData = {}

@@ -1,6 +1,6 @@
 // 统一 prop VNode 和 slot
 
-import { reduce, isObjectLike, toString } from 'lodash-es'
+import { reduce, isObjectLike, toString } from 'lodash'
 
 const normalizePropVNode = propVNode => {
   return (

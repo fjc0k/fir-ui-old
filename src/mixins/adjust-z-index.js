@@ -1,6 +1,6 @@
 // 调整 zIndex
 
-import { isNumber } from 'lodash-es'
+import { isNumber } from 'lodash'
 
 export default startZIndex => ({
   props: {

@@ -2,7 +2,7 @@ import Hairline from '@/components/hairline/hairline'
 import Icon from '@/components/icon/icon'
 import { item as CN } from '@/components.json'
 import { genFunctionalData, VNodeType } from '@/utils/helper'
-import { isString, isBoolean } from 'lodash-es'
+import { isString, isBoolean } from 'lodash'
 import { extractVNodes } from '@/mixins'
 
 const ARROWS = ['right', 'down', 'left', 'up']

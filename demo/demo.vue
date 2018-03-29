@@ -20,7 +20,7 @@
 
 
   <f-field label="女生" desc="中国姓氏哦~" :note="text">
-    extra
+    <f-select :data="options" v-model="checkedOption" />
   </f-field>
   <f-item title="女生" desc="中国姓氏哦~" :note="text" extra="extra">
   </f-item>
@@ -38,7 +38,14 @@
     data() {
       return {
         text: '20',
-        type: 'number'
+        type: 'number',
+        checkedOption: 'female',
+        options: [
+          { label: '男', value: 'male' },
+          { label: '女', value: 'female' },
+          { label: 'Object', value: { x: 0 } },
+          { label: '不男不女', value: 'xxx', disabled: true }
+        ]
       };
     },
     computed: {

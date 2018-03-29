@@ -1,6 +1,6 @@
 import betterSync from 'vue-better-sync'
 import { inputNumber as CN } from '@/components.json'
-import { toNumber } from 'lodash-es'
+import { toNumber } from 'lodash'
 import Icon from '@/components/icon/icon'
 import Input from '@/components/input/input'
 

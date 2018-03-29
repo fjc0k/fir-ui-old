@@ -1,6 +1,6 @@
 // 统一 render prop 和 scopeSlot
 
-import { reduce, upperFirst } from 'lodash-es'
+import { reduce, upperFirst } from 'lodash'
 
 export default renderFns => reduce(renderFns, (mixin, defaultRenderFn, propName) => {
   const PropName = upperFirst(propName)
