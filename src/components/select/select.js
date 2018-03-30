@@ -34,8 +34,7 @@ export default {
   },
 
   methods: {
-    handleChange(e) {
-      const { selectedIndex } = e.target
+    handleChange({ target: { selectedIndex } }) {
       if (selectedIndex !== -1 && this.data[selectedIndex]) {
         this.syncValue(
           this.data[selectedIndex].value
@@ -48,9 +47,7 @@ export default {
     return h('select', {
       staticClass: `${CN} ${fieldClassName}--reset`,
       attrs: { value: this.actualValue },
-      on: {
-        change: this.handleChange
-      }
+      on: { change: this.handleChange }
     }, this.Options)
   }
 }
