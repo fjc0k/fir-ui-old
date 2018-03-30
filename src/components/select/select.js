@@ -24,24 +24,19 @@ export default {
 
   computed: {
     Options() {
-      return this.data.map(
-        (item, index) => this.$createElement(
-          'option',
-          {
-            attrs: {
-              ...item,
-              'data-index': index
-            }
-          },
-          [item.label]
-        )
-      )
+      return this.data.map(item => this.$createElement(
+        'option', {
+          attrs: {
+            disabled: item.disabled
+          }
+        }, [item.label]))
     }
   },
 
   methods: {
-    handleChange({ target: { selectedIndex } }) {
-      if (selectedIndex !== -1) {
+    handleChange(e) {
+      const { selectedIndex } = e.target
+      if (selectedIndex !== -1 && this.data[selectedIndex]) {
         this.syncValue(
           this.data[selectedIndex].value
         )
@@ -52,7 +47,7 @@ export default {
   render(h) {
     return h('select', {
       staticClass: `${CN} ${fieldClassName}--reset`,
-      domProps: { value: this.actualValue },
+      attrs: { value: this.actualValue },
       on: {
         change: this.handleChange
       }
