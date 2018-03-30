@@ -3,17 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-<a name="0.3.0"></a>
-# [0.3.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.2.5...fir-ui@0.3.0) (2018-03-30)
-
-
-### Features
-
-* **Select:** 支持任意类型的 value ，比如对象 ([65d17df](https://github.com/fjc0k/fir-ui/commit/65d17df))
-
-
-
-
 <a name="0.2.5"></a>
 ## [0.2.5](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.2.4...fir-ui@0.2.5) (2018-03-30)
 
