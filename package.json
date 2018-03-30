@@ -17,9 +17,9 @@
     "lint": "vue-cli-service lint",
     "add": "node scripts/add-component.js",
     "export": "node scripts/export-components.js",
-    "publish": "lerna publish --conventional-commits",
-    "push": "lerna publish --conventional-commits --skip-npm --yes",
-    "connect": "lerna bootstrap"
+    "pub": "lerna publish --conventional-commits",
+    "pubf": "lerna publish --conventional-commits --force-publish=*",
+    "bs": "lerna bootstrap"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.0.0-beta.42",
