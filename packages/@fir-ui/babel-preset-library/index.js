@@ -13,42 +13,51 @@ module.exports = declare(
 
     const {
       loose = true,
-      useBuiltIns = true,
+      polyfill = false,
       lodash = true,
-      modules = (
-        process.env.VUE_CLI_BABEL_TRANSPILE_MODULES ?
-          'commonjs' :
-          false
-      ),
-      targets = (
-        process.env.VUE_CLI_BABEL_TARGET_NODE ?
-          { node: 'current' } :
-          undefined
-      )
+      env = {}
     } = options
+
+    // 适配 vue-cli
+    if (process.env.VUE_CLI_BABEL_TRANSPILE_MODULES) {
+      env.modules = 'commonjs'
+    }
+    if (process.env.VUE_CLI_BABEL_TARGET_NODE) {
+      env.targets = { node: 'current' }
+    }
 
     const presets = [
       // Env
       [presetEnv, {
-        modules,
         loose,
-        targets,
-        // No polyfills
-        useBuiltIns: false,
+        modules: false,
+        useBuiltIns: polyfill ? 'usage' : false,
         // For fast-async
-        exclude: ['transform-regenerator', 'transform-async-to-generator']
+        exclude: ['transform-regenerator', 'transform-async-to-generator'],
+        ...env
       }]
     ]
 
     const plugins = [
       // Async/Await
-      [transformAsync, { spec: true }],
+      [transformAsync, {
+        spec: true
+      }],
       // Optional chaining
-      [transformOptionalChaining, { loose, useBuiltIns }],
+      [transformOptionalChaining, {
+        loose,
+        useBuiltIns: !polyfill
+      }],
       // Object spread
-      [transformObjectSpread, { loose, useBuiltIns }],
+      [transformObjectSpread, {
+        loose,
+        useBuiltIns: true
+      }],
       // Class properties
-      [transformClassProperties, { loose, useBuiltIns }]
+      [transformClassProperties, {
+        loose,
+        useBuiltIns: !polyfill
+      }]
     ]
 
     // Lodash

@@ -11,12 +11,12 @@ const assertEquals = (a, b) => {
   }
 }
 
-const transform = code => babel.transform(
+const transform = (code, options = {}) => babel.transform(
   code,
-  { presets: [presetLibrary] }
+  { presets: [[presetLibrary, options]] }
 ).code.replace(/^\s*(\r|\n)+/gm, '') // 去除空行便于测试
 
-const transformAssert = (code, b) => assertEquals(transform(code), b)
+const transformAssert = (code, b, options) => assertEquals(transform(code, options), b)
 
 /* 1. Object spread */
 transformAssert(
@@ -97,6 +97,55 @@ function () {
   return Test;
 }();
 Test.x = 2;`
+
+)
+
+/* 6. polyfill = false */
+transformAssert(
+
+`new Promise((rs, rj) => {})
+x.includes(y)
+c = { ...a, b }`,
+
+`new Promise(function (rs, rj) {});
+x.includes(y);
+c = Object.assign({}, a, {
+  b: b
+});`,
+
+{
+  polyfill: false
+}
+
+)
+
+// bug: fast-async with polyfill = true no promise
+/* 7. polyfill = true */
+transformAssert(
+
+`x.includes(y)
+c = { ...a, b }
+async function fn() {
+  return await window.load()
+}`,
+
+`import "core-js/modules/es6.object.assign";
+import "core-js/modules/es7.array.includes";
+import "core-js/modules/es6.string.includes";
+import "core-js/modules/es6.promise";
+x.includes(y);
+c = Object.assign({}, a, {
+  b: b
+});
+function fn() {
+  return new Promise(function ($return, $error) {
+    return Promise.resolve(window.load()).then($return, $error);
+  }.bind(this));
+}`,
+
+{
+  polyfill: true
+}
 
 )
 
