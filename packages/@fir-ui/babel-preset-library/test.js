@@ -21,11 +21,12 @@ const transformAssert = (code, b) => assertEquals(transform(code), b)
 /* 1. Object spread */
 transformAssert(
 
-`z = { ...x, y }`,
+`z = { ...x, y, [a]: 1 }`,
 
-`z = Object.assign({}, x, {
+`var _Object$assign;
+z = Object.assign({}, x, (_Object$assign = {
   y: y
-});`
+}, _Object$assign[a] = 1, _Object$assign));`
 
 )
 
