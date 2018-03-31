@@ -33,14 +33,15 @@ export default {
   },
 
   methods: {
-    beforeSyncValue(_, value, confirm) {
+    transformValue(_, fromProp) {
+      if (fromProp) return _
       if (this.type === 'number') {
-        const _value = value.trim()
-        if (_value !== '') {
-          value = toNumber(_value)
+        const newValue = _.newValue.trim()
+        if (newValue !== '') {
+          _.newValue = toNumber(newValue)
         }
       }
-      confirm(value)
+      return _
     },
     handleInput(e) {
       const { value } = e.target

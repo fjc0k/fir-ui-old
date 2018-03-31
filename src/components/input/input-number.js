@@ -101,8 +101,9 @@ export default {
   },
 
   methods: {
-    beforeProxyValue(_, value, next) {
-      next(toNumber(value))
+    transformValue(_) {
+      _.newValue = toNumber(_.newValue)
+      return _
     },
     handleMinus() {
       this.syncValue(this.actualValue - this.step)
