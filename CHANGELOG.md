@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.3.0...fir-ui@0.4.0) (2018-03-31)
+
+
+### Bug Fixes
+
+* **Input|InputNumber:** 适配新版 vue-better-sync ([380dca5](https://github.com/fjc0k/fir-ui/commit/380dca5))
+* **Select:** 绑定值从 value 改为 selectedIndex ([8a1f32c](https://github.com/fjc0k/fir-ui/commit/8a1f32c))
+
+
+### Features
+
+* **Switch:** 新增组件 ([f6e8976](https://github.com/fjc0k/fir-ui/commit/f6e8976))
+
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.2.5...fir-ui@0.3.0) (2018-03-30)
 
