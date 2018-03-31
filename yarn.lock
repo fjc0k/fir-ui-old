@@ -8187,9 +8187,9 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-better-sync@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/vue-better-sync/-/vue-better-sync-1.1.0.tgz#feade9c533985e92d99f39ade4b4de94dbdec07b"
+vue-better-sync@^2.2.3:
+  version "2.2.3"
+  resolved "http://registry.npm.taobao.org/vue-better-sync/download/vue-better-sync-2.2.3.tgz#ad8ba8a37674f98cd23f4b21cf22bad3fc53b8f3"
 
 vue-eslint-parser@^2.0.3:
   version "2.0.3"

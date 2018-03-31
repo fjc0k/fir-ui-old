@@ -14,6 +14,9 @@
   <f-field label="表单项">
     <f-input-number block :min="20.5" v-model="text" />
   </f-field>
+  <f-field label="Switch">
+    <f-switch :valueMap="valueMap" v-model="switchValue" />
+  </f-field>
   <f-field label="TextArea">
     <f-textarea v-model="text" />
   </f-field>
@@ -40,6 +43,11 @@
         text: '20',
         type: 'number',
         checkedOption: 'female',
+        switchValue: 0,
+        valueMap: {
+          on: 1,
+          off: 0
+        },
         options: [
           { label: '男', value: 'male' },
           { label: '女', value: 'female' },

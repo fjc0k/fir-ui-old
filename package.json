@@ -90,6 +90,6 @@
   },
   "dependencies": {
     "lodash": "^4.17.5",
-    "vue-better-sync": "^1.1.0"
+    "vue-better-sync": "^2.2.3"
   }
 }

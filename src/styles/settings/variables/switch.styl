@@ -1,0 +1,24 @@
+@import "base";
+
+$height = 1.6em;
+
+$switch := {
+  height: $height,
+  width: $height * 2,
+  dot: {
+    size: $height * .97,
+    boxShadow: 0 0 1px rgba($color.black, .4)
+  },
+  off: {
+    backgroundColor: #fdfdfd,
+    borderColor: #dfdfdf
+  },
+  on: {
+    backgroundColor: $color.primary,
+    borderColor: $color.primary
+  },
+  transition: {
+    time: $transition.time,
+    fn: cubic-bezier(.4, .4, .25, 1.35)
+  }
+}
