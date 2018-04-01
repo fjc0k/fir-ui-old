@@ -30,7 +30,6 @@ module.exports = declare(
       // Env
       [presetEnv, {
         loose,
-        modules: false,
         useBuiltIns: polyfill ? 'usage' : false,
         // For fast-async
         exclude: ['transform-regenerator', 'transform-async-to-generator'],
