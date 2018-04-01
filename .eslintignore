@@ -1,4 +1,5 @@
-/build/**
-/dist/**
-/lib/**
-/docs/**
+fixtures/*
+build/*
+dist/*
+lib/*
+docs/*
