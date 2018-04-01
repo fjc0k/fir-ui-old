@@ -27,6 +27,9 @@ module.exports = {
     curly: [2, 'multi-line'],
 
     // 允许: fn && fn()
-    'no-unused-expressions': [2, { allowShortCircuit: true }]
+    'no-unused-expressions': [2, { allowShortCircuit: true }],
+
+    // 允许: 注释以小写字母打头
+    'capitalized-comments': 0
   }
 }
