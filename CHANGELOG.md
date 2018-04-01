@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.4.2...fir-ui@0.5.0) (2018-04-01)
+
+
+### Features
+
+* 使用 babel-eslint 作为解析器 ([cade1d9](https://github.com/fjc0k/fir-ui/commit/cade1d9))
+
+
+
+
 <a name="0.4.2"></a>
 ## [0.4.2](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.4.1...fir-ui@0.4.2) (2018-03-31)
 
