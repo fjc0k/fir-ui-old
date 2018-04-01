@@ -1,6 +1,15 @@
 module.exports = {
   extends: 'xo',
 
+  parser: 'babel-eslint',
+
+  env: {
+    browser: true,
+    node: true,
+    jest: true,
+    mocha: true
+  },
+
   rules: {
     // 使用两个空格缩进
     indent: [2, 2, { SwitchCase: 1 }],
