@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.5.0...fir-ui@0.6.0) (2018-04-02)
+
+
+### Features
+
+* **rules:** 允许注释以小写字母打头 ([b24faca](https://github.com/fjc0k/fir-ui/commit/b24faca))
+* fir-packer ==> [@fir-ui](https://github.com/fir-ui)/bundler ([5300c6d](https://github.com/fjc0k/fir-ui/commit/5300c6d))
+
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.4.2...fir-ui@0.5.0) (2018-04-01)
 
