@@ -13,7 +13,7 @@ const config = {
     [pkgName]: ['src/index.js', pkgName]
   },
   dest: 'dist',
-  format: ['cjs', 'umd', 'cjs-min', 'umd-min'],
+  format: ['es', 'cjs', 'umd', 'umd-min'],
   banner: true,
   postcss: {},
   alias: {

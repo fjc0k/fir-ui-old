@@ -25,10 +25,12 @@
   "dependencies": {
     "@babel/core": "^7.0.0-beta.42",
     "@fir-ui/babel-preset-library": "^0.0.9",
+    "cac": "^4.4.4",
     "first-commit-date": "^0.2.0",
     "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
     "lodash": "^4.17.5",
+    "path-depth": "^0.2.0",
     "rollup": "^0.57.1",
     "rollup-plugin-alias": "^1.4.0",
     "rollup-plugin-babel": "^4.0.0-beta.3",
