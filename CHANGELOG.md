@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.6.1...fir-ui@0.7.0) (2018-04-02)
+
+
+### Bug Fixes
+
+* **parse-entry:** 对有效的 moduleName 不做处理 ([46db3ef](https://github.com/fjc0k/fir-ui/commit/46db3ef))
+
+
+### Features
+
+* **parse-format:** 支持 all 指定全部格式 ([3d5c417](https://github.com/fjc0k/fir-ui/commit/3d5c417))
+
+
+
+
 <a name="0.6.1"></a>
 ## [0.6.1](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.6.0...fir-ui@0.6.1) (2018-04-02)
 
