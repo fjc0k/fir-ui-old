@@ -1,6 +1,9 @@
 import betterSync from 'vue-better-sync'
 import { has, mapValues } from 'lodash'
-import { switch as CN } from '@/components.json'
+import components from '@/components.json'
+
+// 兼容 rollup-plugin-json
+const CN = components.switch
 
 export default {
   name: CN,
