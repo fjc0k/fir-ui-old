@@ -10,9 +10,15 @@
     "dist",
     "lib"
   ],
+  "firb": {
+    "entry": {
+      "fir-ui": ["src/index.js", "fir"]
+    },
+    "format": "es,cjs,umd,es-min,cjs-min,umd-min"
+  },
   "scripts": {
     "dev": "vue serve demo/main.js",
-    "build": "vue-cli-service build --target lib --name fir src/main.js",
+    "build": "bundler",
     "test": "vue-cli-service test",
     "lint": "vue-cli-service lint",
     "add": "node scripts/add-component.js",
@@ -26,6 +32,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.0.0-beta.42",
     "@fir-ui/babel-preset-library": "^0.0.9",
     "@fir-ui/eslint-config-fir": "^0.2.0",
+    "@fir-ui/bundler": "^0.1.0",
     "@vue/cli-plugin-babel": "^3.0.0-beta.6",
     "@vue/cli-plugin-eslint": "^3.0.0-beta.6",
     "@vue/cli-plugin-unit-jest": "^3.0.0-beta.6",

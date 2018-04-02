@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-/dist
+/packages/@fir-ui/fir-bundler/dist
 
 # local env files
 .env.local

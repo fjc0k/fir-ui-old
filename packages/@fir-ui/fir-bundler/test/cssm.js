@@ -1,1 +1,3 @@
-export default (styles, c) => styles
+import vv from './vv.json'
+
+export default { vv }
