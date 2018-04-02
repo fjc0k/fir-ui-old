@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/fjc0k/fir-ui/compare/@fir-ui/bundler@0.2.0...@fir-ui/bundler@0.3.0) (2018-04-02)
+
+
+### Features
+
+* 支持 bundle 和 transform 两种模式 ([f5ce403](https://github.com/fjc0k/fir-ui/commit/f5ce403))
+
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/fjc0k/fir-ui/compare/@fir-ui/bundler@0.1.1...@fir-ui/bundler@0.2.0) (2018-04-02)
 
