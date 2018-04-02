@@ -10,6 +10,9 @@ const availableFormats = {
 }
 
 module.exports = formats => {
+  if (formats === 'all') {
+    formats = _.keys(availableFormats)
+  }
   if (_.isString(formats)) {
     formats = formats.split(',')
   }
