@@ -1,0 +1,20 @@
+$color = blue;
+
+.button {
+  color: red;
+}
+
+.primary {
+  color: red;
+}
+
+.disabled {
+  color: blue;
+  &::after {
+    content: ''
+  }
+}
+
+:export {
+  x: $color
+}
