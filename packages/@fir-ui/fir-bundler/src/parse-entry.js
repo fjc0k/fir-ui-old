@@ -19,7 +19,7 @@ const parseEntry = entry => {
 
     if (_.isArray(filePath)) { // [entry, moduleName]
       filePath[0] = realPath(filePath[0])
-      filePath[1] = _.camelCase(filePath[1] || name)
+      filePath[1] = filePath[1] || _.camelCase(name)
       finalEntry[name] = filePath
     } else if (_.isString(filePath)) {
       glob.sync(filePath).reduce((finalEntry, filePath) => {
