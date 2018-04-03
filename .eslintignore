@@ -1,5 +1,5 @@
-fixtures/*
-build/*
-dist/*
-lib/*
-docs/*
+**/fixtures/**
+**/dist/**
+**/lib/**
+**/docs/**
+**/templates/**
