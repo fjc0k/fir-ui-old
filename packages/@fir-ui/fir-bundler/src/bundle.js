@@ -8,6 +8,7 @@ const resolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
 const alias = require('rollup-plugin-alias')
 const json = require('rollup-plugin-json')
+const importModules = require('postcss-modules-resolve-imports')
 const preset = require('@fir-ui/babel-preset-library')
 const createBanner = require('./create-banner')
 const rollup = require('./rollup')
@@ -44,7 +45,27 @@ module.exports = (config = require('./config')) => {
             extract: true,
             minimize: compress,
             sourceMap: config.sourceMap,
-            ...config.postcss,
+            ...config.css,
+            plugins: [
+              ...(config.css.plugins || []),
+              importModules({
+                resolve: {
+                  extensions: config.css.extensions,
+                  modules: config.css.paths
+                }
+              })
+            ],
+            use: [
+              ['stylus', {
+                paths: config.css.paths
+              }],
+              ['sass', {
+                includePaths: config.css.paths
+              }],
+              ['less', {
+                paths: config.css.paths
+              }]
+            ],
             onExtract(getExtracted) {
               const id = `${filePath}-${compress ? '-min' : ''}`
               if (!cssProcessed[id]) {
