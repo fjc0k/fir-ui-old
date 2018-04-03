@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/fjc0k/fir-ui/compare/@fir-ui/eslint-config-fir@0.2.0...@fir-ui/eslint-config-fir@0.3.0) (2018-04-03)
+
+
+### Features
+
+* **eslint-config-fir:** 允许：CSSModules ([d2d3dc9](https://github.com/fjc0k/fir-ui/commit/d2d3dc9))
+
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/fjc0k/fir-ui/compare/@fir-ui/eslint-config-fir@0.1.0...@fir-ui/eslint-config-fir@0.2.0) (2018-04-02)
 

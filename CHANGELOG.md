@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.9.0"></a>
+# [0.9.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.8.0...fir-ui@0.9.0) (2018-04-03)
+
+
+### Features
+
+* **bundler:** import paths 可用相对路径 ([fc52664](https://github.com/fjc0k/fir-ui/commit/fc52664))
+* **bundler:** 支持 CSSModules 及 import paths 自定义 ([6aa98d7](https://github.com/fjc0k/fir-ui/commit/6aa98d7))
+* **CSSModules:** 支持 vue-css-modules ([09978cf](https://github.com/fjc0k/fir-ui/commit/09978cf))
+* **eslint-config-fir:** 允许：CSSModules ([d2d3dc9](https://github.com/fjc0k/fir-ui/commit/d2d3dc9))
+
+
+
+
 <a name="0.8.0"></a>
 # [0.8.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.7.0...fir-ui@0.8.0) (2018-04-02)
 
