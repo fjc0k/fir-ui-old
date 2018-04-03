@@ -1,7 +1,7 @@
 @import "settings";
 
 .item {
-  composes: flex-column from "compositions.styl";
+  composes: flex-column from "compositions";
   &:last-child {
     > [data-component-line] {
       display: none;
@@ -16,29 +16,29 @@
 }
 
 .body {
-  composes: flex-align-center from "compositions.styl";
+  composes: flex-align-center from "compositions";
   composes: gap;
   min-height: $item.body.minHeight;
   padding: $item.body.padding;
 }
 
 .left, .right {
-  composes: flex-align-center from "compositions.styl";
+  composes: flex-align-center from "compositions";
 }
 
 .middle {
-  composes: flex-align-center from "compositions.styl";
+  composes: flex-align-center from "compositions";
   composes: gap;
   flex: 1;
 }
 
 .info {
-  composes: flex-align-center from "compositions.styl";
+  composes: flex-align-center from "compositions";
   composes: gap;
 }
 
 .outline {
-  composes: flex-column from "compositions.styl";
+  composes: flex-column from "compositions";
   flex: 1;
   overflow-x: hidden;
 }

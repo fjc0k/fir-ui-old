@@ -14,7 +14,8 @@ module.exports = {
   },
   configureWebpack: {
     resolve: {
-      modules: [path.join(__dirname, 'src/styles')]
+      modules: [path.join(__dirname, 'src/styles')],
+      extensions: ['.js', '.json', '.styl']
     }
   }
 }
