@@ -14,10 +14,20 @@
     "lib"
   ],
   "firb": {
-    "entry": "src/components/button/button.js",
-    "format": "cjs",
-    "postcss": {
-      "modules": true
+    "entry": {
+      "fir-ui": [
+        "src/index.js",
+        "fir"
+      ]
+    },
+    "format": "all",
+    "css": {
+      "paths": [
+        "src/styles"
+      ],
+      "modules": {
+        "generateScopedName": "f-[hash:base64:3]"
+      }
     }
   },
   "scripts": {
