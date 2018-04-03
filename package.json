@@ -21,6 +21,7 @@
     }
   },
   "scripts": {
+    "prepublishOnly": "yarn run build",
     "demo": "vue serve demo/index.js",
     "build": "bundler build",
     "add": "node scripts/add-component.js",
@@ -50,6 +51,8 @@
     "fs-extra": "^5.0.0",
     "klaw": "^2.1.1",
     "lerna": "^2.9.0",
+    "postcss-import": "^11.1.0",
+    "postcss-modules-resolve-imports": "^1.3.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "webpack": "^4.4.1"
