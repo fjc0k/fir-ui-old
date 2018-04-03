@@ -1,5 +1,7 @@
-import { hairline as CN } from '@/components.json'
+import createElement from 'vue-css-modules/lib/create-element'
+import { hairline as COMPONENT_NAME } from '@/components.json'
 import { genFunctionalData } from '@/utils/helper'
+import styles from './hairline.styl'
 
 const PLACEMENT_PROPS = {
   top: Boolean,
@@ -10,7 +12,7 @@ const PLACEMENT_PROPS = {
 const PLACEMENTS = Object.keys(PLACEMENT_PROPS)
 
 export default {
-  name: CN,
+  name: COMPONENT_NAME,
 
   functional: true,
 
@@ -25,17 +27,22 @@ export default {
   },
 
   render(h, { props, data, children }) {
+    h = createElement(h, styles, props)
+
     const placements = props.all ? PLACEMENTS : PLACEMENTS.filter(
       placement => props[placement]
     )
+
     const hairlineStyle = { color: props.color }
+
     const hairlines = placements.map(
       placement => h('div', {
-        staticClass: `${CN}_line ${CN}_${placement}`,
+        styleName: `@line ${placement}`,
         style: hairlineStyle
       })
     )
-    return h(props.tag, genFunctionalData(data, { staticClass: CN }), [
+
+    return h(props.tag, genFunctionalData(data, { styleName: '@hairline' }), [
       hairlines,
       ...(children || [])
     ])

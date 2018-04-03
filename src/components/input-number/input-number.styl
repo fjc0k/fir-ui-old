@@ -1,0 +1,43 @@
+@import "settings";
+
+.input-number {
+  composes: flex-align-center from "compositions.styl";
+  height: $inputNumber.height;
+  line-height: $inputNumber.height;
+}
+
+.block {
+  composes: flex from "compositions.styl";
+}
+
+.input-box {
+  flex: 1;
+  width: $inputNumber.inputBox.width;
+  border-line: 0 (top bottom);
+  &.disabled {
+    disabled: true;
+  }
+}
+
+.input {
+  text-align: center;
+  -moz-appearance: textfield;
+  &::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+.button {
+  text-align: center;
+  border-line: 0;
+  width: $inputNumber.height;
+  color: $inputNumber.button.font.color;
+  &.disabled {
+    disabled: true;
+  }
+  &:active {
+    color: $inputNumber.button.active.font.color;
+    background-color: $inputNumber.button.active.backgroundColor;
+  }
+}

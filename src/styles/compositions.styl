@@ -1,0 +1,52 @@
+@import "./variables";
+
+// Reset form field
+.form-field-reset {
+  border: 0;
+  outline: 0;
+  margin: 0;
+  padding: 0;
+
+  resize: none;
+  -webkit-appearance: none;
+  box-shadow: none;
+
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+
+  background-color: transparent;
+
+  &::placeholder {
+    color: $color.text.placeholder;
+  }
+}
+
+// Display flex
+// composes 不同于 extend ，
+// 它是将多个 class 给 JavaScript ，
+// 故而不宜 composes 过多 class
+.flex {
+  display: flex;
+}
+.flex-align-center {
+  display: flex;
+  align-items: center;
+}
+.flex-justify-center {
+  display: flex;
+  justify-content: center;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+// 注意：inline-flex 只能放在最后才能覆盖以上的 flex 设置
+.inline-flex {
+  display: inline-flex;
+}

@@ -10,5 +10,6 @@
   "inputNumber": "f-input-number",
   "textarea": "f-textarea",
   "select": "f-select",
-  "switch": "f-switch"
+  "switch": "f-switch",
+  "checkbox": "f-checkbox"
 }

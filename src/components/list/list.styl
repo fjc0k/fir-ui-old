@@ -1,0 +1,12 @@
+@import "settings";
+
+.list {
+  font-size: $list.font.size;
+}
+
+.offset {
+  padding-left: $list.padding.left;
+  > [data-component-item] > [data-component-body] {
+    padding-left: 0;
+  }
+}

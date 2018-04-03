@@ -1,18 +1,20 @@
+import CSSModules from 'vue-css-modules'
 import betterSync from 'vue-better-sync'
 import { has, mapValues } from 'lodash'
 import components from '@/components.json'
-
-// 兼容 rollup-plugin-json
-const CN = components.switch
+import styles from './switch.styl'
 
 export default {
-  name: CN,
+  // 为何不用 COMPONENT_NAME ?
+  // 因为打包工具有缺陷: rollup-plugin-json
+  name: components.switch,
 
   mixins: [
     betterSync({
       prop: 'value',
       event: 'change'
-    })
+    }),
+    CSSModules(styles)
   ],
 
   props: {
@@ -30,14 +32,6 @@ export default {
       validator: value => has(value, 'on') && has(value, 'off')
     },
     disabled: Boolean
-  },
-
-  computed: {
-    classList() {
-      return [CN, `is-${this.actualValue ? 'on' : 'off'}`, {
-        'is-disabled': this.disabled
-      }]
-    }
   },
 
   methods: {
@@ -63,7 +57,7 @@ export default {
 
   render(h) {
     return h('div', {
-      class: this.classList,
+      styleName: '@switch on=actualValue :disabled',
       on: {
         click: this.handleClick
       }

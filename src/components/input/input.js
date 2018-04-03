@@ -1,15 +1,18 @@
+import CSSModules from 'vue-css-modules'
 import betterSync from 'vue-better-sync'
-import { input as CN, field as fieldClassName } from '@/components.json'
+import { input as COMPONENT_NAME } from '@/components.json'
 import { isFunction, toNumber } from 'lodash'
+import styles from './input.styl'
 
 export default {
-  name: CN,
+  name: COMPONENT_NAME,
 
   mixins: [
     betterSync({
       prop: 'value',
       event: 'input'
-    })
+    }),
+    CSSModules(styles)
   ],
 
   props: {
@@ -59,7 +62,7 @@ export default {
 
   render(h) {
     return h(this.tag, {
-      staticClass: `${CN} ${fieldClassName}--reset`,
+      styleName: '@input',
       attrs: {
         type: this.type
       },

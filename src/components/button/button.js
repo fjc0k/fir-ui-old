@@ -1,11 +1,13 @@
+import createElement from 'vue-css-modules/lib/create-element'
 import { genFunctionalData } from '@/utils/helper'
-import { button as CN } from '@/components.json'
 import Icon from '@/components/icon/icon'
+import { button as COMPONENT_NAME } from '@/components.json'
+import styles from './button.styl'
 
 const BUTTON_TYPES = ['default', 'primary', 'success', 'warning', 'danger']
 
 export default {
-  name: CN,
+  name: COMPONENT_NAME,
 
   functional: true,
 
@@ -24,28 +26,20 @@ export default {
   },
 
   render(h, { props, data, children }) {
-    const staticClass = `${CN} ${CN}_${props.type}`
-    const classList = {
-      'is-mini': props.mini,
-      'is-plain': props.plain,
-      'is-inline': props.inline,
-      'is-disabled': props.disabled,
-      'has-white-space': props.whiteSpace
-    }
+    h = createElement(h, styles, props)
 
     const ButtonIcon = props.icon && h(Icon, {
-      staticClass: `${CN}_icon`,
+      styleName: '@icon',
       attrs: {
         name: props.icon
       }
     })
 
     return h('a', genFunctionalData(data, {
+      styleName: '@button $type :mini :plain :inline :disabled :white-space',
       attrs: {
         href: 'javascript:;' // eslint-disable-line no-script-url
-      },
-      class: classList,
-      staticClass
+      }
     }), [
       ButtonIcon,
       ...(children || [])

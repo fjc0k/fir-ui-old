@@ -1,0 +1,72 @@
+@import "settings";
+
+.button {
+  composes: flex-center from "compositions.styl";
+  text-decoration: none;
+  font-size: $button.font.size;
+  min-height: $button.minHeight;
+  min-width: $button.minHeight;
+  padding: $button.padding.self;
+  color: $color.white;
+  border-line: $button.border.radius;
+
+  &:active {
+    color: shade($color.white, 20%);
+  }
+}
+
+.icon {
+  padding: $button.padding.icon;
+}
+
+.plain {
+  background-color: $color.transparent !important;
+}
+
+.mini {
+  font-size: $button.mini.font.size;
+}
+
+.inline {
+  composes: inline-flex from "compositions.styl";
+}
+
+.disabled {
+  disabled: true;
+}
+
+.white-space {
+  margin: $button.whiteSpace;
+}
+
+.default {
+  color: $button.defaultColor;
+  &.plain {
+    border-line-color: $button.defaultColor;
+  }
+  &:active {
+    color: tint($button.defaultColor, 40%);
+    background-color: shade($color.white, 10%);
+    &.plain {
+      color: tint($button.defaultColor, 50%);
+      border-line-color: tint($button.defaultColor, 50%);
+    }
+  }
+}
+
+for $type in $button.types {
+  .{$type} {
+    background-color: $color[$type];
+    &:active {
+      background-color: shade($color[$type], 5%);
+    }
+    &.plain {
+      color: $color[$type];
+      border-line-color: $color[$type];
+      &:active {
+        color: tint($color[$type], 30%);
+        border-line-color: tint($color[$type], 30%);
+      }
+    }
+  }
+}

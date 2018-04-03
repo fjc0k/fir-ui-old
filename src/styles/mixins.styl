@@ -1,0 +1,63 @@
+@import "./variables";
+
+$borderColor = $color.border;
+
+border-line($radius = 0, $placements = (top right bottom left), $color = $borderColor) {
+  position: relative;
+  border-radius: $radius;
+  &::after {
+    content: '';
+    width: 200%;
+    height: 200%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0 solid $color;
+    for $placement in $placements {
+      border-{$placement}-width: 1px;
+    }
+    transform: scale(.5);
+    transform-origin: 0 0;
+    border-radius: $radius * 2;
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+border-line-radius($radius) {
+  &::after {
+    border-radius: $radius;
+  }
+}
+
+border-line-color($color) {
+  &::after {
+    border-color: $color;
+  }
+}
+
+disabled() {
+  opacity: $opacity.disabled;
+  pointer-events: none;
+}
+
+text-wrap() {
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+ellipsis($line = 1, $width = auto) {
+  if ($line == 1) {
+    width: $width;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+  } else {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $line;
+  }
+}

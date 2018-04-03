@@ -14,20 +14,20 @@
     "lib"
   ],
   "firb": {
-    "entry": {
-      "fir-ui": [
-        "src/index.js",
-        "fir"
-      ]
-    },
-    "format": "all"
+    "entry": "src/components/button/button.js",
+    "format": "cjs",
+    "postcss": {
+      "modules": true
+    }
   },
   "scripts": {
+    "demo": "vue serve demo/index.js",
     "build": "bundler build",
     "add": "node scripts/add-component.js",
     "export": "node scripts/export-components.js",
     "pub": "lerna publish --conventional-commits",
-    "link": "lerna link"
+    "link": "lerna link",
+    "postinstall": "lerna link"
   },
   "eslintConfig": {
     "root": true,
@@ -40,7 +40,7 @@
   "dependencies": {
     "lodash": "^4.17.5",
     "vue-better-sync": "^2.2.3",
-    "vue-css-modules": "^0.2.1"
+    "vue-css-modules": "^0.5.1"
   },
   "devDependencies": {
     "@fir-ui/bundler": "^0.3.0",
@@ -51,6 +51,7 @@
     "klaw": "^2.1.1",
     "lerna": "^2.9.0",
     "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.1"
+    "stylus-loader": "^3.0.2",
+    "webpack": "^4.4.1"
   }
 }

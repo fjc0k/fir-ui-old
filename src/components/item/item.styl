@@ -1,0 +1,64 @@
+@import "settings";
+
+.item {
+  composes: flex-column from "compositions.styl";
+  &:last-child {
+    > [data-component-line] {
+      display: none;
+    }
+  }
+}
+
+.gap {
+  > *:not(:first-child) {
+    margin-left: $item.body.gap;
+  }
+}
+
+.body {
+  composes: flex-align-center from "compositions.styl";
+  composes: gap;
+  min-height: $item.body.minHeight;
+  padding: $item.body.padding;
+}
+
+.left, .right {
+  composes: flex-align-center from "compositions.styl";
+}
+
+.middle {
+  composes: flex-align-center from "compositions.styl";
+  composes: gap;
+  flex: 1;
+}
+
+.info {
+  composes: flex-align-center from "compositions.styl";
+  composes: gap;
+}
+
+.outline {
+  composes: flex-column from "compositions.styl";
+  flex: 1;
+  overflow-x: hidden;
+}
+
+.desc {
+  font-size: $item.desc.font.size;
+  color: $item.desc.font.color;
+  text-wrap: true; // 同时父元素应有 overflow-x: hidden
+}
+
+.extra {
+  flex: 1;
+}
+
+.note {
+  font-size: $item.note.font.size;
+  color: $item.note.font.color;
+}
+
+.arrow {
+  font-size: $item.arrow.size;
+  color: $item.arrow.color;
+}

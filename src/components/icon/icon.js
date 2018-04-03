@@ -1,8 +1,10 @@
-import { icon as CN } from '@/components.json'
+import createElement from 'vue-css-modules/lib/create-element'
+import { icon as COMPONENT_NAME } from '@/components.json'
 import { genFunctionalData } from '@/utils/helper'
+import styles from './icon.styl'
 
 export default {
-  name: CN,
+  name: COMPONENT_NAME,
 
   functional: true,
 
@@ -14,6 +16,8 @@ export default {
   },
 
   render(h, { props, data }) {
+    h = createElement(h, styles, props)
+
     let { name } = props
 
     const isSVG = name[0] === '$'
@@ -22,14 +26,15 @@ export default {
     return (
       isSVG ?
         h('i', genFunctionalData(data, {
-          staticClass: `${CN} ${CN}_svg`
+          styleName: '@svg'
         }), [h('svg', [h('use', {
           attrs: {
             'xlink:href': `#${name}`
           }
         })])]) :
         h('i', genFunctionalData(data, {
-          staticClass: `${CN} ${name}`
+          styleName: '@icon',
+          staticClass: name
         }))
     )
   }

@@ -1,15 +1,18 @@
+import CSSModules from 'vue-css-modules'
 import betterSync from 'vue-better-sync'
 import { findIndex } from 'lodash'
-import { select as CN, field as fieldClassName } from '@/components.json'
+import { select as COMPONENT_NAME } from '@/components.json'
+import styles from './select.styl'
 
 export default {
-  name: CN,
+  name: COMPONENT_NAME,
 
   mixins: [
     betterSync({
       prop: 'value',
       event: 'change'
-    })
+    }),
+    CSSModules(styles)
   ],
 
   props: {
@@ -58,7 +61,7 @@ export default {
 
   render(h) {
     return h('select', {
-      staticClass: `${CN} ${fieldClassName}--reset`,
+      styleName: '@select',
       domProps: { selectedIndex: this.selectedIndex },
       on: { change: this.handleChange }
     }, this.Options)

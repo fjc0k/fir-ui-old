@@ -1,6 +1,6 @@
 import { forOwn } from 'lodash'
 import * as components from '@/components'
-import '@/styles/index.styl'
+import '@/styles/commons.styl'
 
 function install(Vue) {
   if (install.installed) return

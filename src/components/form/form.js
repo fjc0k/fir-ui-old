@@ -1,9 +1,11 @@
+import CSSModules from 'vue-css-modules'
 import betterSync from 'vue-better-sync'
-import { form as CN } from '@/components.json'
+import { form as COMPONENT_NAME } from '@/components.json'
 import List from '@/components/list/list'
+import styles from './form.styl'
 
 export default {
-  name: CN,
+  name: COMPONENT_NAME,
 
   inheritAttrs: false,
 
@@ -15,7 +17,8 @@ export default {
     betterSync({
       prop: 'model',
       event: 'change'
-    })
+    }),
+    CSSModules(styles)
   ],
 
   props: {
@@ -32,7 +35,7 @@ export default {
 
   render(h) {
     return h(List, {
-      staticClass: CN,
+      styleName: '@form',
       attrs: {
         ...this.$attrs,
         tag: 'form'

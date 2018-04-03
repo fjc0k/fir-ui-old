@@ -1,4 +1,6 @@
-<%
+<% if (!options.fn) { %>import CSSModules from 'vue-css-modules'
+<% } else { %>import createElement from 'vue-css-modules/lib/create-element'
+<% } %><%
 if (options.model) {
 %>import betterSync from 'vue-better-sync'
 <% }
@@ -12,7 +14,8 @@ const mixins = []
 if (options.vnode) mixins.push('extractVNodes')
 if (mixins.length > 0) {
 %>import { <%= mixins.join(', ') %> } from '@/mixins'
-<% } %>import { <%= _.camelCase(component) %> as CN } from '@/components.json'
+<% } %>import { <%= _.camelCase(component) %> as COMPONENT_NAME } from '@/components.json'
+import styles from './<%= _.kebabCase(component) %>.styl'
 <% if (options.vnode && options.fn) { %>
 const propDescriptors = {
   x: VNodeType
@@ -20,11 +23,12 @@ const propDescriptors = {
 const VNodeProps = extractVNodes.methods.extractVNodeProps(propDescriptors)
 <% } %>
 export default {
-  name: CN,
+  name: COMPONENT_NAME,
 <% if (options.fn) { %>
   functional: true,
 <% } %><% if (!options.fn) { %>
   mixins: [
+    CSSModules(styles),
 <% if (options.model) { %>    betterSync({
       prop: 'value',
       event: 'input'
@@ -38,25 +42,21 @@ export default {
       sync: true
     }
   <% } %>},
-<% if (!options.fn) { %>
-  computed: {
-    classList() {
-      return [
-        CN
-      ]
-    }
-  },
-<% } %>
+
   render(h<% if (options.fn) { %>, { props, data, children<%if (options.vnode && options.fn) { %>, slots<% } %> }<% } %>) {
-<% if (options.vnode && !options.fn) { %>    const { x } = this.extractVNodes()
+<% if (options.fn) { %>    h = createElement(h, styles, props)
+
+<% } %><% if (options.vnode && !options.fn) { %>    const { x } = this.extractVNodes()
 <% }
 if (options.vnode && options.fn) { %>    const { x } = extractVNodes.methods.extractVNodes({
       slots: slots(),
       props,
       VNodeProps
     })
-<% } %>    return h('div'<% if (options.fn) { %>, genFunctionalData(data, {
-      staticClass: CN
-    })<% } %>)
+<% } %>    return h('div', <% if (options.fn) { %>genFunctionalData(data, {
+      styleName: '@<%= _.kebabCase(component) %>'
+    })<% } else { %>{
+      styleName: '@<%= _.kebabCase(component) %>'
+    }<% } %>)
   }
 }

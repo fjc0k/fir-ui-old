@@ -1,0 +1,42 @@
+@import "settings";
+
+.switch {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  width: $switch.width;
+  height: $switch.height;
+  line-height: $switch.height;
+  color: $color.white;
+  background-color: $switch.off.backgroundColor;
+  border-line: ($switch.height / 2);
+  border-line-color: $switch.off.borderColor;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: $switch.dot.size;
+    height: $switch.dot.size;
+    border-radius: 50%;
+    background-color: currentColor;
+    top: 50%;
+    left: 0;
+    backface-visibility: hidden;
+    transform: translate3d(0, -50%, 0);
+    transition: transform $switch.transition.time $switch.transition.fn;
+    box-shadow: $switch.dot.boxShadow;
+    z-index: 2;
+  }
+}
+
+.on {
+  background-color: $switch.on.backgroundColor;
+  border-line-color: $switch.on.borderColor;
+  &::before {
+    transform: translate3d($switch.width - $switch.height, -50%, 0);
+  }
+}
+
+.disabled {
+  disabled: true;
+}

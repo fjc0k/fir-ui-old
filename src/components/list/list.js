@@ -1,9 +1,11 @@
+import createElement from 'vue-css-modules/lib/create-element'
 import Hairline from '@/components/hairline/hairline'
-import { list as CN } from '@/components.json'
+import { list as COMPONENT_NAME } from '@/components.json'
 import { genFunctionalData } from '@/utils/helper'
+import styles from './list.styl'
 
 export default {
-  name: CN,
+  name: COMPONENT_NAME,
 
   functional: true,
 
@@ -23,6 +25,8 @@ export default {
   },
 
   render(h, { props, data, children }) {
+    h = createElement(h, styles, props)
+
     const border = Boolean(props.border)
 
     return h(
@@ -30,12 +34,12 @@ export default {
       genFunctionalData(
         data,
         {
+          styleName: '@list :offset',
           attrs: {
             tag: props.tag,
             top: border,
             bottom: border
-          },
-          staticClass: `${CN}${props.offset ? ' is-offset' : ''}`
+          }
         }
       ),
       children
