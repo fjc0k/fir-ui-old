@@ -11,17 +11,19 @@ var _toString = _interopDefault(require('lodash/toString'));
 var _isArray = _interopDefault(require('lodash/isArray'));
 var _forOwn = _interopDefault(require('lodash/forOwn'));
 var createElement = _interopDefault(require('vue-css-modules/lib/create-element'));
-var CSSModules = _interopDefault(require('vue-css-modules'));
-var betterSync = _interopDefault(require('vue-better-sync'));
+var _upperFirst = _interopDefault(require('lodash/upperFirst'));
 var _reduce = _interopDefault(require('lodash/reduce'));
 var _isObjectLike = _interopDefault(require('lodash/isObjectLike'));
 var _isFunction = _interopDefault(require('lodash/isFunction'));
+var betterSync = _interopDefault(require('vue-better-sync'));
 var _isBoolean = _interopDefault(require('lodash/isBoolean'));
+var CSSModules = _interopDefault(require('vue-css-modules'));
 var _isString = _interopDefault(require('lodash/isString'));
 var _toNumber = _interopDefault(require('lodash/toNumber'));
 var _findIndex = _interopDefault(require('lodash/findIndex'));
 var _mapValues = _interopDefault(require('lodash/mapValues'));
 var _has = _interopDefault(require('lodash/has'));
+var _castArray = _interopDefault(require('lodash/castArray'));
 
 function genFunctionalData() {
   var finalData = {};
@@ -114,38 +116,10 @@ var VNodeType = {
   vnode: true
 };
 
-var hairline = "f-hairline";
-var list = "f-list";
-var item = "f-item";
-var icon = "f-icon";
-var button = "f-button";
-var input = "f-input";
-var form = "f-form";
-var field = "f-field";
-var inputNumber = "f-input-number";
-var textarea = "f-textarea";
-var select = "f-select";
-var checkbox = "f-checkbox";
-var components = {
-	hairline: hairline,
-	list: list,
-	item: item,
-	icon: icon,
-	button: button,
-	input: input,
-	form: form,
-	field: field,
-	inputNumber: inputNumber,
-	textarea: textarea,
-	select: select,
-	checkbox: checkbox,
-	"switch": "f-switch"
-};
-
 var styles = {};
 
 var Icon = {
-  name: icon,
+  name: 'f-icon',
   functional: true,
   props: {
     name: {
@@ -176,8 +150,8 @@ var Icon = {
 var styles$1 = {};
 
 var BUTTON_TYPES = ['default', 'primary', 'success', 'warning', 'danger'];
-var button$1 = {
-  name: button,
+var button = {
+  name: 'f-button',
   functional: true,
   props: {
     type: {
@@ -215,25 +189,27 @@ var button$1 = {
   }
 };
 
-var styles$2 = {};
+var customRenderer = (function (renderFns) {
+  return _reduce(renderFns, function (mixin, defaultRenderFn, propName) {
+    var PropName = _upperFirst(propName);
 
-var checkbox$1 = {
-  name: checkbox,
-  mixins: [CSSModules(styles$2), betterSync({
-    prop: 'value',
-    event: 'input'
-  })],
-  props: {
-    value: {
-      type: String,
-      sync: true
-    }
-  },
-  render: function render(h) {
-    return h('div', {
-      styleName: '@checkbox'
-    });
-  }
+    var renderFnPropName = "render" + PropName;
+    mixin.props[renderFnPropName] = Function;
+
+    mixin.methods["$" + renderFnPropName] = function () {
+      return (this[renderFnPropName] || this.$scopedSlots[propName] || defaultRenderFn).apply(this, arguments);
+    };
+
+    return mixin;
+  }, {
+    props: {},
+    methods: {}
+  });
+});
+
+var VNodeType$1 = {
+  type: null,
+  vnode: true
 };
 
 var normalizePropVNode = function normalizePropVNode(propVNode) {
@@ -241,6 +217,7 @@ var normalizePropVNode = function normalizePropVNode(propVNode) {
 };
 
 var extractVNodes = {
+  VNodeType: VNodeType$1,
   computed: {
     VNodeProps: function VNodeProps() {
       return this.extractVNodeProps();
@@ -281,6 +258,104 @@ var extractVNodes = {
   }
 };
 
+var styles$2 = {};
+
+var CHECKBOX = 1;
+var RADIO = 2;
+var AGREE = 3;
+var choice = {
+  name: 'f-choice',
+  alias: ['f-checkbox', 'f-radio'],
+  mixins: [CSSModules(styles$2), customRenderer({
+    box: function box(_ref) {
+      var selected = _ref.selected;
+      return this.$createElement(Icon, {
+        attrs: {
+          name: selected ? this.actualSelectedIcon : this.actualIcon
+        }
+      });
+    }
+  }), betterSync({
+    prop: 'selectedValue',
+    event: 'change'
+  })],
+  props: {
+    selectedValue: {
+      type: null,
+      sync: true
+    },
+    value: null,
+    icon: String,
+    selectedIcon: String
+  },
+  computed: {
+    type: function type() {
+      var actualSelectedValue = this.actualSelectedValue;
+      return _isBoolean(actualSelectedValue) ? AGREE : _isArray(actualSelectedValue) ? CHECKBOX : RADIO;
+    },
+    nativeType: function nativeType() {
+      return this.type === RADIO ? 'radio' : 'checkbox';
+    },
+    actualIcon: function actualIcon() {
+      return this.icon || (this.type === RADIO ? 'f-icon-radiobox' : 'f-icon-checkbox');
+    },
+    actualSelectedIcon: function actualSelectedIcon() {
+      return this.selectedIcon || (this.type === RADIO ? 'f-icon-radiobox-checked' : 'f-icon-checkbox-checked');
+    },
+    selected: function selected() {
+      var type = this.type,
+          actualSelectedValue = this.actualSelectedValue,
+          value = this.value;
+      return type === CHECKBOX ? actualSelectedValue.indexOf(value) >= 0 : actualSelectedValue === value;
+    }
+  },
+  methods: {
+    handleChange: function handleChange(_ref2) {
+      var selected = _ref2.target.checked;
+      var type = this.type,
+          actualSelectedValue = this.actualSelectedValue,
+          value = this.value;
+      var newValue;
+
+      if (type === CHECKBOX) {
+        newValue = actualSelectedValue.slice();
+
+        if (selected) {
+          newValue.push(value);
+        } else {
+          newValue.splice(newValue.indexOf(value), 1);
+        }
+      } else if (type === AGREE) {
+        newValue = selected;
+      } else {
+        newValue = value;
+      }
+
+      this.syncSelectedValue(newValue);
+    }
+  },
+  render: function render(h) {
+    return h('label', {
+      styleName: '@choice :selected'
+    }, [this.$createElement('input', {
+      styleName: 'input',
+      attrs: {
+        type: this.nativeType
+      },
+      domProps: {
+        checked: this.selected
+      },
+      on: {
+        change: this.handleChange
+      }
+    }), this.$createElement('div', {
+      styleName: 'box'
+    }, [this.$renderBox({
+      selected: this.selected
+    })]), this.$slots.default]);
+  }
+};
+
 var styles$3 = {};
 
 var PLACEMENT_PROPS = {
@@ -291,7 +366,7 @@ var PLACEMENT_PROPS = {
 };
 var PLACEMENTS = Object.keys(PLACEMENT_PROPS);
 var Hairline = {
-  name: hairline,
+  name: 'f-hairline',
   functional: true,
   props: Object.assign({
     tag: {
@@ -355,7 +430,8 @@ var propDescriptors = {
 };
 var VNodeProps = extractVNodes.methods.extractVNodeProps(propDescriptors);
 var Item = {
-  name: item,
+  name: 'f-item',
+  alias: ['f-list-item'],
   functional: true,
   props: propDescriptors,
   render: function render(h, _ref) {
@@ -374,7 +450,7 @@ var Item = {
         footer = _extractVNodes$method.footer,
         left = _extractVNodes$method.left,
         right = _extractVNodes$method.right,
-        icon$$1 = _extractVNodes$method.icon,
+        icon = _extractVNodes$method.icon,
         title = _extractVNodes$method.title,
         desc = _extractVNodes$method.desc,
         extra = _extractVNodes$method.extra,
@@ -401,13 +477,13 @@ var Item = {
     }, [title && h('div', {
       styleName: '@info',
       style: "width: " + props.infoWidth + ";"
-    }, [icon$$1 && h('div', {
+    }, [icon && h('div', {
       styleName: '@icon'
-    }, [_isString(icon$$1) ? h(Icon, {
+    }, [_isString(icon) ? h(Icon, {
       attrs: {
-        name: icon$$1
+        name: icon
       }
-    }) : icon$$1]), title && h('div', {
+    }) : icon]), title && h('div', {
       styleName: '@outline'
     }, [h('div', {
       styleName: '@title'
@@ -436,8 +512,9 @@ var Item = {
 
 var styles$5 = {};
 
-var field$1 = {
-  name: field,
+var field = {
+  name: 'f-field',
+  alias: ['f-form-item'],
   inheritAttrs: false,
   inject: {
     Form: {
@@ -477,7 +554,7 @@ var field$1 = {
 var styles$6 = {};
 
 var List = {
-  name: list,
+  name: 'f-list',
   functional: true,
   props: {
     tag: {
@@ -512,8 +589,8 @@ var List = {
 
 var styles$7 = {};
 
-var form$1 = {
-  name: form,
+var form = {
+  name: 'f-form',
   inheritAttrs: false,
   provide: function provide() {
     return {
@@ -548,7 +625,7 @@ var form$1 = {
 var styles$8 = {};
 
 var Input = {
-  name: input,
+  name: 'f-input',
   mixins: [betterSync({
     prop: 'value',
     event: 'input'
@@ -619,8 +696,8 @@ var Input = {
 var styles$9 = {};
 
 var INPUT_NUMBER_TYPES = ['default', 'primary', 'success', 'warning', 'danger'];
-var inputNumber$1 = {
-  name: inputNumber,
+var inputNumber = {
+  name: 'f-input-number',
   mixins: [betterSync({
     prop: 'value',
     event: 'input'
@@ -734,8 +811,8 @@ var inputNumber$1 = {
 
 var styles$10 = {};
 
-var select$1 = {
-  name: select,
+var select = {
+  name: 'f-select',
   mixins: [betterSync({
     prop: 'value',
     event: 'change'
@@ -763,12 +840,12 @@ var select$1 = {
     Options: function Options() {
       var _this = this;
 
-      return this.data.map(function (item$$1) {
+      return this.data.map(function (item) {
         return _this.$createElement('option', {
           attrs: {
-            disabled: item$$1.disabled
+            disabled: item.disabled
           }
-        }, [item$$1.label]);
+        }, [item.label]);
       });
     }
   },
@@ -798,9 +875,7 @@ var select$1 = {
 var styles$11 = {};
 
 var _switch = {
-  // 为何不用 COMPONENT_NAME ?
-  // 因为打包工具有缺陷: rollup-plugin-json
-  name: components.switch,
+  name: 'f-switch',
   mixins: [betterSync({
     prop: 'value',
     event: 'change'
@@ -858,8 +933,8 @@ var _switch = {
 
 var styles$12 = {};
 
-var textarea$1 = {
-  name: textarea,
+var textarea = {
+  name: 'f-textarea',
   inheritAttrs: false,
   mixins: [betterSync({
     prop: 'value',
@@ -892,35 +967,41 @@ var textarea$1 = {
 
 
 
-var components$1 = /*#__PURE__*/Object.freeze({
-  button: button$1,
-  checkbox: checkbox$1,
-  field: field$1,
-  form: form$1,
+var components = /*#__PURE__*/Object.freeze({
+  button: button,
+  choice: choice,
+  field: field,
+  form: form,
   hairline: Hairline,
   icon: Icon,
   input: Input,
-  inputNumber: inputNumber$1,
+  inputNumber: inputNumber,
   item: Item,
   list: List,
-  select: select$1,
+  select: select,
   switch: _switch,
-  textarea: textarea$1
+  textarea: textarea
 });
 
 function install(Vue) {
   if (install.installed) return;
   Vue.prototype.$log = console.log;
 
-  _forOwn(components$1, function (component) {
-    return Vue.component(component.name, component);
+  _forOwn(components, function (component) {
+    if (component.alias) {
+      _castArray(component.alias).forEach(function (name) {
+        return Vue.component(name, component);
+      });
+    }
+
+    Vue.component(component.name, component);
   });
 
   install.installed = true;
 }
 
-Object.defineProperty(components$1, 'install', {
+Object.defineProperty(components, 'install', {
   value: install
 });
 
-module.exports = components$1;
+module.exports = components;

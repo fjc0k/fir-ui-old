@@ -182,7 +182,21 @@
   border-color: #79bbff;
 }
 
-/*  imported from checkbox.styl  */
+/*  imported from choice.styl  */
+
+.f-1sZ {
+  position: relative;
+}
+.f-2G7 {
+  color: #c0c4cc;
+}
+.f-28u > .f-2G7 {
+  color: #1aad19;
+}
+.f-oRD {
+  display: none;
+}
+
 /*  imported from hairline.styl  */
 
 .f-EBU,

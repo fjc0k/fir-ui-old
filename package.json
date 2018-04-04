@@ -51,7 +51,7 @@
   "dependencies": {
     "lodash": "^4.17.5",
     "vue-better-sync": "^2.2.3",
-    "vue-css-modules": "^0.5.1"
+    "vue-css-modules": "^0.5.2"
   },
   "devDependencies": {
     "@fir-ui/bundler": "^0.4.0",

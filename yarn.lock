@@ -552,9 +552,9 @@
     babel-plugin-lodash "^3.3.2"
     fast-async "^6.3.1"
 
-"@fir-ui/bundler@^0.3.0":
-  version "0.3.0"
-  resolved "http://registry.npm.taobao.org/@fir-ui/bundler/download/@fir-ui/bundler-0.3.0.tgz#75f811aa7d875c8d51a62184b649632cf801dcbd"
+"@fir-ui/bundler@^0.4.0":
+  version "0.4.0"
+  resolved "http://registry.npm.taobao.org/@fir-ui/bundler/download/@fir-ui/bundler-0.4.0.tgz#14c6f93701ebee52bef95bb11bba505157642467"
   dependencies:
     "@babel/core" "^7.0.0-beta.42"
     "@fir-ui/babel-preset-library" "^0.0.9"
@@ -564,6 +564,7 @@
     glob "^7.1.2"
     lodash "^4.17.5"
     path-depth "^0.2.0"
+    postcss-modules-resolve-imports "^1.3.0"
     rollup "^0.57.1"
     rollup-plugin-alias "^1.4.0"
     rollup-plugin-babel "^4.0.0-beta.3"
@@ -573,12 +574,11 @@
     rollup-plugin-postcss "^1.4.1"
     rollup-plugin-uglify "^3.0.0"
     stringify-author "^0.1.3"
-    uglify-js "^3.3.17"
     use-config "^2.0.4"
 
-"@fir-ui/eslint-config-fir@^0.2.0":
-  version "0.2.0"
-  resolved "http://registry.npm.taobao.org/@fir-ui/eslint-config-fir/download/@fir-ui/eslint-config-fir-0.2.0.tgz#9fac55570a124d6e498d4f611e2a1856e43c3bee"
+"@fir-ui/eslint-config-fir@^0.3.0":
+  version "0.3.0"
+  resolved "http://registry.npm.taobao.org/@fir-ui/eslint-config-fir/download/@fir-ui/eslint-config-fir-0.3.0.tgz#9edc90a83ae8fa0e09c2d3bb86911f9ed4b48903"
   dependencies:
     babel-eslint "^8.2.2"
     eslint-config-xo "^0.20.1"
@@ -1413,10 +1413,6 @@ command-join@^2.0.0:
 commander@~2.13.0:
   version "2.13.0"
   resolved "http://registry.npm.taobao.org/commander/download/commander-2.13.0.tgz#6964bca67685df7c1f1430c584f07d7597885b9c"
-
-commander@~2.15.0:
-  version "2.15.1"
-  resolved "http://registry.npm.taobao.org/commander/download/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
 
 commondir@^1.0.1:
   version "1.0.1"
@@ -5641,13 +5637,6 @@ uglify-js@^2.6:
   optionalDependencies:
     uglify-to-browserify "~1.0.0"
 
-uglify-js@^3.3.17:
-  version "3.3.18"
-  resolved "http://registry.npm.taobao.org/uglify-js/download/uglify-js-3.3.18.tgz#e16df66d71638df3c9bc61cce827e46f24bdac02"
-  dependencies:
-    commander "~2.15.0"
-    source-map "~0.6.1"
-
 uglify-to-browserify@~1.0.0:
   version "1.0.2"
   resolved "http://registry.npm.taobao.org/uglify-to-browserify/download/uglify-to-browserify-1.0.2.tgz#6e0924d6bda6b5afe349e39a6d632850a0f882b7"
@@ -5830,9 +5819,9 @@ vue-better-sync@^2.2.3:
   version "2.2.3"
   resolved "http://registry.npm.taobao.org/vue-better-sync/download/vue-better-sync-2.2.3.tgz#ad8ba8a37674f98cd23f4b21cf22bad3fc53b8f3"
 
-vue-css-modules@^0.5.1:
-  version "0.5.1"
-  resolved "http://registry.npm.taobao.org/vue-css-modules/download/vue-css-modules-0.5.1.tgz#0e974e1e97ae4b63cb575221d34af81ca41660a2"
+vue-css-modules@^0.5.2:
+  version "0.5.2"
+  resolved "http://registry.npm.taobao.org/vue-css-modules/download/vue-css-modules-0.5.2.tgz#50b05d1c7cb3dc6254a964457e087813a5f573d4"
 
 vue-template-es2015-compiler@^1.6.0:
   version "1.6.0"

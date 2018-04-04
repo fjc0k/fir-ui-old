@@ -10,6 +10,76 @@
 }(this, (function () { 'use strict';
 
   /**
+   * Checks if `value` is classified as an `Array` object.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+   * @example
+   *
+   * _.isArray([1, 2, 3]);
+   * // => true
+   *
+   * _.isArray(document.body.children);
+   * // => false
+   *
+   * _.isArray('abc');
+   * // => false
+   *
+   * _.isArray(_.noop);
+   * // => false
+   */
+  var isArray = Array.isArray;
+
+  var isArray_1 = isArray;
+
+  /**
+   * Casts `value` as an array if it's not one.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.4.0
+   * @category Lang
+   * @param {*} value The value to inspect.
+   * @returns {Array} Returns the cast array.
+   * @example
+   *
+   * _.castArray(1);
+   * // => [1]
+   *
+   * _.castArray({ 'a': 1 });
+   * // => [{ 'a': 1 }]
+   *
+   * _.castArray('abc');
+   * // => ['abc']
+   *
+   * _.castArray(null);
+   * // => [null]
+   *
+   * _.castArray(undefined);
+   * // => [undefined]
+   *
+   * _.castArray();
+   * // => []
+   *
+   * var array = [1, 2, 3];
+   * console.log(_.castArray(array) === array);
+   * // => true
+   */
+  function castArray() {
+    if (!arguments.length) {
+      return [];
+    }
+    var value = arguments[0];
+    return isArray_1(value) ? value : [value];
+  }
+
+  var castArray_1 = castArray;
+
+  /**
    * Creates a base function for methods like `_.forIn` and `_.forOwn`.
    *
    * @private
@@ -271,33 +341,6 @@
   };
 
   var isArguments_1 = isArguments;
-
-  /**
-   * Checks if `value` is classified as an `Array` object.
-   *
-   * @static
-   * @memberOf _
-   * @since 0.1.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is an array, else `false`.
-   * @example
-   *
-   * _.isArray([1, 2, 3]);
-   * // => true
-   *
-   * _.isArray(document.body.children);
-   * // => false
-   *
-   * _.isArray('abc');
-   * // => false
-   *
-   * _.isArray(_.noop);
-   * // => false
-   */
-  var isArray = Array.isArray;
-
-  var isArray_1 = isArray;
 
   /**
    * This method returns `false`.
@@ -1090,7 +1133,7 @@
               }
 
               if (role) {
-                data.attrs["data-component-" + role] = 'true';
+                data.attrs["data-component-" + role] = '';
               }
             }
           }
@@ -1308,38 +1351,10 @@
     vnode: true
   };
 
-  var hairline = "f-hairline";
-  var list = "f-list";
-  var item = "f-item";
-  var icon = "f-icon";
-  var button = "f-button";
-  var input = "f-input";
-  var form = "f-form";
-  var field = "f-field";
-  var inputNumber = "f-input-number";
-  var textarea = "f-textarea";
-  var select = "f-select";
-  var checkbox = "f-checkbox";
-  var components = {
-  	hairline: hairline,
-  	list: list,
-  	item: item,
-  	icon: icon,
-  	button: button,
-  	input: input,
-  	form: form,
-  	field: field,
-  	inputNumber: inputNumber,
-  	textarea: textarea,
-  	select: select,
-  	checkbox: checkbox,
-  	"switch": "f-switch"
-  };
-
   var styles = {};
 
   var Icon = {
-    name: icon,
+    name: 'f-icon',
     functional: true,
     props: {
       name: {
@@ -1370,8 +1385,8 @@
   var styles$1 = {};
 
   var BUTTON_TYPES = ['default', 'primary', 'success', 'warning', 'danger'];
-  var button$1 = {
-    name: button,
+  var button = {
+    name: 'f-button',
     functional: true,
     props: {
       type: {
@@ -1408,6 +1423,33 @@
       }), [ButtonIcon].concat(children || []));
     }
   };
+
+  /** `Object#toString` result references. */
+  var boolTag$1 = '[object Boolean]';
+
+  /**
+   * Checks if `value` is classified as a boolean primitive or object.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a boolean, else `false`.
+   * @example
+   *
+   * _.isBoolean(false);
+   * // => true
+   *
+   * _.isBoolean(null);
+   * // => false
+   */
+  function isBoolean(value) {
+    return value === true || value === false ||
+      (isObjectLike_1(value) && _baseGetTag(value) == boolTag$1);
+  }
+
+  var isBoolean_1 = isBoolean;
 
   var lib = createCommonjsModule(function (module, exports) {
 
@@ -1597,27 +1639,6 @@
   });
   });
 
-  var styles$2 = {};
-
-  var checkbox$1 = {
-    name: checkbox,
-    mixins: [CSSModules(styles$2), index({
-      prop: 'value',
-      event: 'input'
-    })],
-    props: {
-      value: {
-        type: String,
-        sync: true
-      }
-    },
-    render: function render(h) {
-      return h('div', {
-        styleName: '@checkbox'
-      });
-    }
-  };
-
   /**
    * The base implementation of `_.slice` without an iteratee call guard.
    *
@@ -1627,8 +1648,72 @@
    * @param {number} [end=array.length] The end position.
    * @returns {Array} Returns the slice of `array`.
    */
+  function baseSlice(array, start, end) {
+    var index = -1,
+        length = array.length;
+
+    if (start < 0) {
+      start = -start > length ? 0 : (length + start);
+    }
+    end = end > length ? length : end;
+    if (end < 0) {
+      end += length;
+    }
+    length = start > end ? 0 : ((end - start) >>> 0);
+    start >>>= 0;
+
+    var result = Array(length);
+    while (++index < length) {
+      result[index] = array[index + start];
+    }
+    return result;
+  }
+
+  var _baseSlice = baseSlice;
+
+  /**
+   * Casts `array` to a slice if it's needed.
+   *
+   * @private
+   * @param {Array} array The array to inspect.
+   * @param {number} start The start position.
+   * @param {number} [end=array.length] The end position.
+   * @returns {Array} Returns the cast slice.
+   */
+  function castSlice(array, start, end) {
+    var length = array.length;
+    end = end === undefined ? length : end;
+    return (!start && end >= length) ? array : _baseSlice(array, start, end);
+  }
+
+  var _castSlice = castSlice;
 
   /** Used to compose unicode character classes. */
+  var rsAstralRange = '\\ud800-\\udfff',
+      rsComboMarksRange = '\\u0300-\\u036f',
+      reComboHalfMarksRange = '\\ufe20-\\ufe2f',
+      rsComboSymbolsRange = '\\u20d0-\\u20ff',
+      rsComboRange = rsComboMarksRange + reComboHalfMarksRange + rsComboSymbolsRange,
+      rsVarRange = '\\ufe0e\\ufe0f';
+
+  /** Used to compose unicode capture groups. */
+  var rsZWJ = '\\u200d';
+
+  /** Used to detect strings with [zero-width joiners or code points from the astral planes](http://eev.ee/blog/2015/09/12/dark-corners-of-unicode/). */
+  var reHasUnicode = RegExp('[' + rsZWJ + rsAstralRange  + rsComboRange + rsVarRange + ']');
+
+  /**
+   * Checks if `string` contains Unicode symbols.
+   *
+   * @private
+   * @param {string} string The string to inspect.
+   * @returns {boolean} Returns `true` if a symbol is found, else `false`.
+   */
+  function hasUnicode(string) {
+    return reHasUnicode.test(string);
+  }
+
+  var _hasUnicode = hasUnicode;
 
   /**
    * Converts an ASCII `string` to an array.
@@ -1637,8 +1722,117 @@
    * @param {string} string The string to convert.
    * @returns {Array} Returns the converted array.
    */
+  function asciiToArray(string) {
+    return string.split('');
+  }
+
+  var _asciiToArray = asciiToArray;
 
   /** Used to compose unicode character classes. */
+  var rsAstralRange$1 = '\\ud800-\\udfff',
+      rsComboMarksRange$1 = '\\u0300-\\u036f',
+      reComboHalfMarksRange$1 = '\\ufe20-\\ufe2f',
+      rsComboSymbolsRange$1 = '\\u20d0-\\u20ff',
+      rsComboRange$1 = rsComboMarksRange$1 + reComboHalfMarksRange$1 + rsComboSymbolsRange$1,
+      rsVarRange$1 = '\\ufe0e\\ufe0f';
+
+  /** Used to compose unicode capture groups. */
+  var rsAstral = '[' + rsAstralRange$1 + ']',
+      rsCombo = '[' + rsComboRange$1 + ']',
+      rsFitz = '\\ud83c[\\udffb-\\udfff]',
+      rsModifier = '(?:' + rsCombo + '|' + rsFitz + ')',
+      rsNonAstral = '[^' + rsAstralRange$1 + ']',
+      rsRegional = '(?:\\ud83c[\\udde6-\\uddff]){2}',
+      rsSurrPair = '[\\ud800-\\udbff][\\udc00-\\udfff]',
+      rsZWJ$1 = '\\u200d';
+
+  /** Used to compose unicode regexes. */
+  var reOptMod = rsModifier + '?',
+      rsOptVar = '[' + rsVarRange$1 + ']?',
+      rsOptJoin = '(?:' + rsZWJ$1 + '(?:' + [rsNonAstral, rsRegional, rsSurrPair].join('|') + ')' + rsOptVar + reOptMod + ')*',
+      rsSeq = rsOptVar + reOptMod + rsOptJoin,
+      rsSymbol = '(?:' + [rsNonAstral + rsCombo + '?', rsCombo, rsRegional, rsSurrPair, rsAstral].join('|') + ')';
+
+  /** Used to match [string symbols](https://mathiasbynens.be/notes/javascript-unicode). */
+  var reUnicode = RegExp(rsFitz + '(?=' + rsFitz + ')|' + rsSymbol + rsSeq, 'g');
+
+  /**
+   * Converts a Unicode `string` to an array.
+   *
+   * @private
+   * @param {string} string The string to convert.
+   * @returns {Array} Returns the converted array.
+   */
+  function unicodeToArray(string) {
+    return string.match(reUnicode) || [];
+  }
+
+  var _unicodeToArray = unicodeToArray;
+
+  /**
+   * Converts `string` to an array.
+   *
+   * @private
+   * @param {string} string The string to convert.
+   * @returns {Array} Returns the converted array.
+   */
+  function stringToArray(string) {
+    return _hasUnicode(string)
+      ? _unicodeToArray(string)
+      : _asciiToArray(string);
+  }
+
+  var _stringToArray = stringToArray;
+
+  /**
+   * Creates a function like `_.lowerFirst`.
+   *
+   * @private
+   * @param {string} methodName The name of the `String` case method to use.
+   * @returns {Function} Returns the new case function.
+   */
+  function createCaseFirst(methodName) {
+    return function(string) {
+      string = toString_1(string);
+
+      var strSymbols = _hasUnicode(string)
+        ? _stringToArray(string)
+        : undefined;
+
+      var chr = strSymbols
+        ? strSymbols[0]
+        : string.charAt(0);
+
+      var trailing = strSymbols
+        ? _castSlice(strSymbols, 1).join('')
+        : string.slice(1);
+
+      return chr[methodName]() + trailing;
+    };
+  }
+
+  var _createCaseFirst = createCaseFirst;
+
+  /**
+   * Converts the first character of `string` to upper case.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category String
+   * @param {string} [string=''] The string to convert.
+   * @returns {string} Returns the converted string.
+   * @example
+   *
+   * _.upperFirst('fred');
+   * // => 'Fred'
+   *
+   * _.upperFirst('FRED');
+   * // => 'FRED'
+   */
+  var upperFirst = _createCaseFirst('toUpperCase');
+
+  var upperFirst_1 = upperFirst;
 
   /**
    * A specialized version of `_.reduce` for arrays without support for
@@ -2652,7 +2846,7 @@
       COMPARE_UNORDERED_FLAG$1 = 2;
 
   /** `Object#toString` result references. */
-  var boolTag$1 = '[object Boolean]',
+  var boolTag$2 = '[object Boolean]',
       dateTag$1 = '[object Date]',
       errorTag$1 = '[object Error]',
       mapTag$1 = '[object Map]',
@@ -2703,7 +2897,7 @@
         }
         return true;
 
-      case boolTag$1:
+      case boolTag$2:
       case dateTag$1:
       case numberTag$2:
         // Coerce booleans to `1` or `0` and dates to milliseconds.
@@ -3779,11 +3973,35 @@
 
   var reduce_1 = reduce;
 
+  var customRenderer = (function (renderFns) {
+    return reduce_1(renderFns, function (mixin, defaultRenderFn, propName) {
+      var PropName = upperFirst_1(propName);
+
+      var renderFnPropName = "render" + PropName;
+      mixin.props[renderFnPropName] = Function;
+
+      mixin.methods["$" + renderFnPropName] = function () {
+        return (this[renderFnPropName] || this.$scopedSlots[propName] || defaultRenderFn).apply(this, arguments);
+      };
+
+      return mixin;
+    }, {
+      props: {},
+      methods: {}
+    });
+  });
+
+  var VNodeType$1 = {
+    type: null,
+    vnode: true
+  };
+
   var normalizePropVNode = function normalizePropVNode(propVNode) {
     return isObjectLike_1(propVNode) ? propVNode : toString_1(propVNode);
   };
 
   var extractVNodes = {
+    VNodeType: VNodeType$1,
     computed: {
       VNodeProps: function VNodeProps() {
         return this.extractVNodeProps();
@@ -3824,32 +4042,103 @@
     }
   };
 
-  /** `Object#toString` result references. */
-  var boolTag$2 = '[object Boolean]';
+  var styles$2 = {};
 
-  /**
-   * Checks if `value` is classified as a boolean primitive or object.
-   *
-   * @static
-   * @memberOf _
-   * @since 0.1.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is a boolean, else `false`.
-   * @example
-   *
-   * _.isBoolean(false);
-   * // => true
-   *
-   * _.isBoolean(null);
-   * // => false
-   */
-  function isBoolean(value) {
-    return value === true || value === false ||
-      (isObjectLike_1(value) && _baseGetTag(value) == boolTag$2);
-  }
+  var CHECKBOX = 1;
+  var RADIO = 2;
+  var AGREE = 3;
+  var choice = {
+    name: 'f-choice',
+    alias: ['f-checkbox', 'f-radio'],
+    mixins: [CSSModules(styles$2), customRenderer({
+      box: function box(_ref) {
+        var selected = _ref.selected;
+        return this.$createElement(Icon, {
+          attrs: {
+            name: selected ? this.actualSelectedIcon : this.actualIcon
+          }
+        });
+      }
+    }), index({
+      prop: 'selectedValue',
+      event: 'change'
+    })],
+    props: {
+      selectedValue: {
+        type: null,
+        sync: true
+      },
+      value: null,
+      icon: String,
+      selectedIcon: String
+    },
+    computed: {
+      type: function type() {
+        var actualSelectedValue = this.actualSelectedValue;
+        return isBoolean_1(actualSelectedValue) ? AGREE : isArray_1(actualSelectedValue) ? CHECKBOX : RADIO;
+      },
+      nativeType: function nativeType() {
+        return this.type === RADIO ? 'radio' : 'checkbox';
+      },
+      actualIcon: function actualIcon() {
+        return this.icon || (this.type === RADIO ? 'f-icon-radiobox' : 'f-icon-checkbox');
+      },
+      actualSelectedIcon: function actualSelectedIcon() {
+        return this.selectedIcon || (this.type === RADIO ? 'f-icon-radiobox-checked' : 'f-icon-checkbox-checked');
+      },
+      selected: function selected() {
+        var type = this.type,
+            actualSelectedValue = this.actualSelectedValue,
+            value = this.value;
+        return type === CHECKBOX ? actualSelectedValue.indexOf(value) >= 0 : actualSelectedValue === value;
+      }
+    },
+    methods: {
+      handleChange: function handleChange(_ref2) {
+        var selected = _ref2.target.checked;
+        var type = this.type,
+            actualSelectedValue = this.actualSelectedValue,
+            value = this.value;
+        var newValue;
 
-  var isBoolean_1 = isBoolean;
+        if (type === CHECKBOX) {
+          newValue = actualSelectedValue.slice();
+
+          if (selected) {
+            newValue.push(value);
+          } else {
+            newValue.splice(newValue.indexOf(value), 1);
+          }
+        } else if (type === AGREE) {
+          newValue = selected;
+        } else {
+          newValue = value;
+        }
+
+        this.syncSelectedValue(newValue);
+      }
+    },
+    render: function render(h) {
+      return h('label', {
+        styleName: '@choice :selected'
+      }, [this.$createElement('input', {
+        styleName: 'input',
+        attrs: {
+          type: this.nativeType
+        },
+        domProps: {
+          checked: this.selected
+        },
+        on: {
+          change: this.handleChange
+        }
+      }), this.$createElement('div', {
+        styleName: 'box'
+      }, [this.$renderBox({
+        selected: this.selected
+      })]), this.$slots.default]);
+    }
+  };
 
   /** `Object#toString` result references. */
   var stringTag$2 = '[object String]';
@@ -3888,7 +4177,7 @@
   };
   var PLACEMENTS = Object.keys(PLACEMENT_PROPS);
   var Hairline = {
-    name: hairline,
+    name: 'f-hairline',
     functional: true,
     props: Object.assign({
       tag: {
@@ -3952,7 +4241,8 @@
   };
   var VNodeProps = extractVNodes.methods.extractVNodeProps(propDescriptors);
   var Item = {
-    name: item,
+    name: 'f-item',
+    alias: ['f-list-item'],
     functional: true,
     props: propDescriptors,
     render: function render(h, _ref) {
@@ -3971,7 +4261,7 @@
           footer = _extractVNodes$method.footer,
           left = _extractVNodes$method.left,
           right = _extractVNodes$method.right,
-          icon$$1 = _extractVNodes$method.icon,
+          icon = _extractVNodes$method.icon,
           title = _extractVNodes$method.title,
           desc = _extractVNodes$method.desc,
           extra = _extractVNodes$method.extra,
@@ -3998,13 +4288,13 @@
       }, [title && h('div', {
         styleName: '@info',
         style: "width: " + props.infoWidth + ";"
-      }, [icon$$1 && h('div', {
+      }, [icon && h('div', {
         styleName: '@icon'
-      }, [isString_1(icon$$1) ? h(Icon, {
+      }, [isString_1(icon) ? h(Icon, {
         attrs: {
-          name: icon$$1
+          name: icon
         }
-      }) : icon$$1]), title && h('div', {
+      }) : icon]), title && h('div', {
         styleName: '@outline'
       }, [h('div', {
         styleName: '@title'
@@ -4033,8 +4323,9 @@
 
   var styles$5 = {};
 
-  var field$1 = {
-    name: field,
+  var field = {
+    name: 'f-field',
+    alias: ['f-form-item'],
     inheritAttrs: false,
     inject: {
       Form: {
@@ -4074,7 +4365,7 @@
   var styles$6 = {};
 
   var List = {
-    name: list,
+    name: 'f-list',
     functional: true,
     props: {
       tag: {
@@ -4109,8 +4400,8 @@
 
   var styles$7 = {};
 
-  var form$1 = {
-    name: form,
+  var form = {
+    name: 'f-form',
     inheritAttrs: false,
     provide: function provide() {
       return {
@@ -4209,7 +4500,7 @@
   var styles$8 = {};
 
   var Input = {
-    name: input,
+    name: 'f-input',
     mixins: [index({
       prop: 'value',
       event: 'input'
@@ -4280,8 +4571,8 @@
   var styles$9 = {};
 
   var INPUT_NUMBER_TYPES = ['default', 'primary', 'success', 'warning', 'danger'];
-  var inputNumber$1 = {
-    name: inputNumber,
+  var inputNumber = {
+    name: 'f-input-number',
     mixins: [index({
       prop: 'value',
       event: 'input'
@@ -4548,8 +4839,8 @@
 
   var styles$10 = {};
 
-  var select$1 = {
-    name: select,
+  var select = {
+    name: 'f-select',
     mixins: [index({
       prop: 'value',
       event: 'change'
@@ -4577,12 +4868,12 @@
       Options: function Options() {
         var _this = this;
 
-        return this.data.map(function (item$$1) {
+        return this.data.map(function (item) {
           return _this.$createElement('option', {
             attrs: {
-              disabled: item$$1.disabled
+              disabled: item.disabled
             }
-          }, [item$$1.label]);
+          }, [item.label]);
         });
       }
     },
@@ -4739,9 +5030,7 @@
   var styles$11 = {};
 
   var _switch = {
-    // 为何不用 COMPONENT_NAME ?
-    // 因为打包工具有缺陷: rollup-plugin-json
-    name: components.switch,
+    name: 'f-switch',
     mixins: [index({
       prop: 'value',
       event: 'change'
@@ -4799,8 +5088,8 @@
 
   var styles$12 = {};
 
-  var textarea$1 = {
-    name: textarea,
+  var textarea = {
+    name: 'f-textarea',
     inheritAttrs: false,
     mixins: [index({
       prop: 'value',
@@ -4833,37 +5122,43 @@
 
 
 
-  var components$1 = /*#__PURE__*/Object.freeze({
-    button: button$1,
-    checkbox: checkbox$1,
-    field: field$1,
-    form: form$1,
+  var components = /*#__PURE__*/Object.freeze({
+    button: button,
+    choice: choice,
+    field: field,
+    form: form,
     hairline: Hairline,
     icon: Icon,
     input: Input,
-    inputNumber: inputNumber$1,
+    inputNumber: inputNumber,
     item: Item,
     list: List,
-    select: select$1,
+    select: select,
     switch: _switch,
-    textarea: textarea$1
+    textarea: textarea
   });
 
   function install(Vue) {
     if (install.installed) return;
     Vue.prototype.$log = console.log;
 
-    forOwn_1(components$1, function (component) {
-      return Vue.component(component.name, component);
+    forOwn_1(components, function (component) {
+      if (component.alias) {
+        castArray_1(component.alias).forEach(function (name) {
+          return Vue.component(name, component);
+        });
+      }
+
+      Vue.component(component.name, component);
     });
 
     install.installed = true;
   }
 
-  Object.defineProperty(components$1, 'install', {
+  Object.defineProperty(components, 'install', {
     value: install
   });
 
-  return components$1;
+  return components;
 
 })));
