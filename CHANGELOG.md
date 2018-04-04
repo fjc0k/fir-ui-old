@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.11.0"></a>
+# [0.11.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.10.1...fir-ui@0.11.0) (2018-04-04)
+
+
+### Bug Fixes
+
+* bundler 暂不支持动态的 CSSModules ([eb1b2e7](https://github.com/fjc0k/fir-ui/commit/eb1b2e7))
+
+
+### Features
+
+* **组件:** 新增 divider 组件 ([4107bfb](https://github.com/fjc0k/fir-ui/commit/4107bfb))
+
+
+
+
 <a name="0.10.1"></a>
 ## [0.10.1](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.10.0...fir-ui@0.10.1) (2018-04-04)
 
