@@ -13,10 +13,14 @@
     "src"
   ],
   "firb": {
-    "entry": "test/**/*.js",
-    "format": "es,cjs,umd,cjs-min,umd-min,es-min",
+    "entry": "test/a.js",
+    "format": "cjs",
     "alias": {
       "@": "test"
+    },
+    "dest": "test/dist",
+    "css": {
+      "modules": true
     }
   },
   "scripts": {

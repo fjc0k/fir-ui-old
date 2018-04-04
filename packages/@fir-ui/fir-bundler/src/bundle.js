@@ -49,6 +49,7 @@ module.exports = (config = require('./config')) => {
             plugins: [
               ...(config.css.plugins || []),
               importModules({
+                icssExports: Boolean(config.css.modules),
                 resolve: {
                   extensions: config.css.extensions,
                   modules: config.css.paths

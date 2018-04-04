@@ -20,9 +20,7 @@ const config = {
   dest: 'dist',
   format: ['es', 'cjs', 'umd', 'umd-min'],
   banner: true,
-  css: {
-    paths: []
-  },
+  css: {},
   alias: {
     '@': 'src'
   },
@@ -40,11 +38,11 @@ const config = {
 config.entry = config.entry ? parseEntry(config.entry) : {}
 config.format = config.format ? parseFormat(config.format) : {}
 config.dest = realPath(config.dest)
-config.css.paths = config.css.paths.map(path => realPath(path))
 config.css = {
   ...css,
   ...config.css
 }
+config.css.paths = config.css.paths.map(path => realPath(path))
 
 if (_.isPlainObject(config.alias)) {
   config.alias = _.mapValues(
