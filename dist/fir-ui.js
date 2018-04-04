@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.10.0
+ * fir-ui v0.10.1
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -1351,7 +1351,7 @@
     vnode: true
   };
 
-  var styles = {};
+  var styles = {"svg":"f-3z2","icon":"f-23m"};
 
   var Icon = {
     name: 'f-icon',
@@ -1382,7 +1382,7 @@
     }
   };
 
-  var styles$1 = {};
+  var styles$1 = {"button":"f-1c- f-m9L","icon":"f-2v8","plain":"f-2Hh","mini":"f-fzM","inline":"f-2XV f-vFB","disabled":"f-GhS","white-space":"f-1CC","default":"f-21t","primary":"f-3E-","success":"f-3eo","warning":"f-20p","danger":"f-rlQ","info":"f-1N5"};
 
   var BUTTON_TYPES = ['default', 'primary', 'success', 'warning', 'danger'];
   var button = {
@@ -4042,7 +4042,7 @@
     }
   };
 
-  var styles$2 = {};
+  var styles$2 = {"choice":"f-1sZ f-1wz","box":"f-2G7","selected":"f-28u","input":"f-oRD"};
 
   var CHECKBOX = 1;
   var RADIO = 2;
@@ -4121,7 +4121,7 @@
     render: function render(h) {
       return h('label', {
         styleName: '@choice :selected'
-      }, [this.$createElement('input', {
+      }, [h('input', {
         styleName: 'input',
         attrs: {
           type: this.nativeType
@@ -4132,7 +4132,7 @@
         on: {
           change: this.handleChange
         }
-      }), this.$createElement('div', {
+      }), h('div', {
         styleName: 'box'
       }, [this.$renderBox({
         selected: this.selected
@@ -4167,7 +4167,7 @@
 
   var isString_1 = isString;
 
-  var styles$3 = {};
+  var styles$3 = {"top":"f-EBU","bottom":"f-2Ze","left":"f-WJM","right":"f-1Bk","hairline":"f-3L6"};
 
   var PLACEMENT_PROPS = {
     top: Boolean,
@@ -4210,7 +4210,7 @@
     }
   };
 
-  var styles$4 = {};
+  var styles$4 = {"item":"f-Kwb f-2Pe","gap":"f-2gh","body":"f-24g f-ZhX f-2gh","left":"f-3Wx f-ZhX","right":"f-3-c f-ZhX","middle":"f-BcZ f-ZhX f-2gh","info":"f-Fn2 f-ZhX f-2gh","outline":"f-3jZ f-2Pe","desc":"f-6W3","extra":"f-1-K","note":"f-2vR","arrow":"f-1Re"};
 
   var ARROWS = ['right', 'down', 'left', 'up'];
   var propDescriptors = {
@@ -4321,7 +4321,7 @@
     }
   };
 
-  var styles$5 = {};
+  var styles$5 = {"field":"f-39J"};
 
   var field = {
     name: 'f-field',
@@ -4362,7 +4362,7 @@
     }
   };
 
-  var styles$6 = {};
+  var styles$6 = {"list":"f-1b6","offset":"f-E_M"};
 
   var List = {
     name: 'f-list',
@@ -4497,7 +4497,7 @@
 
   var toNumber_1 = toNumber;
 
-  var styles$8 = {};
+  var styles$8 = {"input":"f-389 f-1Xw"};
 
   var Input = {
     name: 'f-input',
@@ -4568,7 +4568,7 @@
     }
   };
 
-  var styles$9 = {};
+  var styles$9 = {"input-number":"f-27h f-ZhX","block":"f-jcQ f-1Ac","input-box":"f-2HZ","disabled":"f-27r","input":"f-2ZX","button":"f-ZDK"};
 
   var INPUT_NUMBER_TYPES = ['default', 'primary', 'success', 'warning', 'danger'];
   var inputNumber = {
@@ -4837,7 +4837,7 @@
 
   var findIndex_1 = findIndex;
 
-  var styles$10 = {};
+  var styles$10 = {"select":"f-1rW f-1Xw"};
 
   var select = {
     name: 'f-select',
@@ -5027,7 +5027,7 @@
 
   var has_1 = has;
 
-  var styles$11 = {};
+  var styles$11 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
 
   var _switch = {
     name: 'f-switch',
@@ -5086,7 +5086,7 @@
     }
   };
 
-  var styles$12 = {};
+  var styles$12 = {"textarea":"f-X9H f-1Xw"};
 
   var textarea = {
     name: 'f-textarea',
