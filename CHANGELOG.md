@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.9.0...fir-ui@0.10.0) (2018-04-04)
+
+
+### Features
+
+* **组件:** 新增 Choice 组件 ([4c29902](https://github.com/fjc0k/fir-ui/commit/4c29902))
+
+
+
+
 <a name="0.9.0"></a>
 # [0.9.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.8.0...fir-ui@0.9.0) (2018-04-03)
 
