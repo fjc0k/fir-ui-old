@@ -1,0 +1,20 @@
+@import "settings";
+
+.choice {
+  composes: inline-flex-align-center from "compositions";
+  position: relative;
+}
+
+.box {
+  color: $choice.color.normal;
+}
+
+.selected {
+  > .box {
+    color: $choice.color.selected;
+  }
+}
+
+.input {
+  display: none;
+}
