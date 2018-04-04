@@ -112,7 +112,7 @@ export default {
     return h('label', {
       styleName: '@choice :selected'
     }, [
-      this.$createElement('input', {
+      h('input', {
         styleName: 'input',
         attrs: {
           type: this.nativeType
@@ -124,7 +124,7 @@ export default {
           change: this.handleChange
         }
       }),
-      this.$createElement('div', {
+      h('div', {
         styleName: 'box'
       }, [
         this.$renderBox({ selected: this.selected })
