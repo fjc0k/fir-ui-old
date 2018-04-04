@@ -11,5 +11,6 @@
   "textarea": "f-textarea",
   "select": "f-select",
   "switch": "f-switch",
-  "choice": "f-choice"
+  "choice": "f-choice",
+  "divider": "f-divider"
 }

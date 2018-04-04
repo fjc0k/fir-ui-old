@@ -1,5 +1,6 @@
 export { default as button } from '@/components/button/button'
 export { default as choice } from '@/components/choice/choice'
+export { default as divider } from '@/components/divider/divider'
 export { default as field } from '@/components/field/field'
 export { default as form } from '@/components/form/form'
 export { default as hairline } from '@/components/hairline/hairline'

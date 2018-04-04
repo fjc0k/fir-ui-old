@@ -1,0 +1,28 @@
+@import "settings";
+
+.divider {
+  composes: flex-center from "compositions";
+  font-size: $divider.font.size;
+  color: $divider.font.color;
+  padding: $divider.padding;
+}
+
+.inner {
+  composes: flex-center from "compositions";
+  width: $divider.width;
+}
+
+.body {
+  display: inline-block;
+  text-align: center;
+  &:not(:empty) {
+    margin: 0 $divider.gap;
+  }
+}
+
+.line {
+  flex: 1;
+  min-width: $divider.line.minWidth;
+  color: $divider.line.color;
+  border-line: 0 top currentColor;
+}

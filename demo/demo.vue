@@ -10,6 +10,8 @@
     <br />
     <br />
 
+    <f-divider width="80%">小小墙提供技术支持</f-divider>
+
 
     <f-list>
       <f-item note="方剑成">
