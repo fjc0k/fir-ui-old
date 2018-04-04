@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.4.1"></a>
+## [0.4.1](https://github.com/fjc0k/fir-ui/compare/@fir-ui/bundler@0.4.0...@fir-ui/bundler@0.4.1) (2018-04-04)
+
+
+### Bug Fixes
+
+* **bundler:** 修复 CSSModules 不导出类名对象的问题 ([42dd2fa](https://github.com/fjc0k/fir-ui/commit/42dd2fa))
+
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/fjc0k/fir-ui/compare/@fir-ui/bundler@0.3.0...@fir-ui/bundler@0.4.0) (2018-04-03)
 
