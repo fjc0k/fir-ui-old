@@ -23,33 +23,43 @@
 }
 
 // Display flex
-display-flex($display) {
-  & {
-    display: $display;
-  }
-  &-align-center {
-    display: $display;
-    align-items: center;
-  }
-  &-justify-center {
-    display: $display;
-    justify-content: center;
-  }
-  &-center {
-    display: $display;
-    align-items: center;
-    justify-content: center;
-  }
-  &-column {
-    display: $display;
-    flex-direction: column;
-  }
-}
-
 .flex {
-  display-flex: flex;
+  display: flex;
 }
-
+.flex-align-center {
+  display: flex;
+  align-items: center;
+}
+.flex-justify-center {
+  display: flex;
+  justify-content: center;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
 .inline-flex {
-  display-flex: inline-flex;
+  display: inline-flex;
+}
+.inline-flex-align-center {
+  display: inline-flex;
+  align-items: center;
+}
+.inline-flex-justify-center {
+  display: inline-flex;
+  justify-content: center;
+}
+.inline-flex-center {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.inline-flex-column {
+  display: inline-flex;
+  flex-direction: column;
 }
