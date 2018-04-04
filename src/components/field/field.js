@@ -1,12 +1,15 @@
 import CSSModules from 'vue-css-modules'
 import { VNodeType } from '@/utils/helper'
 import { extractVNodes } from '@/mixins'
-import { field as COMPONENT_NAME } from '@/components.json'
 import Item from '@/components/item/item'
 import styles from './field.styl'
 
 export default {
-  name: COMPONENT_NAME,
+  name: 'f-field',
+
+  alias: [
+    'f-form-item'
+  ],
 
   inheritAttrs: false,
 

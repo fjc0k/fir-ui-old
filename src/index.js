@@ -1,4 +1,4 @@
-import { forOwn } from 'lodash'
+import { forOwn, castArray } from 'lodash'
 import * as components from '@/components'
 import '@/styles/commons.styl'
 
@@ -7,7 +7,14 @@ function install(Vue) {
 
   Vue.prototype.$log = console.log
 
-  forOwn(components, component => Vue.component(component.name, component))
+  forOwn(components, component => {
+    if (component.alias) {
+      castArray(component.alias).forEach(
+        name => Vue.component(name, component)
+      )
+    }
+    Vue.component(component.name, component)
+  })
 
   install.installed = true
 }

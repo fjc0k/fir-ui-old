@@ -14,8 +14,7 @@ const mixins = []
 if (options.vnode) mixins.push('extractVNodes')
 if (mixins.length > 0) {
 %>import { <%= mixins.join(', ') %> } from '@/mixins'
-<% } %>import { <%= _.camelCase(component) %> as COMPONENT_NAME } from '@/components.json'
-import styles from './<%= _.kebabCase(component) %>.styl'
+<% } %>import styles from './<%= _.kebabCase(component) %>.styl'
 <% if (options.vnode && options.fn) { %>
 const propDescriptors = {
   x: VNodeType
@@ -23,7 +22,7 @@ const propDescriptors = {
 const VNodeProps = extractVNodes.methods.extractVNodeProps(propDescriptors)
 <% } %>
 export default {
-  name: COMPONENT_NAME,
+  name: 'f-<%= _.kebabCase(component) %>',
 <% if (options.fn) { %>
   functional: true,
 <% } %><% if (!options.fn) { %>

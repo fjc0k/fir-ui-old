@@ -1,11 +1,10 @@
 import createElement from 'vue-css-modules/lib/create-element'
 import Hairline from '@/components/hairline/hairline'
-import { list as COMPONENT_NAME } from '@/components.json'
 import { genFunctionalData } from '@/utils/helper'
 import styles from './list.styl'
 
 export default {
-  name: COMPONENT_NAME,
+  name: 'f-list',
 
   functional: true,
 

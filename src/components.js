@@ -1,5 +1,5 @@
 export { default as button } from '@/components/button/button'
-export { default as checkbox } from '@/components/checkbox/checkbox'
+export { default as choice } from '@/components/choice/choice'
 export { default as field } from '@/components/field/field'
 export { default as form } from '@/components/form/form'
 export { default as hairline } from '@/components/hairline/hairline'

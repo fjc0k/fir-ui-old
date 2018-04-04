@@ -2,6 +2,11 @@
 
 import { reduce, isObjectLike, toString } from 'lodash'
 
+const VNodeType = {
+  type: null,
+  vnode: true
+}
+
 const normalizePropVNode = propVNode => {
   return (
     isObjectLike(propVNode) ?
@@ -11,6 +16,8 @@ const normalizePropVNode = propVNode => {
 }
 
 export default {
+  VNodeType,
+
   computed: {
     VNodeProps() {
       return this.extractVNodeProps()

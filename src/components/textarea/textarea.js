@@ -1,11 +1,10 @@
 import CSSModules from 'vue-css-modules'
 import betterSync from 'vue-better-sync'
-import { textarea as COMPONENT_NAME } from '@/components.json'
 import Input from '@/components/input/input'
 import styles from './textarea.styl'
 
 export default {
-  name: COMPONENT_NAME,
+  name: 'f-textarea',
 
   inheritAttrs: false,
 

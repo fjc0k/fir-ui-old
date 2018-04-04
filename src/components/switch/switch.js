@@ -1,13 +1,10 @@
 import CSSModules from 'vue-css-modules'
 import betterSync from 'vue-better-sync'
 import { has, mapValues } from 'lodash'
-import components from '@/components.json'
 import styles from './switch.styl'
 
 export default {
-  // 为何不用 COMPONENT_NAME ?
-  // 因为打包工具有缺陷: rollup-plugin-json
-  name: components.switch,
+  name: 'f-switch',
 
   mixins: [
     betterSync({

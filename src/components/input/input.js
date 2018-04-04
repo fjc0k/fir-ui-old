@@ -1,11 +1,10 @@
 import CSSModules from 'vue-css-modules'
 import betterSync from 'vue-better-sync'
-import { input as COMPONENT_NAME } from '@/components.json'
 import { isFunction, toNumber } from 'lodash'
 import styles from './input.styl'
 
 export default {
-  name: COMPONENT_NAME,
+  name: 'f-input',
 
   mixins: [
     betterSync({

@@ -1,7 +1,6 @@
 import createElement from 'vue-css-modules/lib/create-element'
 import Hairline from '@/components/hairline/hairline'
 import Icon from '@/components/icon/icon'
-import { item as COMPONENT_NAME } from '@/components.json'
 import { genFunctionalData, VNodeType } from '@/utils/helper'
 import { isString, isBoolean } from 'lodash'
 import { extractVNodes } from '@/mixins'
@@ -37,7 +36,11 @@ const propDescriptors = {
 const VNodeProps = extractVNodes.methods.extractVNodeProps(propDescriptors)
 
 export default {
-  name: COMPONENT_NAME,
+  name: 'f-item',
+
+  alias: [
+    'f-list-item'
+  ],
 
   functional: true,
 

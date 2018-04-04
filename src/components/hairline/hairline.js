@@ -1,5 +1,4 @@
 import createElement from 'vue-css-modules/lib/create-element'
-import { hairline as COMPONENT_NAME } from '@/components.json'
 import { genFunctionalData } from '@/utils/helper'
 import styles from './hairline.styl'
 
@@ -12,7 +11,7 @@ const PLACEMENT_PROPS = {
 const PLACEMENTS = Object.keys(PLACEMENT_PROPS)
 
 export default {
-  name: COMPONENT_NAME,
+  name: 'f-hairline',
 
   functional: true,
 

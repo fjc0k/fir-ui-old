@@ -1,6 +1,5 @@
 import CSSModules from 'vue-css-modules'
 import betterSync from 'vue-better-sync'
-import { inputNumber as COMPONENT_NAME } from '@/components.json'
 import { toNumber } from 'lodash'
 import Icon from '@/components/icon/icon'
 import Input from '@/components/input/input'
@@ -9,7 +8,7 @@ import styles from './input-number.styl'
 const INPUT_NUMBER_TYPES = ['default', 'primary', 'success', 'warning', 'danger']
 
 export default {
-  name: COMPONENT_NAME,
+  name: 'f-input-number',
 
   mixins: [
     betterSync({

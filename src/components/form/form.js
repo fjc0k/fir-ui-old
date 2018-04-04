@@ -1,11 +1,10 @@
 import CSSModules from 'vue-css-modules'
 import betterSync from 'vue-better-sync'
-import { form as COMPONENT_NAME } from '@/components.json'
 import List from '@/components/list/list'
 import styles from './form.styl'
 
 export default {
-  name: COMPONENT_NAME,
+  name: 'f-form',
 
   inheritAttrs: false,
 

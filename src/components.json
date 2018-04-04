@@ -11,5 +11,5 @@
   "textarea": "f-textarea",
   "select": "f-select",
   "switch": "f-switch",
-  "checkbox": "f-checkbox"
+  "choice": "f-choice"
 }

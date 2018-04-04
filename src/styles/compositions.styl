@@ -23,30 +23,33 @@
 }
 
 // Display flex
-// composes 不同于 extend ，
-// 它是将多个 class 给 JavaScript ，
-// 故而不宜 composes 过多 class
+display-flex($display) {
+  & {
+    display: $display;
+  }
+  &-align-center {
+    display: $display;
+    align-items: center;
+  }
+  &-justify-center {
+    display: $display;
+    justify-content: center;
+  }
+  &-center {
+    display: $display;
+    align-items: center;
+    justify-content: center;
+  }
+  &-column {
+    display: $display;
+    flex-direction: column;
+  }
+}
+
 .flex {
-  display: flex;
+  display-flex: flex;
 }
-.flex-align-center {
-  display: flex;
-  align-items: center;
-}
-.flex-justify-center {
-  display: flex;
-  justify-content: center;
-}
-.flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.flex-column {
-  display: flex;
-  flex-direction: column;
-}
-// 注意：inline-flex 只能放在最后才能覆盖以上的 flex 设置
+
 .inline-flex {
-  display: inline-flex;
+  display-flex: inline-flex;
 }

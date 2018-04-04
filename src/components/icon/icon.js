@@ -1,10 +1,9 @@
 import createElement from 'vue-css-modules/lib/create-element'
-import { icon as COMPONENT_NAME } from '@/components.json'
 import { genFunctionalData } from '@/utils/helper'
 import styles from './icon.styl'
 
 export default {
-  name: COMPONENT_NAME,
+  name: 'f-icon',
 
   functional: true,
 

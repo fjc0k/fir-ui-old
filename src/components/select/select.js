@@ -1,11 +1,10 @@
 import CSSModules from 'vue-css-modules'
 import betterSync from 'vue-better-sync'
 import { findIndex } from 'lodash'
-import { select as COMPONENT_NAME } from '@/components.json'
 import styles from './select.styl'
 
 export default {
-  name: COMPONENT_NAME,
+  name: 'f-select',
 
   mixins: [
     betterSync({

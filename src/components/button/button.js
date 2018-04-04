@@ -1,13 +1,12 @@
 import createElement from 'vue-css-modules/lib/create-element'
 import { genFunctionalData } from '@/utils/helper'
 import Icon from '@/components/icon/icon'
-import { button as COMPONENT_NAME } from '@/components.json'
 import styles from './button.styl'
 
 const BUTTON_TYPES = ['default', 'primary', 'success', 'warning', 'danger']
 
 export default {
-  name: COMPONENT_NAME,
+  name: 'f-button',
 
   functional: true,
 
