@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.10.1
+ * fir-ui v0.11.0
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  *//*  imported from icon.styl  */
@@ -195,6 +195,46 @@
 }
 .f-oRD {
   display: none;
+}
+
+/*  imported from divider.styl  */
+
+.f-xyS {
+  font-size: 1.6rem;
+  color: #909399;
+  padding: 1em 0;
+}
+.f-35o {
+  width: 80%;
+}
+.f-3FL {
+  display: inline-block;
+  text-align: center;
+}
+.f-3FL:not(:empty) {
+  margin: 0 0.6em;
+}
+.f-1_8 {
+  flex: 1;
+  min-width: 1em;
+  color: rgba(0,0,0,0.2);
+  position: relative;
+  border-radius: 0;
+}
+.f-1_8::after {
+  content: '';
+  width: 200%;
+  height: 200%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 0 solid currentColor;
+  border-top-width: 1px;
+  transform: scale(0.5);
+  transform-origin: 0 0;
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 1;
 }
 
 /*  imported from hairline.styl  */

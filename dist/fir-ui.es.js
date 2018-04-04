@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.10.1
+ * fir-ui v0.11.0
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -352,7 +352,44 @@ var choice = {
   }
 };
 
-var styles$3 = {"top":"f-EBU","bottom":"f-2Ze","left":"f-WJM","right":"f-1Bk","hairline":"f-3L6"};
+var styles$3 = {"divider":"f-xyS f-m9L","inner":"f-35o f-m9L","body":"f-3FL","line":"f-1_8"};
+
+var divider = {
+  name: 'f-divider',
+  functional: true,
+  props: {
+    color: String,
+    width: String
+  },
+  render: function render(h, _ref) {
+    var props = _ref.props,
+        data = _ref.data,
+        children = _ref.children;
+    h = createElement(h, styles$3, props);
+    var widthStyle = props.width && {
+      width: props.width
+    };
+    var colorStyle = {
+      color: props.color
+    };
+    return h('div', genFunctionalData(data, {
+      styleName: '@divider'
+    }), [h('div', {
+      styleName: 'inner',
+      staticStyle: widthStyle
+    }, [h('div', {
+      styleName: 'line',
+      staticStyle: colorStyle
+    }), h('div', {
+      styleName: 'body'
+    }, [children]), h('div', {
+      styleName: 'line',
+      staticStyle: colorStyle
+    })])]);
+  }
+};
+
+var styles$4 = {"top":"f-EBU","bottom":"f-2Ze","left":"f-WJM","right":"f-1Bk","hairline":"f-3L6"};
 
 var PLACEMENT_PROPS = {
   top: Boolean,
@@ -376,7 +413,7 @@ var Hairline = {
     var props = _ref.props,
         data = _ref.data,
         children = _ref.children;
-    h = createElement(h, styles$3, props);
+    h = createElement(h, styles$4, props);
     var placements = props.all ? PLACEMENTS : PLACEMENTS.filter(function (placement) {
       return props[placement];
     });
@@ -395,7 +432,7 @@ var Hairline = {
   }
 };
 
-var styles$4 = {"item":"f-Kwb f-2Pe","gap":"f-2gh","body":"f-24g f-ZhX f-2gh","left":"f-3Wx f-ZhX","right":"f-3-c f-ZhX","middle":"f-BcZ f-ZhX f-2gh","info":"f-Fn2 f-ZhX f-2gh","outline":"f-3jZ f-2Pe","desc":"f-6W3","extra":"f-1-K","note":"f-2vR","arrow":"f-1Re"};
+var styles$5 = {"item":"f-Kwb f-2Pe","gap":"f-2gh","body":"f-24g f-ZhX f-2gh","left":"f-3Wx f-ZhX","right":"f-3-c f-ZhX","middle":"f-BcZ f-ZhX f-2gh","info":"f-Fn2 f-ZhX f-2gh","outline":"f-3jZ f-2Pe","desc":"f-6W3","extra":"f-1-K","note":"f-2vR","arrow":"f-1Re"};
 
 var ARROWS = ['right', 'down', 'left', 'up'];
 var propDescriptors = {
@@ -434,7 +471,7 @@ var Item = {
     var props = _ref.props,
         data = _ref.data,
         slots = _ref.slots;
-    h = createElement(h, styles$4, props);
+    h = createElement(h, styles$5, props);
 
     var _extractVNodes$method = extractVNodes.methods.extractVNodes({
       slots: slots(),
@@ -506,7 +543,7 @@ var Item = {
   }
 };
 
-var styles$5 = {"field":"f-39J"};
+var styles$6 = {"field":"f-39J"};
 
 var field = {
   name: 'f-field',
@@ -522,7 +559,7 @@ var field = {
       Field: this
     };
   },
-  mixins: [extractVNodes, CSSModules(styles$5)],
+  mixins: [extractVNodes, CSSModules(styles$6)],
   props: {
     label: VNodeType,
     labelWidth: {
@@ -547,7 +584,7 @@ var field = {
   }
 };
 
-var styles$6 = {"list":"f-1b6","offset":"f-E_M"};
+var styles$7 = {"list":"f-1b6","offset":"f-E_M"};
 
 var List = {
   name: 'f-list',
@@ -570,7 +607,7 @@ var List = {
     var props = _ref.props,
         data = _ref.data,
         children = _ref.children;
-    h = createElement(h, styles$6, props);
+    h = createElement(h, styles$7, props);
     var border = Boolean(props.border);
     return h(Hairline, genFunctionalData(data, {
       styleName: '@list :offset',
@@ -583,7 +620,7 @@ var List = {
   }
 };
 
-var styles$7 = {};
+var styles$8 = {};
 
 var form = {
   name: 'f-form',
@@ -596,7 +633,7 @@ var form = {
   mixins: [betterSync({
     prop: 'model',
     event: 'change'
-  }), CSSModules(styles$7)],
+  }), CSSModules(styles$8)],
   props: {
     labelWidth: {
       type: String,
@@ -618,14 +655,14 @@ var form = {
   }
 };
 
-var styles$8 = {"input":"f-389 f-1Xw"};
+var styles$9 = {"input":"f-389 f-1Xw"};
 
 var Input = {
   name: 'f-input',
   mixins: [betterSync({
     prop: 'value',
     event: 'input'
-  }), CSSModules(styles$8)],
+  }), CSSModules(styles$9)],
   props: {
     tag: {
       type: String,
@@ -689,7 +726,7 @@ var Input = {
   }
 };
 
-var styles$9 = {"input-number":"f-27h f-ZhX","block":"f-jcQ f-1Ac","input-box":"f-2HZ","disabled":"f-27r","input":"f-2ZX","button":"f-ZDK"};
+var styles$10 = {"input-number":"f-27h f-ZhX","block":"f-jcQ f-1Ac","input-box":"f-2HZ","disabled":"f-27r","input":"f-2ZX","button":"f-ZDK"};
 
 var INPUT_NUMBER_TYPES = ['default', 'primary', 'success', 'warning', 'danger'];
 var inputNumber = {
@@ -697,7 +734,7 @@ var inputNumber = {
   mixins: [betterSync({
     prop: 'value',
     event: 'input'
-  }), CSSModules(styles$9)],
+  }), CSSModules(styles$10)],
   props: {
     type: {
       type: String,
@@ -805,14 +842,14 @@ var inputNumber = {
   }
 };
 
-var styles$10 = {"select":"f-1rW f-1Xw"};
+var styles$11 = {"select":"f-1rW f-1Xw"};
 
 var select = {
   name: 'f-select',
   mixins: [betterSync({
     prop: 'value',
     event: 'change'
-  }), CSSModules(styles$10)],
+  }), CSSModules(styles$11)],
   props: {
     value: {
       type: null,
@@ -868,14 +905,14 @@ var select = {
   }
 };
 
-var styles$11 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
+var styles$12 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
 
 var _switch = {
   name: 'f-switch',
   mixins: [betterSync({
     prop: 'value',
     event: 'change'
-  }), CSSModules(styles$11)],
+  }), CSSModules(styles$12)],
   props: {
     value: {
       type: null,
@@ -927,7 +964,7 @@ var _switch = {
   }
 };
 
-var styles$12 = {"textarea":"f-X9H f-1Xw"};
+var styles$13 = {"textarea":"f-X9H f-1Xw"};
 
 var textarea = {
   name: 'f-textarea',
@@ -935,7 +972,7 @@ var textarea = {
   mixins: [betterSync({
     prop: 'value',
     event: 'input'
-  }), CSSModules(styles$12)],
+  }), CSSModules(styles$13)],
   props: {
     value: {
       type: [String, Number],
@@ -966,6 +1003,7 @@ var textarea = {
 var components = /*#__PURE__*/Object.freeze({
   button: button,
   choice: choice,
+  divider: divider,
   field: field,
   form: form,
   hairline: Hairline,
