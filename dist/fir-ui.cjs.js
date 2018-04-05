@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.11.0
+ * fir-ui v0.12.0
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -23,6 +23,7 @@ var _toNumber = _interopDefault(require('lodash/toNumber'));
 var _findIndex = _interopDefault(require('lodash/findIndex'));
 var _mapValues = _interopDefault(require('lodash/mapValues'));
 var _has = _interopDefault(require('lodash/has'));
+var autoSize = _interopDefault(require('autosize'));
 var _castArray = _interopDefault(require('lodash/castArray'));
 
 function genFunctionalData() {
@@ -271,7 +272,7 @@ var choice = {
       var selected = _ref.selected;
       return this.$createElement(Icon, {
         attrs: {
-          name: selected ? this.actualSelectedIcon : this.actualIcon
+          name: selected ? this.localSelectedIcon : this.localIcon
         }
       });
     }
@@ -290,35 +291,35 @@ var choice = {
   },
   computed: {
     type: function type() {
-      var actualSelectedValue = this.actualSelectedValue;
-      return _isBoolean(actualSelectedValue) ? AGREE : _isArray(actualSelectedValue) ? CHECKBOX : RADIO;
+      var localSelectedValue = this.localSelectedValue;
+      return _isBoolean(localSelectedValue) ? AGREE : _isArray(localSelectedValue) ? CHECKBOX : RADIO;
     },
     nativeType: function nativeType() {
       return this.type === RADIO ? 'radio' : 'checkbox';
     },
-    actualIcon: function actualIcon() {
+    localIcon: function localIcon() {
       return this.icon || (this.type === RADIO ? 'f-icon-radiobox' : 'f-icon-checkbox');
     },
-    actualSelectedIcon: function actualSelectedIcon() {
+    localSelectedIcon: function localSelectedIcon() {
       return this.selectedIcon || (this.type === RADIO ? 'f-icon-radiobox-checked' : 'f-icon-checkbox-checked');
     },
     selected: function selected() {
       var type = this.type,
-          actualSelectedValue = this.actualSelectedValue,
+          localSelectedValue = this.localSelectedValue,
           value = this.value;
-      return type === CHECKBOX ? actualSelectedValue.indexOf(value) >= 0 : actualSelectedValue === value;
+      return type === CHECKBOX ? localSelectedValue.indexOf(value) >= 0 : localSelectedValue === value;
     }
   },
   methods: {
     handleChange: function handleChange(_ref2) {
       var selected = _ref2.target.checked;
       var type = this.type,
-          actualSelectedValue = this.actualSelectedValue,
+          localSelectedValue = this.localSelectedValue,
           value = this.value;
       var newValue;
 
       if (type === CHECKBOX) {
-        newValue = actualSelectedValue.slice();
+        newValue = localSelectedValue.slice();
 
         if (selected) {
           newValue.push(value);
@@ -707,7 +708,7 @@ var Input = {
         if (this.validator(value, e)) {
           this.syncValue(value);
         } else {
-          e.target.value = this.actualValue;
+          e.target.value = this.localValue;
         }
       } else {
         this.syncValue(value);
@@ -723,7 +724,7 @@ var Input = {
         type: this.type
       },
       domProps: {
-        value: this.actualValue
+        value: this.localValue
       },
       on: (_on = {}, _on[this.lazy ? 'change' : 'input'] = this.handleInput, _on)
     });
@@ -769,10 +770,10 @@ var inputNumber = {
   },
   computed: {
     minusDisabled: function minusDisabled() {
-      return this.disabled || this.actualValue - this.step < this.min;
+      return this.disabled || this.localValue - this.step < this.min;
     },
     plusDisabled: function plusDisabled() {
-      return this.disabled || this.actualValue + this.step > this.max;
+      return this.disabled || this.localValue + this.step > this.max;
     },
     Minus: function Minus() {
       return this.$createElement('a', {
@@ -817,7 +818,7 @@ var inputNumber = {
           validator: this.validateValue
         },
         model: {
-          value: this.actualValue,
+          value: this.localValue,
           callback: this.syncValue
         },
         ref: 'input'
@@ -830,10 +831,10 @@ var inputNumber = {
       return _;
     },
     handleMinus: function handleMinus() {
-      this.syncValue(this.actualValue - this.step);
+      this.syncValue(this.localValue - this.step);
     },
     handlePlus: function handlePlus() {
-      this.syncValue(this.actualValue + this.step);
+      this.syncValue(this.localValue + this.step);
     },
     validateValue: function validateValue(value) {
       return value >= this.min && value <= this.max;
@@ -872,7 +873,7 @@ var select = {
   computed: {
     selectedIndex: function selectedIndex() {
       // eslint-disable-next-line no-negated-condition
-      return this.lastSelectedIndex !== null ? this.lastSelectedIndex : _findIndex(this.data, ['value', this.actualValue]);
+      return this.lastSelectedIndex !== null ? this.lastSelectedIndex : _findIndex(this.data, ['value', this.localValue]);
     },
     Options: function Options() {
       var _this = this;
@@ -968,7 +969,7 @@ var _switch = {
   }
 };
 
-var styles$13 = {"textarea":"f-X9H f-1Xw"};
+var styles$13 = {};
 
 var textarea = {
   name: 'f-textarea',
@@ -985,6 +986,37 @@ var textarea = {
     rows: {
       type: [Number, String],
       default: 2
+    },
+    autoSize: Boolean
+  },
+  methods: {
+    onValueChange: function onValueChange() {
+      this.resize();
+    },
+    resize: function resize() {
+      var _this = this;
+
+      this.$nextTick(function () {
+        var el = _this.$refs.textarea.$el;
+
+        if (_this.autoSize) {
+          if (_this.autoSizeInited) {
+            autoSize.update(el);
+          } else {
+            _this.autoSizeInited = true;
+            autoSize(el);
+          }
+        } else {
+          _this.autoSizeInited = false;
+          autoSize.destroy(el);
+        }
+      });
+    }
+  },
+  watch: {
+    autoSize: {
+      immediate: true,
+      handler: 'resize'
     }
   },
   render: function render(h) {
@@ -995,9 +1027,10 @@ var textarea = {
         rows: this.rows
       }),
       model: {
-        value: this.actualValue,
+        value: this.localValue,
         callback: this.syncValue
-      }
+      },
+      ref: 'textarea'
     });
   }
 };
