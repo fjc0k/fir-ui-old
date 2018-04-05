@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.12.0"></a>
+# [0.12.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.11.0...fir-ui@0.12.0) (2018-04-05)
+
+
+### Features
+
+* **Textarea:** 新增 autoSize 属性 ([d5959ef](https://github.com/fjc0k/fir-ui/commit/d5959ef))
+
+
+
+
 <a name="0.11.0"></a>
 # [0.11.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.10.1...fir-ui@0.11.0) (2018-04-04)
 
