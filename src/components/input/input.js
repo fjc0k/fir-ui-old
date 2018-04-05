@@ -51,7 +51,7 @@ export default {
         if (this.validator(value, e)) {
           this.syncValue(value)
         } else {
-          e.target.value = this.actualValue
+          e.target.value = this.localValue
         }
       } else {
         this.syncValue(value)
@@ -66,7 +66,7 @@ export default {
         type: this.type
       },
       domProps: {
-        value: this.actualValue
+        value: this.localValue
       },
       on: {
         [this.lazy ? 'change' : 'input']: this.handleInput

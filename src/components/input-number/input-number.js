@@ -47,10 +47,10 @@ export default {
 
   computed: {
     minusDisabled() {
-      return this.disabled || (this.actualValue - this.step < this.min)
+      return this.disabled || (this.localValue - this.step < this.min)
     },
     plusDisabled() {
-      return this.disabled || (this.actualValue + this.step > this.max)
+      return this.disabled || (this.localValue + this.step > this.max)
     },
     Minus() {
       return this.$createElement('a', {
@@ -88,7 +88,7 @@ export default {
             validator: this.validateValue
           },
           model: {
-            value: this.actualValue,
+            value: this.localValue,
             callback: this.syncValue
           },
           ref: 'input'
@@ -103,10 +103,10 @@ export default {
       return _
     },
     handleMinus() {
-      this.syncValue(this.actualValue - this.step)
+      this.syncValue(this.localValue - this.step)
     },
     handlePlus() {
-      this.syncValue(this.actualValue + this.step)
+      this.syncValue(this.localValue + this.step)
     },
     validateValue(value) {
       return value >= this.min && value <= this.max

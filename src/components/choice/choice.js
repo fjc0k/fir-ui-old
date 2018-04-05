@@ -23,7 +23,7 @@ export default {
       box({ selected }) {
         return this.$createElement(Icon, {
           attrs: {
-            name: selected ? this.actualSelectedIcon : this.actualIcon
+            name: selected ? this.localSelectedIcon : this.localIcon
           }
         })
       }
@@ -46,11 +46,11 @@ export default {
 
   computed: {
     type() {
-      const { actualSelectedValue } = this
+      const { localSelectedValue } = this
       return (
-        isBoolean(actualSelectedValue) ?
+        isBoolean(localSelectedValue) ?
           AGREE :
-          isArray(actualSelectedValue) ?
+          isArray(localSelectedValue) ?
             CHECKBOX :
             RADIO
       )
@@ -58,14 +58,14 @@ export default {
     nativeType() {
       return this.type === RADIO ? 'radio' : 'checkbox'
     },
-    actualIcon() {
+    localIcon() {
       return this.icon || (
         this.type === RADIO ?
           'f-icon-radiobox' :
           'f-icon-checkbox'
       )
     },
-    actualSelectedIcon() {
+    localSelectedIcon() {
       return this.selectedIcon || (
         this.type === RADIO ?
           'f-icon-radiobox-checked' :
@@ -73,23 +73,23 @@ export default {
       )
     },
     selected() {
-      const { type, actualSelectedValue, value } = this
+      const { type, localSelectedValue, value } = this
       return (
         type === CHECKBOX ?
-          actualSelectedValue.indexOf(value) >= 0 :
-          actualSelectedValue === value
+          localSelectedValue.indexOf(value) >= 0 :
+          localSelectedValue === value
       )
     }
   },
 
   methods: {
     handleChange({ target: { checked: selected } }) {
-      const { type, actualSelectedValue, value } = this
+      const { type, localSelectedValue, value } = this
 
       let newValue
 
       if (type === CHECKBOX) {
-        newValue = actualSelectedValue.slice()
+        newValue = localSelectedValue.slice()
         if (selected) {
           newValue.push(value)
         } else {

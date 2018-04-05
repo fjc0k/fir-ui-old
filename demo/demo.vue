@@ -44,6 +44,9 @@
       <f-field label="姓名">
         <f-input v-model="name" />
       </f-field>
+      <f-field label="姓名2">
+        <f-textarea :autoSize="autoSize" v-model="name" />
+      </f-field>
       <f-field label="等我">
         <f-switch v-model="toggle" />
       </f-field>
@@ -64,7 +67,8 @@ export default {
         { label: '中国', value: '中国' },
         { label: '美国', value: '美国' }
       ],
-      likes: []
+      likes: [],
+      autoSize: true
     }
   }
 }

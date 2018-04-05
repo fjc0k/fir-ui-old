@@ -34,7 +34,7 @@ export default {
       // eslint-disable-next-line no-negated-condition
       return this.lastSelectedIndex !== null ? this.lastSelectedIndex : findIndex(
         this.data,
-        ['value', this.actualValue]
+        ['value', this.localValue]
       )
     },
     Options() {
