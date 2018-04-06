@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.12.0
+ * fir-ui v0.13.0
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -4859,6 +4859,7 @@
       }, this.Groups);
     },
     Loading: function Loading() {
+      // todo
       return this.loading && this.$createElement('div', {
         styleName: 'loading'
       }, 'LOADING');
