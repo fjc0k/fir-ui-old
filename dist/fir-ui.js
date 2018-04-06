@@ -165,9 +165,9 @@
   var _root = root;
 
   /** Built-in value references. */
-  var Symbol = _root.Symbol;
+  var Symbol$1 = _root.Symbol;
 
-  var _Symbol = Symbol;
+  var _Symbol = Symbol$1;
 
   /** Used for built-in method references. */
   var objectProto = Object.prototype;
@@ -1650,6 +1650,42 @@
 
   });
   });
+
+  /** `Object#toString` result references. */
+  var numberTag$1 = '[object Number]';
+
+  /**
+   * Checks if `value` is classified as a `Number` primitive or object.
+   *
+   * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are
+   * classified as numbers, use the `_.isFinite` method.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a number, else `false`.
+   * @example
+   *
+   * _.isNumber(3);
+   * // => true
+   *
+   * _.isNumber(Number.MIN_VALUE);
+   * // => true
+   *
+   * _.isNumber(Infinity);
+   * // => true
+   *
+   * _.isNumber('3');
+   * // => false
+   */
+  function isNumber(value) {
+    return typeof value == 'number' ||
+      (isObjectLike_1(value) && _baseGetTag(value) == numberTag$1);
+  }
+
+  var isNumber_1 = isNumber;
 
   /**
    * The base implementation of `_.slice` without an iteratee call guard.
@@ -4733,30 +4769,135 @@
     }
   };
 
-  /**
-   * The base implementation of `_.findIndex` and `_.findLastIndex` without
-   * support for iteratee shorthands.
-   *
-   * @private
-   * @param {Array} array The array to inspect.
-   * @param {Function} predicate The function invoked per iteration.
-   * @param {number} fromIndex The index to search from.
-   * @param {boolean} [fromRight] Specify iterating from right to left.
-   * @returns {number} Returns the index of the matched value, else `-1`.
-   */
-  function baseFindIndex(array, predicate, fromIndex, fromRight) {
-    var length = array.length,
-        index = fromIndex + (fromRight ? 1 : -1);
+  var styles$11 = {"picker-view":"f-qZH","mask":"f-2vK","indicator":"f-1oq","content":"f-3TD f-1Ac","scroll":"f--Yp","unit":"f-1cr f-m9L","divider":"f-dlO f-m9L","loading":"f-w9F f-m9L","item":"f-2hL","disabled":"f-6PX"};
 
-    while ((fromRight ? index-- : ++index < length)) {
-      if (predicate(array[index], index, array)) {
-        return index;
-      }
+  var mixins = [CSSModules(styles$11), index({
+    prop: 'value',
+    event: 'input'
+  })];
+
+  var props = {
+    // 绑定值
+    value: {
+      type: Array,
+      sync: true
+    },
+    // 选项数据
+    data: {
+      type: Array,
+      required: true
+    },
+    // 分隔符
+    divider: [String, Number, Array],
+    // 单位
+    unit: [String, Number, Array],
+    // 可见的选项个数
+    visibleItemCount: {
+      type: Number,
+      default: 5
+    },
+    // 单个选项的高度
+    itemHeight: {
+      type: String,
+      default: '2em'
+    },
+    // 过滤选项的函数
+    filterItem: Function,
+    // 禁用选项的函数
+    disableItem: Function,
+    // 渲染选项的函数
+    renderItem: Function,
+    // 是否级联数据，即 item 含 children 节点
+    cascaded: Boolean,
+    // 是否异步加载数据中
+    loading: Boolean
+  };
+
+  var data = (function () {
+    return {
+      scrolls: [],
+      localData: [],
+      selectedItems: []
+    };
+  });
+
+  var DIRECTION_DOWN = 0;
+  var DIRECTION_UP = 1;
+  var GROUP_CLASS_NAME = styles$11.group;
+  var ITEM_CLASS_NAME = styles$11.item;
+  var BS_OPTIONS = function BS_OPTIONS(groupIndex) {
+    return {
+      wheel: {
+        selectedIndex: this.findSelectedItemIndex(groupIndex),
+        wheelWrapperClass: GROUP_CLASS_NAME,
+        wheelItemClass: ITEM_CLASS_NAME,
+        rotate: 100 / this.visibleItemCount,
+        adjustTime: 200
+      },
+      observeDOM: false,
+      bindToWrapper: this.visibleItemCount === 1
+    };
+  };
+
+  var computedRenders = {
+    Mask: function Mask() {
+      return this.$createElement('div', {
+        styleName: 'mask',
+        style: this.styles.mask
+      });
+    },
+    Indicator: function Indicator() {
+      return this.$createElement('div', {
+        styleName: 'indicator',
+        style: this.styles.indicator
+      });
+    },
+    Content: function Content() {
+      return this.$createElement('div', {
+        styleName: 'content',
+        style: this.styles.content
+      }, this.Groups);
+    },
+    Loading: function Loading() {
+      return this.loading && this.$createElement('div', {
+        styleName: 'loading'
+      }, 'LOADING');
+    },
+    Groups: function Groups() {
+      var _this = this;
+
+      var h = this.$createElement;
+      return this.localData.map(function (items, groupIndex) {
+        var divider = _this.localDivider[groupIndex];
+        var unit = _this.localUnit[groupIndex];
+        var Items = items.map(function (item, index) {
+          return h('li', {
+            staticClass: ITEM_CLASS_NAME,
+            styleName: ['item', item.disabled && 'disabled'],
+            style: _this.styles.item,
+            key: index
+          }, [item.label]);
+        });
+        var Divider = divider && h('div', {
+          styleName: 'divider'
+        }, [divider]);
+        var Unit = unit && h('div', {
+          styleName: 'unit'
+        }, [unit]);
+        var Loading = groupIndex === _this.groupCount - 1 && _this.Loading;
+        return [h('div', {
+          styleName: 'scroll',
+          style: _this.styles.scroll,
+          ref: 'groups',
+          refInFor: true
+        }, [h('ul', {
+          staticClass: GROUP_CLASS_NAME,
+          styleName: 'group',
+          style: _this.styles.group
+        }, Items)]), Loading || Unit, Divider];
+      });
     }
-    return -1;
-  }
-
-  var _baseFindIndex = baseFindIndex;
+  };
 
   /** Used as references for various `Number` constants. */
   var INFINITY$2 = 1 / 0,
@@ -4834,8 +4975,297 @@
 
   var toInteger_1 = toInteger;
 
+  /**
+   * The base implementation of `_.clamp` which doesn't coerce arguments.
+   *
+   * @private
+   * @param {number} number The number to clamp.
+   * @param {number} [lower] The lower bound.
+   * @param {number} upper The upper bound.
+   * @returns {number} Returns the clamped number.
+   */
+  function baseClamp(number, lower, upper) {
+    if (number === number) {
+      if (upper !== undefined) {
+        number = number <= upper ? number : upper;
+      }
+      if (lower !== undefined) {
+        number = number >= lower ? number : lower;
+      }
+    }
+    return number;
+  }
+
+  var _baseClamp = baseClamp;
+
+  /** Used as references for the maximum length and index of an array. */
+  var MAX_ARRAY_LENGTH = 4294967295;
+
+  /**
+   * Converts `value` to an integer suitable for use as the length of an
+   * array-like object.
+   *
+   * **Note:** This method is based on
+   * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category Lang
+   * @param {*} value The value to convert.
+   * @returns {number} Returns the converted integer.
+   * @example
+   *
+   * _.toLength(3.2);
+   * // => 3
+   *
+   * _.toLength(Number.MIN_VALUE);
+   * // => 0
+   *
+   * _.toLength(Infinity);
+   * // => 4294967295
+   *
+   * _.toLength('3.2');
+   * // => 3
+   */
+  function toLength(value) {
+    return value ? _baseClamp(toInteger_1(value), 0, MAX_ARRAY_LENGTH) : 0;
+  }
+
+  var toLength_1 = toLength;
+
+  /**
+   * The base implementation of `_.fill` without an iteratee call guard.
+   *
+   * @private
+   * @param {Array} array The array to fill.
+   * @param {*} value The value to fill `array` with.
+   * @param {number} [start=0] The start position.
+   * @param {number} [end=array.length] The end position.
+   * @returns {Array} Returns `array`.
+   */
+  function baseFill(array, value, start, end) {
+    var length = array.length;
+
+    start = toInteger_1(start);
+    if (start < 0) {
+      start = -start > length ? 0 : (length + start);
+    }
+    end = (end === undefined || end > length) ? length : toInteger_1(end);
+    if (end < 0) {
+      end += length;
+    }
+    end = start > end ? 0 : toLength_1(end);
+    while (start < end) {
+      array[start++] = value;
+    }
+    return array;
+  }
+
+  var _baseFill = baseFill;
+
+  /**
+   * Checks if the given arguments are from an iteratee call.
+   *
+   * @private
+   * @param {*} value The potential iteratee value argument.
+   * @param {*} index The potential iteratee index or key argument.
+   * @param {*} object The potential iteratee object argument.
+   * @returns {boolean} Returns `true` if the arguments are from an iteratee call,
+   *  else `false`.
+   */
+  function isIterateeCall(value, index, object) {
+    if (!isObject_1(object)) {
+      return false;
+    }
+    var type = typeof index;
+    if (type == 'number'
+          ? (isArrayLike_1(object) && _isIndex(index, object.length))
+          : (type == 'string' && index in object)
+        ) {
+      return eq_1(object[index], value);
+    }
+    return false;
+  }
+
+  var _isIterateeCall = isIterateeCall;
+
+  /**
+   * Fills elements of `array` with `value` from `start` up to, but not
+   * including, `end`.
+   *
+   * **Note:** This method mutates `array`.
+   *
+   * @static
+   * @memberOf _
+   * @since 3.2.0
+   * @category Array
+   * @param {Array} array The array to fill.
+   * @param {*} value The value to fill `array` with.
+   * @param {number} [start=0] The start position.
+   * @param {number} [end=array.length] The end position.
+   * @returns {Array} Returns `array`.
+   * @example
+   *
+   * var array = [1, 2, 3];
+   *
+   * _.fill(array, 'a');
+   * console.log(array);
+   * // => ['a', 'a', 'a']
+   *
+   * _.fill(Array(3), 2);
+   * // => [2, 2, 2]
+   *
+   * _.fill([4, 6, 8, 10], '*', 1, 3);
+   * // => [4, '*', '*', 10]
+   */
+  function fill(array, value, start, end) {
+    var length = array == null ? 0 : array.length;
+    if (!length) {
+      return [];
+    }
+    if (start && typeof start != 'number' && _isIterateeCall(array, value, start)) {
+      start = 0;
+      end = length;
+    }
+    return _baseFill(array, value, start, end);
+  }
+
+  var fill_1 = fill;
+
+  var computedProps = {
+    groupCount: function groupCount() {
+      return this.localData.length;
+    },
+    localDivider: function localDivider() {
+      return isArray_1(this.divider) ? this.divider : fill_1(Array(this.groupCount), this.divider);
+    },
+    localUnit: function localUnit() {
+      return isArray_1(this.unit) ? this.unit : fill_1(Array(this.groupCount), this.unit);
+    },
+    styles: function styles() {
+      var visibleItemCount = this.visibleItemCount,
+          itemHeight = this.itemHeight;
+
+      var _itemHeight$split = itemHeight.split(/(?=([a-zA-Z]{2,}))/, 2),
+          pureItemHeight = _itemHeight$split[0],
+          _itemHeight$split$ = _itemHeight$split[1],
+          unit = _itemHeight$split$ === void 0 ? 'px' : _itemHeight$split$;
+
+      var actualItemHeight = "" + pureItemHeight + unit;
+      var pickerHeight = "" + pureItemHeight * visibleItemCount + unit;
+      var pickerHalfHeight = "" + pureItemHeight * ((visibleItemCount - 1) / 2) + unit;
+      return {
+        mask: {
+          backgroundSize: "100% " + pickerHalfHeight
+        },
+        indicator: {
+          height: actualItemHeight,
+          top: pickerHalfHeight,
+          display: visibleItemCount === 1 ? 'none' : 'block'
+        },
+        content: {
+          height: pickerHeight
+        },
+        scroll: {
+          maxWidth: 100 / this.groupCount + "%"
+        },
+        group: {
+          marginTop: pickerHalfHeight
+        },
+        item: {
+          height: actualItemHeight,
+          lineHeight: actualItemHeight
+        }
+      };
+    }
+  };
+
+  var computed = Object.assign({}, computedRenders, computedProps);
+
+  /**
+   * The base implementation of `_.findIndex` and `_.findLastIndex` without
+   * support for iteratee shorthands.
+   *
+   * @private
+   * @param {Array} array The array to inspect.
+   * @param {Function} predicate The function invoked per iteration.
+   * @param {number} fromIndex The index to search from.
+   * @param {boolean} [fromRight] Specify iterating from right to left.
+   * @returns {number} Returns the index of the matched value, else `-1`.
+   */
+  function baseFindIndex(array, predicate, fromIndex, fromRight) {
+    var length = array.length,
+        index = fromIndex + (fromRight ? 1 : -1);
+
+    while ((fromRight ? index-- : ++index < length)) {
+      if (predicate(array[index], index, array)) {
+        return index;
+      }
+    }
+    return -1;
+  }
+
+  var _baseFindIndex = baseFindIndex;
+
   /* Built-in method references for those with the same name as other `lodash` methods. */
-  var nativeMax = Math.max;
+  var nativeMax = Math.max,
+      nativeMin = Math.min;
+
+  /**
+   * This method is like `_.findIndex` except that it iterates over elements
+   * of `collection` from right to left.
+   *
+   * @static
+   * @memberOf _
+   * @since 2.0.0
+   * @category Array
+   * @param {Array} array The array to inspect.
+   * @param {Function} [predicate=_.identity] The function invoked per iteration.
+   * @param {number} [fromIndex=array.length-1] The index to search from.
+   * @returns {number} Returns the index of the found element, else `-1`.
+   * @example
+   *
+   * var users = [
+   *   { 'user': 'barney',  'active': true },
+   *   { 'user': 'fred',    'active': false },
+   *   { 'user': 'pebbles', 'active': false }
+   * ];
+   *
+   * _.findLastIndex(users, function(o) { return o.user == 'pebbles'; });
+   * // => 2
+   *
+   * // The `_.matches` iteratee shorthand.
+   * _.findLastIndex(users, { 'user': 'barney', 'active': true });
+   * // => 0
+   *
+   * // The `_.matchesProperty` iteratee shorthand.
+   * _.findLastIndex(users, ['active', false]);
+   * // => 2
+   *
+   * // The `_.property` iteratee shorthand.
+   * _.findLastIndex(users, 'active');
+   * // => 0
+   */
+  function findLastIndex(array, predicate, fromIndex) {
+    var length = array == null ? 0 : array.length;
+    if (!length) {
+      return -1;
+    }
+    var index = length - 1;
+    if (fromIndex !== undefined) {
+      index = toInteger_1(fromIndex);
+      index = fromIndex < 0
+        ? nativeMax(length + index, 0)
+        : nativeMin(index, length - 1);
+    }
+    return _baseFindIndex(array, _baseIteratee(predicate, 3), index, true);
+  }
+
+  var findLastIndex_1 = findLastIndex;
+
+  /* Built-in method references for those with the same name as other `lodash` methods. */
+  var nativeMax$1 = Math.max;
 
   /**
    * This method is like `_.find` except that it returns the index of the first
@@ -4879,21 +5309,3847 @@
     }
     var index = fromIndex == null ? 0 : toInteger_1(fromIndex);
     if (index < 0) {
-      index = nativeMax(length + index, 0);
+      index = nativeMax$1(length + index, 0);
     }
     return _baseFindIndex(array, _baseIteratee(predicate, 3), index);
   }
 
   var findIndex_1 = findIndex;
 
-  var styles$11 = {"select":"f-1rW f-1Xw"};
+  function findAvailableItemIndex (items, currentItemIndex, direction) {
+    if (items[currentItemIndex] && !items[currentItemIndex].disabled) {
+      return currentItemIndex;
+    }
+
+    var newIndex;
+
+    var findDown = function findDown() {
+      return findIndex_1(items, function (item) {
+        return !item.disabled;
+      }, currentItemIndex);
+    };
+
+    var findUp = function findUp() {
+      return findLastIndex_1(items.slice(0, currentItemIndex), function (item) {
+        return !item.disabled;
+      });
+    };
+
+    if (direction === DIRECTION_DOWN) {
+      newIndex = findDown();
+
+      if (newIndex === -1) {
+        newIndex = findUp();
+      }
+    } else if (direction === DIRECTION_UP) {
+      newIndex = findUp();
+
+      if (newIndex === -1) {
+        newIndex = findDown();
+      }
+    }
+
+    newIndex = newIndex === -1 ? currentItemIndex : newIndex;
+    return newIndex;
+  }
+
+  /**
+   * Checks if `value` is `null` or `undefined`.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is nullish, else `false`.
+   * @example
+   *
+   * _.isNil(null);
+   * // => true
+   *
+   * _.isNil(void 0);
+   * // => true
+   *
+   * _.isNil(NaN);
+   * // => false
+   */
+  function isNil(value) {
+    return value == null;
+  }
+
+  var isNil_1 = isNil;
+
+  function findSelectedItemIndex (groupIndex, ignoreCache) {
+    var findAvailableItemIndex = this.findAvailableItemIndex,
+        selectedItems = this.selectedItems,
+        localData = this.localData,
+        localValue = this.localValue;
+    var itemCount = localData[groupIndex].length;
+    var selectedItemIndex = -1; // 1. 从缓存的选值中找
+
+    if (!ignoreCache && selectedItems[groupIndex]) {
+      selectedItemIndex = selectedItems[groupIndex].index;
+    } // 2. 从传入的绑定值中找
+
+
+    if (selectedItemIndex === -1 && !isNil_1(localValue[groupIndex])) {
+      selectedItemIndex = findIndex_1(localData[groupIndex], function (item) {
+        return item.value === localValue[groupIndex];
+      });
+    } // 3. 若未找到，直接找一个可用值；若找到，确保其可用
+
+
+    selectedItemIndex = findAvailableItemIndex(localData[groupIndex], selectedItemIndex <= 0 ? 0 : selectedItemIndex >= itemCount ? itemCount - 1 : selectedItemIndex, DIRECTION_DOWN);
+    return selectedItemIndex;
+  }
+
+  /**
+   * A specialized version of `_.forEach` for arrays without support for
+   * iteratee shorthands.
+   *
+   * @private
+   * @param {Array} [array] The array to iterate over.
+   * @param {Function} iteratee The function invoked per iteration.
+   * @returns {Array} Returns `array`.
+   */
+  function arrayEach(array, iteratee) {
+    var index = -1,
+        length = array == null ? 0 : array.length;
+
+    while (++index < length) {
+      if (iteratee(array[index], index, array) === false) {
+        break;
+      }
+    }
+    return array;
+  }
+
+  var _arrayEach = arrayEach;
+
+  var defineProperty = (function() {
+    try {
+      var func = _getNative(Object, 'defineProperty');
+      func({}, '', {});
+      return func;
+    } catch (e) {}
+  }());
+
+  var _defineProperty = defineProperty;
+
+  /**
+   * The base implementation of `assignValue` and `assignMergeValue` without
+   * value checks.
+   *
+   * @private
+   * @param {Object} object The object to modify.
+   * @param {string} key The key of the property to assign.
+   * @param {*} value The value to assign.
+   */
+  function baseAssignValue(object, key, value) {
+    if (key == '__proto__' && _defineProperty) {
+      _defineProperty(object, key, {
+        'configurable': true,
+        'enumerable': true,
+        'value': value,
+        'writable': true
+      });
+    } else {
+      object[key] = value;
+    }
+  }
+
+  var _baseAssignValue = baseAssignValue;
+
+  /** Used for built-in method references. */
+  var objectProto$12 = Object.prototype;
+
+  /** Used to check objects for own properties. */
+  var hasOwnProperty$9 = objectProto$12.hasOwnProperty;
+
+  /**
+   * Assigns `value` to `key` of `object` if the existing value is not equivalent
+   * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+   * for equality comparisons.
+   *
+   * @private
+   * @param {Object} object The object to modify.
+   * @param {string} key The key of the property to assign.
+   * @param {*} value The value to assign.
+   */
+  function assignValue(object, key, value) {
+    var objValue = object[key];
+    if (!(hasOwnProperty$9.call(object, key) && eq_1(objValue, value)) ||
+        (value === undefined && !(key in object))) {
+      _baseAssignValue(object, key, value);
+    }
+  }
+
+  var _assignValue = assignValue;
+
+  /**
+   * Copies properties of `source` to `object`.
+   *
+   * @private
+   * @param {Object} source The object to copy properties from.
+   * @param {Array} props The property identifiers to copy.
+   * @param {Object} [object={}] The object to copy properties to.
+   * @param {Function} [customizer] The function to customize copied values.
+   * @returns {Object} Returns `object`.
+   */
+  function copyObject(source, props, object, customizer) {
+    var isNew = !object;
+    object || (object = {});
+
+    var index = -1,
+        length = props.length;
+
+    while (++index < length) {
+      var key = props[index];
+
+      var newValue = customizer
+        ? customizer(object[key], source[key], key, object, source)
+        : undefined;
+
+      if (newValue === undefined) {
+        newValue = source[key];
+      }
+      if (isNew) {
+        _baseAssignValue(object, key, newValue);
+      } else {
+        _assignValue(object, key, newValue);
+      }
+    }
+    return object;
+  }
+
+  var _copyObject = copyObject;
+
+  /**
+   * The base implementation of `_.assign` without support for multiple sources
+   * or `customizer` functions.
+   *
+   * @private
+   * @param {Object} object The destination object.
+   * @param {Object} source The source object.
+   * @returns {Object} Returns `object`.
+   */
+  function baseAssign(object, source) {
+    return object && _copyObject(source, keys_1(source), object);
+  }
+
+  var _baseAssign = baseAssign;
+
+  /**
+   * This function is like
+   * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+   * except that it includes inherited enumerable properties.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names.
+   */
+  function nativeKeysIn(object) {
+    var result = [];
+    if (object != null) {
+      for (var key in Object(object)) {
+        result.push(key);
+      }
+    }
+    return result;
+  }
+
+  var _nativeKeysIn = nativeKeysIn;
+
+  /** Used for built-in method references. */
+  var objectProto$13 = Object.prototype;
+
+  /** Used to check objects for own properties. */
+  var hasOwnProperty$10 = objectProto$13.hasOwnProperty;
+
+  /**
+   * The base implementation of `_.keysIn` which doesn't treat sparse arrays as dense.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names.
+   */
+  function baseKeysIn(object) {
+    if (!isObject_1(object)) {
+      return _nativeKeysIn(object);
+    }
+    var isProto = _isPrototype(object),
+        result = [];
+
+    for (var key in object) {
+      if (!(key == 'constructor' && (isProto || !hasOwnProperty$10.call(object, key)))) {
+        result.push(key);
+      }
+    }
+    return result;
+  }
+
+  var _baseKeysIn = baseKeysIn;
+
+  /**
+   * Creates an array of the own and inherited enumerable property names of `object`.
+   *
+   * **Note:** Non-object values are coerced to objects.
+   *
+   * @static
+   * @memberOf _
+   * @since 3.0.0
+   * @category Object
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names.
+   * @example
+   *
+   * function Foo() {
+   *   this.a = 1;
+   *   this.b = 2;
+   * }
+   *
+   * Foo.prototype.c = 3;
+   *
+   * _.keysIn(new Foo);
+   * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+   */
+  function keysIn$1(object) {
+    return isArrayLike_1(object) ? _arrayLikeKeys(object, true) : _baseKeysIn(object);
+  }
+
+  var keysIn_1 = keysIn$1;
+
+  /**
+   * The base implementation of `_.assignIn` without support for multiple sources
+   * or `customizer` functions.
+   *
+   * @private
+   * @param {Object} object The destination object.
+   * @param {Object} source The source object.
+   * @returns {Object} Returns `object`.
+   */
+  function baseAssignIn(object, source) {
+    return object && _copyObject(source, keysIn_1(source), object);
+  }
+
+  var _baseAssignIn = baseAssignIn;
+
+  var _cloneBuffer = createCommonjsModule(function (module, exports) {
+  /** Detect free variable `exports`. */
+  var freeExports = 'object' == 'object' && exports && !exports.nodeType && exports;
+
+  /** Detect free variable `module`. */
+  var freeModule = freeExports && 'object' == 'object' && module && !module.nodeType && module;
+
+  /** Detect the popular CommonJS extension `module.exports`. */
+  var moduleExports = freeModule && freeModule.exports === freeExports;
+
+  /** Built-in value references. */
+  var Buffer = moduleExports ? _root.Buffer : undefined,
+      allocUnsafe = Buffer ? Buffer.allocUnsafe : undefined;
+
+  /**
+   * Creates a clone of  `buffer`.
+   *
+   * @private
+   * @param {Buffer} buffer The buffer to clone.
+   * @param {boolean} [isDeep] Specify a deep clone.
+   * @returns {Buffer} Returns the cloned buffer.
+   */
+  function cloneBuffer(buffer, isDeep) {
+    if (isDeep) {
+      return buffer.slice();
+    }
+    var length = buffer.length,
+        result = allocUnsafe ? allocUnsafe(length) : new buffer.constructor(length);
+
+    buffer.copy(result);
+    return result;
+  }
+
+  module.exports = cloneBuffer;
+  });
+
+  /**
+   * Copies the values of `source` to `array`.
+   *
+   * @private
+   * @param {Array} source The array to copy values from.
+   * @param {Array} [array=[]] The array to copy values to.
+   * @returns {Array} Returns `array`.
+   */
+  function copyArray(source, array) {
+    var index = -1,
+        length = source.length;
+
+    array || (array = Array(length));
+    while (++index < length) {
+      array[index] = source[index];
+    }
+    return array;
+  }
+
+  var _copyArray = copyArray;
+
+  /**
+   * Copies own symbols of `source` to `object`.
+   *
+   * @private
+   * @param {Object} source The object to copy symbols from.
+   * @param {Object} [object={}] The object to copy symbols to.
+   * @returns {Object} Returns `object`.
+   */
+  function copySymbols(source, object) {
+    return _copyObject(source, _getSymbols(source), object);
+  }
+
+  var _copySymbols = copySymbols;
+
+  /** Built-in value references. */
+  var getPrototype = _overArg(Object.getPrototypeOf, Object);
+
+  var _getPrototype = getPrototype;
+
+  /* Built-in method references for those with the same name as other `lodash` methods. */
+  var nativeGetSymbols$1 = Object.getOwnPropertySymbols;
+
+  /**
+   * Creates an array of the own and inherited enumerable symbols of `object`.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of symbols.
+   */
+  var getSymbolsIn = !nativeGetSymbols$1 ? stubArray_1 : function(object) {
+    var result = [];
+    while (object) {
+      _arrayPush(result, _getSymbols(object));
+      object = _getPrototype(object);
+    }
+    return result;
+  };
+
+  var _getSymbolsIn = getSymbolsIn;
+
+  /**
+   * Copies own and inherited symbols of `source` to `object`.
+   *
+   * @private
+   * @param {Object} source The object to copy symbols from.
+   * @param {Object} [object={}] The object to copy symbols to.
+   * @returns {Object} Returns `object`.
+   */
+  function copySymbolsIn(source, object) {
+    return _copyObject(source, _getSymbolsIn(source), object);
+  }
+
+  var _copySymbolsIn = copySymbolsIn;
+
+  /**
+   * Creates an array of own and inherited enumerable property names and
+   * symbols of `object`.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names and symbols.
+   */
+  function getAllKeysIn(object) {
+    return _baseGetAllKeys(object, keysIn_1, _getSymbolsIn);
+  }
+
+  var _getAllKeysIn = getAllKeysIn;
+
+  /** Used for built-in method references. */
+  var objectProto$14 = Object.prototype;
+
+  /** Used to check objects for own properties. */
+  var hasOwnProperty$11 = objectProto$14.hasOwnProperty;
+
+  /**
+   * Initializes an array clone.
+   *
+   * @private
+   * @param {Array} array The array to clone.
+   * @returns {Array} Returns the initialized clone.
+   */
+  function initCloneArray(array) {
+    var length = array.length,
+        result = new array.constructor(length);
+
+    // Add properties assigned by `RegExp#exec`.
+    if (length && typeof array[0] == 'string' && hasOwnProperty$11.call(array, 'index')) {
+      result.index = array.index;
+      result.input = array.input;
+    }
+    return result;
+  }
+
+  var _initCloneArray = initCloneArray;
+
+  /**
+   * Creates a clone of `arrayBuffer`.
+   *
+   * @private
+   * @param {ArrayBuffer} arrayBuffer The array buffer to clone.
+   * @returns {ArrayBuffer} Returns the cloned array buffer.
+   */
+  function cloneArrayBuffer(arrayBuffer) {
+    var result = new arrayBuffer.constructor(arrayBuffer.byteLength);
+    new _Uint8Array(result).set(new _Uint8Array(arrayBuffer));
+    return result;
+  }
+
+  var _cloneArrayBuffer = cloneArrayBuffer;
+
+  /**
+   * Creates a clone of `dataView`.
+   *
+   * @private
+   * @param {Object} dataView The data view to clone.
+   * @param {boolean} [isDeep] Specify a deep clone.
+   * @returns {Object} Returns the cloned data view.
+   */
+  function cloneDataView(dataView, isDeep) {
+    var buffer = isDeep ? _cloneArrayBuffer(dataView.buffer) : dataView.buffer;
+    return new dataView.constructor(buffer, dataView.byteOffset, dataView.byteLength);
+  }
+
+  var _cloneDataView = cloneDataView;
+
+  /** Used to match `RegExp` flags from their coerced string values. */
+  var reFlags = /\w*$/;
+
+  /**
+   * Creates a clone of `regexp`.
+   *
+   * @private
+   * @param {Object} regexp The regexp to clone.
+   * @returns {Object} Returns the cloned regexp.
+   */
+  function cloneRegExp(regexp) {
+    var result = new regexp.constructor(regexp.source, reFlags.exec(regexp));
+    result.lastIndex = regexp.lastIndex;
+    return result;
+  }
+
+  var _cloneRegExp = cloneRegExp;
+
+  /** Used to convert symbols to primitives and strings. */
+  var symbolProto$2 = _Symbol ? _Symbol.prototype : undefined,
+      symbolValueOf$1 = symbolProto$2 ? symbolProto$2.valueOf : undefined;
+
+  /**
+   * Creates a clone of the `symbol` object.
+   *
+   * @private
+   * @param {Object} symbol The symbol object to clone.
+   * @returns {Object} Returns the cloned symbol object.
+   */
+  function cloneSymbol(symbol) {
+    return symbolValueOf$1 ? Object(symbolValueOf$1.call(symbol)) : {};
+  }
+
+  var _cloneSymbol = cloneSymbol;
+
+  /**
+   * Creates a clone of `typedArray`.
+   *
+   * @private
+   * @param {Object} typedArray The typed array to clone.
+   * @param {boolean} [isDeep] Specify a deep clone.
+   * @returns {Object} Returns the cloned typed array.
+   */
+  function cloneTypedArray(typedArray, isDeep) {
+    var buffer = isDeep ? _cloneArrayBuffer(typedArray.buffer) : typedArray.buffer;
+    return new typedArray.constructor(buffer, typedArray.byteOffset, typedArray.length);
+  }
+
+  var _cloneTypedArray = cloneTypedArray;
+
+  /** `Object#toString` result references. */
+  var boolTag$3 = '[object Boolean]',
+      dateTag$2 = '[object Date]',
+      mapTag$3 = '[object Map]',
+      numberTag$3 = '[object Number]',
+      regexpTag$2 = '[object RegExp]',
+      setTag$3 = '[object Set]',
+      stringTag$3 = '[object String]',
+      symbolTag$2 = '[object Symbol]';
+
+  var arrayBufferTag$2 = '[object ArrayBuffer]',
+      dataViewTag$3 = '[object DataView]',
+      float32Tag$1 = '[object Float32Array]',
+      float64Tag$1 = '[object Float64Array]',
+      int8Tag$1 = '[object Int8Array]',
+      int16Tag$1 = '[object Int16Array]',
+      int32Tag$1 = '[object Int32Array]',
+      uint8Tag$1 = '[object Uint8Array]',
+      uint8ClampedTag$1 = '[object Uint8ClampedArray]',
+      uint16Tag$1 = '[object Uint16Array]',
+      uint32Tag$1 = '[object Uint32Array]';
+
+  /**
+   * Initializes an object clone based on its `toStringTag`.
+   *
+   * **Note:** This function only supports cloning values with tags of
+   * `Boolean`, `Date`, `Error`, `Map`, `Number`, `RegExp`, `Set`, or `String`.
+   *
+   * @private
+   * @param {Object} object The object to clone.
+   * @param {string} tag The `toStringTag` of the object to clone.
+   * @param {boolean} [isDeep] Specify a deep clone.
+   * @returns {Object} Returns the initialized clone.
+   */
+  function initCloneByTag(object, tag, isDeep) {
+    var Ctor = object.constructor;
+    switch (tag) {
+      case arrayBufferTag$2:
+        return _cloneArrayBuffer(object);
+
+      case boolTag$3:
+      case dateTag$2:
+        return new Ctor(+object);
+
+      case dataViewTag$3:
+        return _cloneDataView(object, isDeep);
+
+      case float32Tag$1: case float64Tag$1:
+      case int8Tag$1: case int16Tag$1: case int32Tag$1:
+      case uint8Tag$1: case uint8ClampedTag$1: case uint16Tag$1: case uint32Tag$1:
+        return _cloneTypedArray(object, isDeep);
+
+      case mapTag$3:
+        return new Ctor;
+
+      case numberTag$3:
+      case stringTag$3:
+        return new Ctor(object);
+
+      case regexpTag$2:
+        return _cloneRegExp(object);
+
+      case setTag$3:
+        return new Ctor;
+
+      case symbolTag$2:
+        return _cloneSymbol(object);
+    }
+  }
+
+  var _initCloneByTag = initCloneByTag;
+
+  /** Built-in value references. */
+  var objectCreate = Object.create;
+
+  /**
+   * The base implementation of `_.create` without support for assigning
+   * properties to the created object.
+   *
+   * @private
+   * @param {Object} proto The object to inherit from.
+   * @returns {Object} Returns the new object.
+   */
+  var baseCreate = (function() {
+    function object() {}
+    return function(proto) {
+      if (!isObject_1(proto)) {
+        return {};
+      }
+      if (objectCreate) {
+        return objectCreate(proto);
+      }
+      object.prototype = proto;
+      var result = new object;
+      object.prototype = undefined;
+      return result;
+    };
+  }());
+
+  var _baseCreate = baseCreate;
+
+  /**
+   * Initializes an object clone.
+   *
+   * @private
+   * @param {Object} object The object to clone.
+   * @returns {Object} Returns the initialized clone.
+   */
+  function initCloneObject(object) {
+    return (typeof object.constructor == 'function' && !_isPrototype(object))
+      ? _baseCreate(_getPrototype(object))
+      : {};
+  }
+
+  var _initCloneObject = initCloneObject;
+
+  /** `Object#toString` result references. */
+  var mapTag$4 = '[object Map]';
+
+  /**
+   * The base implementation of `_.isMap` without Node.js optimizations.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a map, else `false`.
+   */
+  function baseIsMap(value) {
+    return isObjectLike_1(value) && _getTag(value) == mapTag$4;
+  }
+
+  var _baseIsMap = baseIsMap;
+
+  /* Node.js helper references. */
+  var nodeIsMap = _nodeUtil && _nodeUtil.isMap;
+
+  /**
+   * Checks if `value` is classified as a `Map` object.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.3.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a map, else `false`.
+   * @example
+   *
+   * _.isMap(new Map);
+   * // => true
+   *
+   * _.isMap(new WeakMap);
+   * // => false
+   */
+  var isMap = nodeIsMap ? _baseUnary(nodeIsMap) : _baseIsMap;
+
+  var isMap_1 = isMap;
+
+  /** `Object#toString` result references. */
+  var setTag$4 = '[object Set]';
+
+  /**
+   * The base implementation of `_.isSet` without Node.js optimizations.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a set, else `false`.
+   */
+  function baseIsSet(value) {
+    return isObjectLike_1(value) && _getTag(value) == setTag$4;
+  }
+
+  var _baseIsSet = baseIsSet;
+
+  /* Node.js helper references. */
+  var nodeIsSet = _nodeUtil && _nodeUtil.isSet;
+
+  /**
+   * Checks if `value` is classified as a `Set` object.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.3.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a set, else `false`.
+   * @example
+   *
+   * _.isSet(new Set);
+   * // => true
+   *
+   * _.isSet(new WeakSet);
+   * // => false
+   */
+  var isSet = nodeIsSet ? _baseUnary(nodeIsSet) : _baseIsSet;
+
+  var isSet_1 = isSet;
+
+  /** Used to compose bitmasks for cloning. */
+  var CLONE_DEEP_FLAG = 1,
+      CLONE_FLAT_FLAG = 2,
+      CLONE_SYMBOLS_FLAG = 4;
+
+  /** `Object#toString` result references. */
+  var argsTag$3 = '[object Arguments]',
+      arrayTag$2 = '[object Array]',
+      boolTag$4 = '[object Boolean]',
+      dateTag$3 = '[object Date]',
+      errorTag$2 = '[object Error]',
+      funcTag$2 = '[object Function]',
+      genTag$1 = '[object GeneratorFunction]',
+      mapTag$5 = '[object Map]',
+      numberTag$4 = '[object Number]',
+      objectTag$3 = '[object Object]',
+      regexpTag$3 = '[object RegExp]',
+      setTag$5 = '[object Set]',
+      stringTag$4 = '[object String]',
+      symbolTag$3 = '[object Symbol]',
+      weakMapTag$2 = '[object WeakMap]';
+
+  var arrayBufferTag$3 = '[object ArrayBuffer]',
+      dataViewTag$4 = '[object DataView]',
+      float32Tag$2 = '[object Float32Array]',
+      float64Tag$2 = '[object Float64Array]',
+      int8Tag$2 = '[object Int8Array]',
+      int16Tag$2 = '[object Int16Array]',
+      int32Tag$2 = '[object Int32Array]',
+      uint8Tag$2 = '[object Uint8Array]',
+      uint8ClampedTag$2 = '[object Uint8ClampedArray]',
+      uint16Tag$2 = '[object Uint16Array]',
+      uint32Tag$2 = '[object Uint32Array]';
+
+  /** Used to identify `toStringTag` values supported by `_.clone`. */
+  var cloneableTags = {};
+  cloneableTags[argsTag$3] = cloneableTags[arrayTag$2] =
+  cloneableTags[arrayBufferTag$3] = cloneableTags[dataViewTag$4] =
+  cloneableTags[boolTag$4] = cloneableTags[dateTag$3] =
+  cloneableTags[float32Tag$2] = cloneableTags[float64Tag$2] =
+  cloneableTags[int8Tag$2] = cloneableTags[int16Tag$2] =
+  cloneableTags[int32Tag$2] = cloneableTags[mapTag$5] =
+  cloneableTags[numberTag$4] = cloneableTags[objectTag$3] =
+  cloneableTags[regexpTag$3] = cloneableTags[setTag$5] =
+  cloneableTags[stringTag$4] = cloneableTags[symbolTag$3] =
+  cloneableTags[uint8Tag$2] = cloneableTags[uint8ClampedTag$2] =
+  cloneableTags[uint16Tag$2] = cloneableTags[uint32Tag$2] = true;
+  cloneableTags[errorTag$2] = cloneableTags[funcTag$2] =
+  cloneableTags[weakMapTag$2] = false;
+
+  /**
+   * The base implementation of `_.clone` and `_.cloneDeep` which tracks
+   * traversed objects.
+   *
+   * @private
+   * @param {*} value The value to clone.
+   * @param {boolean} bitmask The bitmask flags.
+   *  1 - Deep clone
+   *  2 - Flatten inherited properties
+   *  4 - Clone symbols
+   * @param {Function} [customizer] The function to customize cloning.
+   * @param {string} [key] The key of `value`.
+   * @param {Object} [object] The parent object of `value`.
+   * @param {Object} [stack] Tracks traversed objects and their clone counterparts.
+   * @returns {*} Returns the cloned value.
+   */
+  function baseClone(value, bitmask, customizer, key, object, stack) {
+    var result,
+        isDeep = bitmask & CLONE_DEEP_FLAG,
+        isFlat = bitmask & CLONE_FLAT_FLAG,
+        isFull = bitmask & CLONE_SYMBOLS_FLAG;
+
+    if (customizer) {
+      result = object ? customizer(value, key, object, stack) : customizer(value);
+    }
+    if (result !== undefined) {
+      return result;
+    }
+    if (!isObject_1(value)) {
+      return value;
+    }
+    var isArr = isArray_1(value);
+    if (isArr) {
+      result = _initCloneArray(value);
+      if (!isDeep) {
+        return _copyArray(value, result);
+      }
+    } else {
+      var tag = _getTag(value),
+          isFunc = tag == funcTag$2 || tag == genTag$1;
+
+      if (isBuffer_1(value)) {
+        return _cloneBuffer(value, isDeep);
+      }
+      if (tag == objectTag$3 || tag == argsTag$3 || (isFunc && !object)) {
+        result = (isFlat || isFunc) ? {} : _initCloneObject(value);
+        if (!isDeep) {
+          return isFlat
+            ? _copySymbolsIn(value, _baseAssignIn(result, value))
+            : _copySymbols(value, _baseAssign(result, value));
+        }
+      } else {
+        if (!cloneableTags[tag]) {
+          return object ? value : {};
+        }
+        result = _initCloneByTag(value, tag, isDeep);
+      }
+    }
+    // Check for circular references and return its corresponding clone.
+    stack || (stack = new _Stack);
+    var stacked = stack.get(value);
+    if (stacked) {
+      return stacked;
+    }
+    stack.set(value, result);
+
+    if (isSet_1(value)) {
+      value.forEach(function(subValue) {
+        result.add(baseClone(subValue, bitmask, customizer, subValue, value, stack));
+      });
+
+      return result;
+    }
+
+    if (isMap_1(value)) {
+      value.forEach(function(subValue, key) {
+        result.set(key, baseClone(subValue, bitmask, customizer, key, value, stack));
+      });
+
+      return result;
+    }
+
+    var keysFunc = isFull
+      ? (isFlat ? _getAllKeysIn : _getAllKeys)
+      : (isFlat ? keysIn : keys_1);
+
+    var props = isArr ? undefined : keysFunc(value);
+    _arrayEach(props || value, function(subValue, key) {
+      if (props) {
+        key = subValue;
+        subValue = value[key];
+      }
+      // Recursively populate clone (susceptible to call stack limits).
+      _assignValue(result, key, baseClone(subValue, bitmask, customizer, key, value, stack));
+    });
+    return result;
+  }
+
+  var _baseClone = baseClone;
+
+  /** Used to compose bitmasks for cloning. */
+  var CLONE_SYMBOLS_FLAG$1 = 4;
+
+  /**
+   * Creates a shallow clone of `value`.
+   *
+   * **Note:** This method is loosely based on the
+   * [structured clone algorithm](https://mdn.io/Structured_clone_algorithm)
+   * and supports cloning arrays, array buffers, booleans, date objects, maps,
+   * numbers, `Object` objects, regexes, sets, strings, symbols, and typed
+   * arrays. The own enumerable properties of `arguments` objects are cloned
+   * as plain objects. An empty object is returned for uncloneable values such
+   * as error objects, functions, DOM nodes, and WeakMaps.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Lang
+   * @param {*} value The value to clone.
+   * @returns {*} Returns the cloned value.
+   * @see _.cloneDeep
+   * @example
+   *
+   * var objects = [{ 'a': 1 }, { 'b': 2 }];
+   *
+   * var shallow = _.clone(objects);
+   * console.log(shallow[0] === objects[0]);
+   * // => true
+   */
+  function clone(value) {
+    return _baseClone(value, CLONE_SYMBOLS_FLAG$1);
+  }
+
+  var clone_1 = clone;
+
+  function processData(items, groupIndex) {
+    var filterItem = this.filterItem,
+        disableItem = this.disableItem,
+        renderItem = this.renderItem;
+    var newItems = [];
+
+    for (var itemIndex = 0, len = items.length; itemIndex < len; itemIndex++) {
+      var item = clone_1(items[itemIndex]);
+
+      var payload = {
+        groupIndex: groupIndex,
+        itemIndex: itemIndex,
+        item: item
+      };
+
+      if (filterItem) {
+        if (!filterItem(payload)) continue;
+      }
+
+      if (disableItem && disableItem(payload)) {
+        item.disabled = true;
+      }
+
+      if (renderItem) {
+        var label = renderItem(payload);
+
+        if (label) {
+          item.label = label;
+        }
+      }
+
+      if (isArray_1(item.children) && item.children.length) {
+        item.children = processData.call(this, item.children, groupIndex + 1);
+      }
+
+      newItems.push(item);
+    }
+
+    return newItems;
+  }
+
+  function onDataChange (data) {
+    if (this.cascaded) {
+      this.localData = [this.processData(data, 0)];
+    } else {
+      this.localData = data.map(this.processData);
+    }
+  }
+
+  /*!
+   * better-normal-scroll v1.9.1
+   * (c) 2016-2018 ustbhuangyi
+   * Released under the MIT License.
+   */
+  var slicedToArray = function () {
+    function sliceIterator(arr, i) {
+      var _arr = [];
+      var _n = true;
+      var _d = false;
+      var _e = undefined;
+
+      try {
+        for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+          _arr.push(_s.value);
+
+          if (i && _arr.length === i) break;
+        }
+      } catch (err) {
+        _d = true;
+        _e = err;
+      } finally {
+        try {
+          if (!_n && _i["return"]) _i["return"]();
+        } finally {
+          if (_d) throw _e;
+        }
+      }
+
+      return _arr;
+    }
+
+    return function (arr, i) {
+      if (Array.isArray(arr)) {
+        return arr;
+      } else if (Symbol.iterator in Object(arr)) {
+        return sliceIterator(arr, i);
+      } else {
+        throw new TypeError("Invalid attempt to destructure non-iterable instance");
+      }
+    };
+  }();
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var toConsumableArray = function (arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+      return arr2;
+    } else {
+      return Array.from(arr);
+    }
+  };
+
+  function eventMixin(BScroll) {
+    BScroll.prototype.on = function (type, fn) {
+      var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
+
+      if (!this._events[type]) {
+        this._events[type] = [];
+      }
+
+      this._events[type].push([fn, context]);
+    };
+
+    BScroll.prototype.once = function (type, fn) {
+      var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
+
+      function magic() {
+        this.off(type, magic);
+
+        fn.apply(context, arguments);
+      }
+      // To expose the corresponding function method in order to execute the off method
+      magic.fn = fn;
+
+      this.on(type, magic);
+    };
+
+    BScroll.prototype.off = function (type, fn) {
+      var _events = this._events[type];
+      if (!_events) {
+        return;
+      }
+
+      var count = _events.length;
+      while (count--) {
+        if (_events[count][0] === fn || _events[count][0] && _events[count][0].fn === fn) {
+          _events[count][0] = undefined;
+        }
+      }
+    };
+
+    BScroll.prototype.trigger = function (type) {
+      var events = this._events[type];
+      if (!events) {
+        return;
+      }
+
+      var len = events.length;
+      var eventsCopy = [].concat(toConsumableArray(events));
+      for (var i = 0; i < len; i++) {
+        var event = eventsCopy[i];
+
+        var _event = slicedToArray(event, 2),
+            fn = _event[0],
+            context = _event[1];
+
+        if (fn) {
+          fn.apply(context, [].slice.call(arguments, 1));
+        }
+      }
+    };
+  }
+
+  // ssr support
+  var inBrowser = typeof window !== 'undefined';
+  var ua = inBrowser && navigator.userAgent.toLowerCase();
+  var isWeChatDevTools = ua && /wechatdevtools/.test(ua);
+  var isAndroid = ua && ua.indexOf('android') > 0;
+
+  function getNow() {
+    return window.performance && window.performance.now ? window.performance.now() + window.performance.timing.navigationStart : +new Date();
+  }
+
+  function extend(target) {
+    for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      rest[_key - 1] = arguments[_key];
+    }
+
+    for (var i = 0; i < rest.length; i++) {
+      var source = rest[i];
+      for (var key in source) {
+        target[key] = source[key];
+      }
+    }
+    return target;
+  }
+
+  function isUndef(v) {
+    return v === undefined || v === null;
+  }
+
+  var elementStyle = inBrowser && document.createElement('div').style;
+
+  var vendor = function () {
+    if (!inBrowser) {
+      return false;
+    }
+    var transformNames = {
+      webkit: 'webkitTransform',
+      Moz: 'MozTransform',
+      O: 'OTransform',
+      ms: 'msTransform',
+      standard: 'transform'
+    };
+
+    for (var key in transformNames) {
+      if (elementStyle[transformNames[key]] !== undefined) {
+        return key;
+      }
+    }
+
+    return false;
+  }();
+
+  function prefixStyle(style) {
+    if (vendor === false) {
+      return false;
+    }
+
+    if (vendor === 'standard') {
+      if (style === 'transitionEnd') {
+        return 'transitionend';
+      }
+      return style;
+    }
+
+    return vendor + style.charAt(0).toUpperCase() + style.substr(1);
+  }
+
+  function addEvent(el, type, fn, capture) {
+    el.addEventListener(type, fn, { passive: false, capture: !!capture });
+  }
+
+  function removeEvent(el, type, fn, capture) {
+    el.removeEventListener(type, fn, { passive: false, capture: !!capture });
+  }
+
+  function offset(el) {
+    var left = 0;
+    var top = 0;
+
+    while (el) {
+      left -= el.offsetLeft;
+      top -= el.offsetTop;
+      el = el.offsetParent;
+    }
+
+    return {
+      left: left,
+      top: top
+    };
+  }
+
+  var transform = prefixStyle('transform');
+
+  var hasPerspective = inBrowser && prefixStyle('perspective') in elementStyle;
+  // fix issue #361
+  var hasTouch = inBrowser && ('ontouchstart' in window || isWeChatDevTools);
+  var hasTransform = transform !== false;
+  var hasTransition = inBrowser && prefixStyle('transition') in elementStyle;
+
+  var style = {
+    transform: transform,
+    transitionTimingFunction: prefixStyle('transitionTimingFunction'),
+    transitionDuration: prefixStyle('transitionDuration'),
+    transitionProperty: prefixStyle('transitionProperty'),
+    transitionDelay: prefixStyle('transitionDelay'),
+    transformOrigin: prefixStyle('transformOrigin'),
+    transitionEnd: prefixStyle('transitionEnd')
+  };
+
+  var TOUCH_EVENT = 1;
+  var MOUSE_EVENT = 2;
+
+  var eventType = {
+    touchstart: TOUCH_EVENT,
+    touchmove: TOUCH_EVENT,
+    touchend: TOUCH_EVENT,
+
+    mousedown: MOUSE_EVENT,
+    mousemove: MOUSE_EVENT,
+    mouseup: MOUSE_EVENT
+  };
+
+  function getRect(el) {
+    if (el instanceof window.SVGElement) {
+      var rect = el.getBoundingClientRect();
+      return {
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height
+      };
+    } else {
+      return {
+        top: el.offsetTop,
+        left: el.offsetLeft,
+        width: el.offsetWidth,
+        height: el.offsetHeight
+      };
+    }
+  }
+
+  function preventDefaultException(el, exceptions) {
+    for (var i in exceptions) {
+      if (exceptions[i].test(el[i])) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function tap(e, eventName) {
+    var ev = document.createEvent('Event');
+    ev.initEvent(eventName, true, true);
+    ev.pageX = e.pageX;
+    ev.pageY = e.pageY;
+    e.target.dispatchEvent(ev);
+  }
+
+  function click(e) {
+    var eventSource = void 0;
+    if (e.type === 'mouseup' || e.type === 'mousecancel') {
+      eventSource = e;
+    } else if (e.type === 'touchend' || e.type === 'touchcancel') {
+      eventSource = e.changedTouches[0];
+    }
+    var posSrc = {};
+    if (eventSource) {
+      posSrc.screenX = eventSource.screenX || 0;
+      posSrc.screenY = eventSource.screenY || 0;
+      posSrc.clientX = eventSource.clientX || 0;
+      posSrc.clientY = eventSource.clientY || 0;
+    }
+    var ev = void 0;
+    var event = 'click';
+    var bubbles = true;
+    var cancelable = true;
+    if (typeof MouseEvent !== 'undefined') {
+      try {
+        ev = new MouseEvent(event, extend({
+          bubbles: bubbles,
+          cancelable: cancelable
+        }, posSrc));
+      } catch (e) {
+        createEvent();
+      }
+    } else {
+      createEvent();
+    }
+
+    function createEvent() {
+      ev = document.createEvent('Event');
+      ev.initEvent(event, bubbles, cancelable);
+      extend(ev, posSrc);
+    }
+
+    // forwardedTouchEvent set to true in case of the conflict with fastclick
+    ev.forwardedTouchEvent = true;
+    ev._constructed = true;
+    e.target.dispatchEvent(ev);
+  }
+
+  function prepend(el, target) {
+    if (target.firstChild) {
+      before(el, target.firstChild);
+    } else {
+      target.appendChild(el);
+    }
+  }
+
+  function before(el, target) {
+    target.parentNode.insertBefore(el, target);
+  }
+
+  function removeChild(el, child) {
+    el.removeChild(child);
+  }
+
+  var DEFAULT_OPTIONS = {
+    startX: 0,
+    startY: 0,
+    scrollX: false,
+    scrollY: true,
+    freeScroll: false,
+    directionLockThreshold: 5,
+    eventPassthrough: '',
+    click: false,
+    tap: false,
+    bounce: true,
+    bounceTime: 800,
+    momentum: true,
+    momentumLimitTime: 300,
+    momentumLimitDistance: 15,
+    swipeTime: 2500,
+    swipeBounceTime: 500,
+    deceleration: 0.001,
+    flickLimitTime: 200,
+    flickLimitDistance: 100,
+    resizePolling: 60,
+    probeType: 0,
+    preventDefault: true,
+    preventDefaultException: {
+      tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/
+    },
+    HWCompositing: true,
+    useTransition: true,
+    useTransform: true,
+    bindToWrapper: false,
+    disableMouse: hasTouch,
+    disableTouch: !hasTouch,
+    observeDOM: true,
+    autoBlur: true,
+    /**
+     * for picker
+     * wheel: {
+     *   selectedIndex: 0,
+     *   rotate: 25,
+     *   adjustTime: 400
+     *   wheelWrapperClass: 'wheel-scroll',
+     *   wheelItemClass: 'wheel-item'
+     * }
+     */
+    wheel: false,
+    /**
+     * for slide
+     * snap: {
+     *   loop: false,
+     *   el: domEl,
+     *   threshold: 0.1,
+     *   stepX: 100,
+     *   stepY: 100,
+     *   speed: 400,
+     *   easing: {
+     *     style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+     *     fn: function (t) {
+     *       return t * (2 - t)
+     *     }
+     *   }
+     *   listenFlick: true
+     * }
+     */
+    snap: false,
+    /**
+     * for scrollbar
+     * scrollbar: {
+     *   fade: true,
+     *   interactive: false
+     * }
+     */
+    scrollbar: false,
+    /**
+     * for pull down and refresh
+     * pullDownRefresh: {
+     *   threshold: 50,
+     *   stop: 20
+     * }
+     */
+    pullDownRefresh: false,
+    /**
+     * for pull up and load
+     * pullUpLoad: {
+     *   threshold: 50
+     * }
+     */
+    pullUpLoad: false,
+    /**
+     * for mouse wheel
+     * mouseWheel:{
+     *   speed: 20,
+     *   invert: false
+     * }
+     */
+    mouseWheel: false,
+    stopPropagation: false
+  };
+
+  function initMixin(BScroll) {
+    BScroll.prototype._init = function (el, options) {
+      this._handleOptions(options);
+
+      // init private custom events
+      this._events = {};
+
+      this.x = 0;
+      this.y = 0;
+      this.directionX = 0;
+      this.directionY = 0;
+
+      this._addDOMEvents();
+
+      this._initExtFeatures();
+
+      this._watchTransition();
+
+      if (this.options.observeDOM) {
+        this._initDOMObserver();
+      }
+
+      if (this.options.autoBlur) {
+        this._handleAutoBlur();
+      }
+
+      this.refresh();
+
+      if (!this.options.snap) {
+        this.scrollTo(this.options.startX, this.options.startY);
+      }
+
+      this.enable();
+    };
+
+    BScroll.prototype._handleOptions = function (options) {
+      this.options = extend({}, DEFAULT_OPTIONS, options);
+
+      this.translateZ = this.options.HWCompositing && hasPerspective ? ' translateZ(0)' : '';
+
+      this.options.useTransition = this.options.useTransition && hasTransition;
+      this.options.useTransform = this.options.useTransform && hasTransform;
+
+      this.options.preventDefault = !this.options.eventPassthrough && this.options.preventDefault;
+
+      // If you want eventPassthrough I have to lock one of the axes
+      this.options.scrollX = this.options.eventPassthrough === 'horizontal' ? false : this.options.scrollX;
+      this.options.scrollY = this.options.eventPassthrough === 'vertical' ? false : this.options.scrollY;
+
+      // With eventPassthrough we also need lockDirection mechanism
+      this.options.freeScroll = this.options.freeScroll && !this.options.eventPassthrough;
+      this.options.directionLockThreshold = this.options.eventPassthrough ? 0 : this.options.directionLockThreshold;
+
+      if (this.options.tap === true) {
+        this.options.tap = 'tap';
+      }
+    };
+
+    BScroll.prototype._addDOMEvents = function () {
+      var eventOperation = addEvent;
+      this._handleDOMEvents(eventOperation);
+    };
+
+    BScroll.prototype._removeDOMEvents = function () {
+      var eventOperation = removeEvent;
+      this._handleDOMEvents(eventOperation);
+    };
+
+    BScroll.prototype._handleDOMEvents = function (eventOperation) {
+      var target = this.options.bindToWrapper ? this.wrapper : window;
+      eventOperation(window, 'orientationchange', this);
+      eventOperation(window, 'resize', this);
+
+      if (this.options.click) {
+        eventOperation(this.wrapper, 'click', this, true);
+      }
+
+      if (!this.options.disableMouse) {
+        eventOperation(this.wrapper, 'mousedown', this);
+        eventOperation(target, 'mousemove', this);
+        eventOperation(target, 'mousecancel', this);
+        eventOperation(target, 'mouseup', this);
+      }
+
+      if (hasTouch && !this.options.disableTouch) {
+        eventOperation(this.wrapper, 'touchstart', this);
+        eventOperation(target, 'touchmove', this);
+        eventOperation(target, 'touchcancel', this);
+        eventOperation(target, 'touchend', this);
+      }
+
+      eventOperation(this.scroller, style.transitionEnd, this);
+    };
+
+    BScroll.prototype._initExtFeatures = function () {
+      if (this.options.snap) {
+        this._initSnap();
+      }
+      if (this.options.scrollbar) {
+        this._initScrollbar();
+      }
+      if (this.options.pullUpLoad) {
+        this._initPullUp();
+      }
+      if (this.options.pullDownRefresh) {
+        this._initPullDown();
+      }
+      if (this.options.wheel) {
+        this._initWheel();
+      }
+      if (this.options.mouseWheel) {
+        this._initMouseWheel();
+      }
+    };
+
+    BScroll.prototype._watchTransition = function () {
+      if (typeof Object.defineProperty !== 'function') {
+        return;
+      }
+      var me = this;
+      var isInTransition = false;
+      Object.defineProperty(this, 'isInTransition', {
+        get: function get() {
+          return isInTransition;
+        },
+        set: function set(newVal) {
+          isInTransition = newVal;
+          // fix issue #359
+          var el = me.scroller.children.length ? me.scroller.children : [me.scroller];
+          var pointerEvents = isInTransition && !me.pulling ? 'none' : 'auto';
+          for (var i = 0; i < el.length; i++) {
+            el[i].style.pointerEvents = pointerEvents;
+          }
+        }
+      });
+    };
+
+    BScroll.prototype._handleAutoBlur = function () {
+      this.on('beforeScrollStart', function () {
+        var activeElement = document.activeElement;
+        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+          activeElement.blur();
+        }
+      });
+    };
+
+    BScroll.prototype._initDOMObserver = function () {
+      var _this = this;
+
+      if (typeof MutationObserver !== 'undefined') {
+        var timer = void 0;
+        var observer = new MutationObserver(function (mutations) {
+          // don't do any refresh during the transition, or outside of the boundaries
+          if (_this._shouldNotRefresh()) {
+            return;
+          }
+          var immediateRefresh = false;
+          var deferredRefresh = false;
+          for (var i = 0; i < mutations.length; i++) {
+            var mutation = mutations[i];
+            if (mutation.type !== 'attributes') {
+              immediateRefresh = true;
+              break;
+            } else {
+              if (mutation.target !== _this.scroller) {
+                deferredRefresh = true;
+                break;
+              }
+            }
+          }
+          if (immediateRefresh) {
+            _this.refresh();
+          } else if (deferredRefresh) {
+            // attributes changes too often
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+              if (!_this._shouldNotRefresh()) {
+                _this.refresh();
+              }
+            }, 60);
+          }
+        });
+        var config = {
+          attributes: true,
+          childList: true,
+          subtree: true
+        };
+        observer.observe(this.scroller, config);
+
+        this.on('destroy', function () {
+          observer.disconnect();
+        });
+      } else {
+        this._checkDOMUpdate();
+      }
+    };
+
+    BScroll.prototype._shouldNotRefresh = function () {
+      var outsideBoundaries = this.x > 0 || this.x < this.maxScrollX || this.y > 0 || this.y < this.maxScrollY;
+
+      return this.isInTransition || this.stopFromTransition || outsideBoundaries;
+    };
+
+    BScroll.prototype._checkDOMUpdate = function () {
+      var scrollerRect = getRect(this.scroller);
+      var oldWidth = scrollerRect.width;
+      var oldHeight = scrollerRect.height;
+
+      function check() {
+        if (this.destroyed) {
+          return;
+        }
+        scrollerRect = getRect(this.scroller);
+        var newWidth = scrollerRect.width;
+        var newHeight = scrollerRect.height;
+
+        if (oldWidth !== newWidth || oldHeight !== newHeight) {
+          this.refresh();
+        }
+        oldWidth = newWidth;
+        oldHeight = newHeight;
+
+        next.call(this);
+      }
+
+      function next() {
+        var _this2 = this;
+
+        setTimeout(function () {
+          check.call(_this2);
+        }, 1000);
+      }
+
+      next.call(this);
+    };
+
+    BScroll.prototype.handleEvent = function (e) {
+      switch (e.type) {
+        case 'touchstart':
+        case 'mousedown':
+          this._start(e);
+          break;
+        case 'touchmove':
+        case 'mousemove':
+          this._move(e);
+          break;
+        case 'touchend':
+        case 'mouseup':
+        case 'touchcancel':
+        case 'mousecancel':
+          this._end(e);
+          break;
+        case 'orientationchange':
+        case 'resize':
+          this._resize();
+          break;
+        case 'transitionend':
+        case 'webkitTransitionEnd':
+        case 'oTransitionEnd':
+        case 'MSTransitionEnd':
+          this._transitionEnd(e);
+          break;
+        case 'click':
+          if (this.enabled && !e._constructed) {
+            if (!preventDefaultException(e.target, this.options.preventDefaultException)) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          }
+          break;
+        case 'wheel':
+        case 'DOMMouseScroll':
+        case 'mousewheel':
+          this._onMouseWheel(e);
+          break;
+      }
+    };
+
+    BScroll.prototype.refresh = function () {
+      var wrapperRect = getRect(this.wrapper);
+      this.wrapperWidth = wrapperRect.width;
+      this.wrapperHeight = wrapperRect.height;
+
+      var scrollerRect = getRect(this.scroller);
+      this.scrollerWidth = scrollerRect.width;
+      this.scrollerHeight = scrollerRect.height;
+
+      var wheel = this.options.wheel;
+      if (wheel) {
+        this.items = this.scroller.children;
+        this.options.itemHeight = this.itemHeight = this.items.length ? this.scrollerHeight / this.items.length : 0;
+        if (this.selectedIndex === undefined) {
+          this.selectedIndex = wheel.selectedIndex || 0;
+        }
+        this.options.startY = -this.selectedIndex * this.itemHeight;
+        this.maxScrollX = 0;
+        this.maxScrollY = -this.itemHeight * (this.items.length - 1);
+      } else {
+        this.maxScrollX = this.wrapperWidth - this.scrollerWidth;
+        this.maxScrollY = this.wrapperHeight - this.scrollerHeight;
+      }
+
+      this.hasHorizontalScroll = this.options.scrollX && this.maxScrollX < 0;
+      this.hasVerticalScroll = this.options.scrollY && this.maxScrollY < 0;
+
+      if (!this.hasHorizontalScroll) {
+        this.maxScrollX = 0;
+        this.scrollerWidth = this.wrapperWidth;
+      }
+
+      if (!this.hasVerticalScroll) {
+        this.maxScrollY = 0;
+        this.scrollerHeight = this.wrapperHeight;
+      }
+
+      this.endTime = 0;
+      this.directionX = 0;
+      this.directionY = 0;
+      this.wrapperOffset = offset(this.wrapper);
+
+      this.trigger('refresh');
+
+      this.resetPosition();
+    };
+
+    BScroll.prototype.enable = function () {
+      this.enabled = true;
+    };
+
+    BScroll.prototype.disable = function () {
+      this.enabled = false;
+    };
+  }
+
+  var ease = {
+  	// easeOutQuint
+  	swipe: {
+  		style: 'cubic-bezier(0.23, 1, 0.32, 1)',
+  		fn: function fn(t) {
+  			return 1 + --t * t * t * t * t;
+  		}
+  	},
+  	// easeOutQuard
+  	swipeBounce: {
+  		style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+  		fn: function fn(t) {
+  			return t * (2 - t);
+  		}
+  	},
+  	// easeOutQuart
+  	bounce: {
+  		style: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
+  		fn: function fn(t) {
+  			return 1 - --t * t * t * t;
+  		}
+  	}
+  };
+
+  function momentum(current, start, time, lowerMargin, wrapperSize, options) {
+    var distance = current - start;
+    var speed = Math.abs(distance) / time;
+
+    var deceleration = options.deceleration,
+        itemHeight = options.itemHeight,
+        swipeBounceTime = options.swipeBounceTime,
+        wheel = options.wheel,
+        swipeTime = options.swipeTime;
+
+    var duration = swipeTime;
+    var rate = wheel ? 4 : 15;
+
+    var destination = current + speed / deceleration * (distance < 0 ? -1 : 1);
+
+    if (wheel && itemHeight) {
+      destination = Math.round(destination / itemHeight) * itemHeight;
+    }
+
+    if (destination < lowerMargin) {
+      destination = wrapperSize ? Math.max(lowerMargin - wrapperSize / 4, lowerMargin - wrapperSize / rate * speed) : lowerMargin;
+      duration = swipeBounceTime;
+    } else if (destination > 0) {
+      destination = wrapperSize ? Math.min(wrapperSize / 4, wrapperSize / rate * speed) : 0;
+      duration = swipeBounceTime;
+    }
+
+    return {
+      destination: Math.round(destination),
+      duration: duration
+    };
+  }
+
+  var DEFAULT_INTERVAL = 100 / 60;
+
+  function noop() {}
+
+  var requestAnimationFrame = function () {
+    if (!inBrowser) {
+      /* istanbul ignore if */
+      return noop;
+    }
+    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame ||
+    // if all else fails, use setTimeout
+    function (callback) {
+      return window.setTimeout(callback, (callback.interval || DEFAULT_INTERVAL) / 2); // make interval as precise as possible.
+    };
+  }();
+
+  var cancelAnimationFrame = function () {
+    if (!inBrowser) {
+      /* istanbul ignore if */
+      return noop;
+    }
+    return window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.oCancelAnimationFrame || function (id) {
+      window.clearTimeout(id);
+    };
+  }();
+
+  var DIRECTION_UP$1 = 1;
+  var DIRECTION_DOWN$1 = -1;
+  var DIRECTION_LEFT = 1;
+  var DIRECTION_RIGHT = -1;
+
+  var PROBE_DEBOUNCE = 1;
+
+  var PROBE_REALTIME = 3;
+
+  function warn(msg) {
+    console.error('[BScroll warn]: ' + msg);
+  }
+
+  function assert(condition, msg) {
+    if (!condition) {
+      throw new Error('[BScroll] ' + msg);
+    }
+  }
+
+  function coreMixin(BScroll) {
+    BScroll.prototype._start = function (e) {
+      var _eventType = eventType[e.type];
+      if (_eventType !== TOUCH_EVENT) {
+        if (e.button !== 0) {
+          return;
+        }
+      }
+      if (!this.enabled || this.destroyed || this.initiated && this.initiated !== _eventType) {
+        return;
+      }
+      this.initiated = _eventType;
+
+      if (this.options.preventDefault && !preventDefaultException(e.target, this.options.preventDefaultException)) {
+        e.preventDefault();
+      }
+      if (this.options.stopPropagation) {
+        e.stopPropagation();
+      }
+
+      this.moved = false;
+      this.distX = 0;
+      this.distY = 0;
+      this.directionX = 0;
+      this.directionY = 0;
+      this.movingDirectionX = 0;
+      this.movingDirectionY = 0;
+      this.directionLocked = 0;
+
+      this._transitionTime();
+      this.startTime = getNow();
+
+      if (this.options.wheel) {
+        this.target = e.target;
+      }
+
+      this.stop();
+
+      var point = e.touches ? e.touches[0] : e;
+
+      this.startX = this.x;
+      this.startY = this.y;
+      this.absStartX = this.x;
+      this.absStartY = this.y;
+      this.pointX = point.pageX;
+      this.pointY = point.pageY;
+
+      this.trigger('beforeScrollStart');
+    };
+
+    BScroll.prototype._move = function (e) {
+      if (!this.enabled || this.destroyed || eventType[e.type] !== this.initiated) {
+        return;
+      }
+
+      if (this.options.preventDefault) {
+        e.preventDefault();
+      }
+      if (this.options.stopPropagation) {
+        e.stopPropagation();
+      }
+
+      var point = e.touches ? e.touches[0] : e;
+      var deltaX = point.pageX - this.pointX;
+      var deltaY = point.pageY - this.pointY;
+
+      this.pointX = point.pageX;
+      this.pointY = point.pageY;
+
+      this.distX += deltaX;
+      this.distY += deltaY;
+
+      var absDistX = Math.abs(this.distX);
+      var absDistY = Math.abs(this.distY);
+
+      var timestamp = getNow();
+
+      // We need to move at least momentumLimitDistance pixels for the scrolling to initiate
+      if (timestamp - this.endTime > this.options.momentumLimitTime && absDistY < this.options.momentumLimitDistance && absDistX < this.options.momentumLimitDistance) {
+        return;
+      }
+
+      // If you are scrolling in one direction lock the other
+      if (!this.directionLocked && !this.options.freeScroll) {
+        if (absDistX > absDistY + this.options.directionLockThreshold) {
+          this.directionLocked = 'h'; // lock horizontally
+        } else if (absDistY >= absDistX + this.options.directionLockThreshold) {
+          this.directionLocked = 'v'; // lock vertically
+        } else {
+          this.directionLocked = 'n'; // no lock
+        }
+      }
+
+      if (this.directionLocked === 'h') {
+        if (this.options.eventPassthrough === 'vertical') {
+          e.preventDefault();
+        } else if (this.options.eventPassthrough === 'horizontal') {
+          this.initiated = false;
+          return;
+        }
+        deltaY = 0;
+      } else if (this.directionLocked === 'v') {
+        if (this.options.eventPassthrough === 'horizontal') {
+          e.preventDefault();
+        } else if (this.options.eventPassthrough === 'vertical') {
+          this.initiated = false;
+          return;
+        }
+        deltaX = 0;
+      }
+
+      deltaX = this.hasHorizontalScroll ? deltaX : 0;
+      deltaY = this.hasVerticalScroll ? deltaY : 0;
+      this.movingDirectionX = deltaX > 0 ? DIRECTION_RIGHT : deltaX < 0 ? DIRECTION_LEFT : 0;
+      this.movingDirectionY = deltaY > 0 ? DIRECTION_DOWN$1 : deltaY < 0 ? DIRECTION_UP$1 : 0;
+
+      var newX = this.x + deltaX;
+      var newY = this.y + deltaY;
+
+      // Slow down or stop if outside of the boundaries
+      if (newX > 0 || newX < this.maxScrollX) {
+        if (this.options.bounce) {
+          newX = this.x + deltaX / 3;
+        } else {
+          newX = newX > 0 ? 0 : this.maxScrollX;
+        }
+      }
+      if (newY > 0 || newY < this.maxScrollY) {
+        if (this.options.bounce) {
+          newY = this.y + deltaY / 3;
+        } else {
+          newY = newY > 0 ? 0 : this.maxScrollY;
+        }
+      }
+
+      if (!this.moved) {
+        this.moved = true;
+        this.trigger('scrollStart');
+      }
+
+      this._translate(newX, newY);
+
+      if (timestamp - this.startTime > this.options.momentumLimitTime) {
+        this.startTime = timestamp;
+        this.startX = this.x;
+        this.startY = this.y;
+
+        if (this.options.probeType === PROBE_DEBOUNCE) {
+          this.trigger('scroll', {
+            x: this.x,
+            y: this.y
+          });
+        }
+      }
+
+      if (this.options.probeType > PROBE_DEBOUNCE) {
+        this.trigger('scroll', {
+          x: this.x,
+          y: this.y
+        });
+      }
+
+      var scrollLeft = document.documentElement.scrollLeft || window.pageXOffset || document.body.scrollLeft;
+      var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+
+      var pX = this.pointX - scrollLeft;
+      var pY = this.pointY - scrollTop;
+
+      if (pX > document.documentElement.clientWidth - this.options.momentumLimitDistance || pX < this.options.momentumLimitDistance || pY < this.options.momentumLimitDistance || pY > document.documentElement.clientHeight - this.options.momentumLimitDistance) {
+        this._end(e);
+      }
+    };
+
+    BScroll.prototype._end = function (e) {
+      if (!this.enabled || this.destroyed || eventType[e.type] !== this.initiated) {
+        return;
+      }
+      this.initiated = false;
+
+      if (this.options.preventDefault && !preventDefaultException(e.target, this.options.preventDefaultException)) {
+        e.preventDefault();
+      }
+      if (this.options.stopPropagation) {
+        e.stopPropagation();
+      }
+
+      this.trigger('touchEnd', {
+        x: this.x,
+        y: this.y
+      });
+
+      this.isInTransition = false;
+
+      // ensures that the last position is rounded
+      var newX = Math.round(this.x);
+      var newY = Math.round(this.y);
+
+      var deltaX = newX - this.absStartX;
+      var deltaY = newY - this.absStartY;
+      this.directionX = deltaX > 0 ? DIRECTION_RIGHT : deltaX < 0 ? DIRECTION_LEFT : 0;
+      this.directionY = deltaY > 0 ? DIRECTION_DOWN$1 : deltaY < 0 ? DIRECTION_UP$1 : 0;
+
+      // if configure pull down refresh, check it first
+      if (this.options.pullDownRefresh && this._checkPullDown()) {
+        return;
+      }
+
+      // check if it is a click operation
+      if (this._checkClick(e)) {
+        this.trigger('scrollCancel');
+        return;
+      }
+
+      // reset if we are outside of the boundaries
+      if (this.resetPosition(this.options.bounceTime, ease.bounce)) {
+        return;
+      }
+
+      this.scrollTo(newX, newY);
+
+      this.endTime = getNow();
+      var duration = this.endTime - this.startTime;
+      var absDistX = Math.abs(newX - this.startX);
+      var absDistY = Math.abs(newY - this.startY);
+
+      // flick
+      if (this._events.flick && duration < this.options.flickLimitTime && absDistX < this.options.flickLimitDistance && absDistY < this.options.flickLimitDistance) {
+        this.trigger('flick');
+        return;
+      }
+
+      var time = 0;
+      // start momentum animation if needed
+      if (this.options.momentum && duration < this.options.momentumLimitTime && (absDistY > this.options.momentumLimitDistance || absDistX > this.options.momentumLimitDistance)) {
+        var momentumX = this.hasHorizontalScroll ? momentum(this.x, this.startX, duration, this.maxScrollX, this.options.bounce ? this.wrapperWidth : 0, this.options) : { destination: newX, duration: 0 };
+        var momentumY = this.hasVerticalScroll ? momentum(this.y, this.startY, duration, this.maxScrollY, this.options.bounce ? this.wrapperHeight : 0, this.options) : { destination: newY, duration: 0 };
+        newX = momentumX.destination;
+        newY = momentumY.destination;
+        time = Math.max(momentumX.duration, momentumY.duration);
+        this.isInTransition = true;
+      } else {
+        if (this.options.wheel) {
+          newY = Math.round(newY / this.itemHeight) * this.itemHeight;
+          time = this.options.wheel.adjustTime || 400;
+        }
+      }
+
+      var easing = ease.swipe;
+      if (this.options.snap) {
+        var snap = this._nearestSnap(newX, newY);
+        this.currentPage = snap;
+        time = this.options.snapSpeed || Math.max(Math.max(Math.min(Math.abs(newX - snap.x), 1000), Math.min(Math.abs(newY - snap.y), 1000)), 300);
+        newX = snap.x;
+        newY = snap.y;
+
+        this.directionX = 0;
+        this.directionY = 0;
+        easing = this.options.snap.easing || ease.bounce;
+      }
+
+      if (newX !== this.x || newY !== this.y) {
+        // change easing function when scroller goes out of the boundaries
+        if (newX > 0 || newX < this.maxScrollX || newY > 0 || newY < this.maxScrollY) {
+          easing = ease.swipeBounce;
+        }
+        this.scrollTo(newX, newY, time, easing);
+        return;
+      }
+
+      if (this.options.wheel) {
+        this.selectedIndex = Math.round(Math.abs(this.y / this.itemHeight));
+      }
+      this.trigger('scrollEnd', {
+        x: this.x,
+        y: this.y
+      });
+    };
+
+    BScroll.prototype._checkClick = function (e) {
+      // when in the process of pulling down, it should not prevent click
+      var preventClick = this.stopFromTransition && !this.pulling;
+      this.stopFromTransition = false;
+
+      // we scrolled less than 15 pixels
+      if (!this.moved) {
+        if (this.options.wheel) {
+          if (this.target && this.target.className === this.options.wheel.wheelWrapperClass) {
+            var index = Math.abs(Math.round(this.y / this.itemHeight));
+            var _offset = Math.round((this.pointY + offset(this.target).top - this.itemHeight / 2) / this.itemHeight);
+            this.target = this.items[index + _offset];
+          }
+          this.scrollToElement(this.target, this.options.wheel.adjustTime || 400, true, true, ease.swipe);
+          return true;
+        } else {
+          if (!preventClick) {
+            if (this.options.tap) {
+              tap(e, this.options.tap);
+            }
+
+            if (this.options.click && !preventDefaultException(e.target, this.options.preventDefaultException)) {
+              click(e);
+            }
+            return true;
+          }
+          return false;
+        }
+      }
+      return false;
+    };
+
+    BScroll.prototype._resize = function () {
+      var _this = this;
+
+      if (!this.enabled) {
+        return;
+      }
+      // fix a scroll problem under Android condition
+      if (isAndroid) {
+        this.wrapper.scrollTop = 0;
+      }
+      clearTimeout(this.resizeTimeout);
+      this.resizeTimeout = setTimeout(function () {
+        _this.refresh();
+      }, this.options.resizePolling);
+    };
+
+    BScroll.prototype._startProbe = function () {
+      cancelAnimationFrame(this.probeTimer);
+      this.probeTimer = requestAnimationFrame(probe);
+
+      var me = this;
+
+      function probe() {
+        var pos = me.getComputedPosition();
+        me.trigger('scroll', pos);
+        if (!me.isInTransition) {
+          me.trigger('scrollEnd', pos);
+          return;
+        }
+        me.probeTimer = requestAnimationFrame(probe);
+      }
+    };
+
+    BScroll.prototype._transitionProperty = function () {
+      var property = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'transform';
+
+      this.scrollerStyle[style.transitionProperty] = property;
+    };
+
+    BScroll.prototype._transitionTime = function () {
+      var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+      this.scrollerStyle[style.transitionDuration] = time + 'ms';
+
+      if (this.options.wheel) {
+        for (var i = 0; i < this.items.length; i++) {
+          this.items[i].style[style.transitionDuration] = time + 'ms';
+        }
+      }
+
+      if (this.indicators) {
+        for (var _i = 0; _i < this.indicators.length; _i++) {
+          this.indicators[_i].transitionTime(time);
+        }
+      }
+    };
+
+    BScroll.prototype._transitionTimingFunction = function (easing) {
+      this.scrollerStyle[style.transitionTimingFunction] = easing;
+
+      if (this.options.wheel) {
+        for (var i = 0; i < this.items.length; i++) {
+          this.items[i].style[style.transitionTimingFunction] = easing;
+        }
+      }
+
+      if (this.indicators) {
+        for (var _i2 = 0; _i2 < this.indicators.length; _i2++) {
+          this.indicators[_i2].transitionTimingFunction(easing);
+        }
+      }
+    };
+
+    BScroll.prototype._transitionEnd = function (e) {
+      if (e.target !== this.scroller || !this.isInTransition) {
+        return;
+      }
+
+      this._transitionTime();
+      if (!this.pulling && !this.resetPosition(this.options.bounceTime, ease.bounce)) {
+        this.isInTransition = false;
+        if (this.options.probeType !== PROBE_REALTIME) {
+          this.trigger('scrollEnd', {
+            x: this.x,
+            y: this.y
+          });
+        }
+      }
+    };
+
+    BScroll.prototype._translate = function (x, y) {
+      assert(!isUndef(x) && !isUndef(y), 'Oops! translate x or y is null or undefined. please check your code.');
+      if (this.options.useTransform) {
+        this.scrollerStyle[style.transform] = 'translate(' + x + 'px,' + y + 'px)' + this.translateZ;
+      } else {
+        x = Math.round(x);
+        y = Math.round(y);
+        this.scrollerStyle.left = x + 'px';
+        this.scrollerStyle.top = y + 'px';
+      }
+
+      if (this.options.wheel) {
+        var _options$wheel$rotate = this.options.wheel.rotate,
+            rotate = _options$wheel$rotate === undefined ? 25 : _options$wheel$rotate;
+
+        for (var i = 0; i < this.items.length; i++) {
+          var deg = rotate * (y / this.itemHeight + i);
+          this.items[i].style[style.transform] = 'rotateX(' + deg + 'deg)';
+        }
+      }
+
+      this.x = x;
+      this.y = y;
+
+      if (this.indicators) {
+        for (var _i3 = 0; _i3 < this.indicators.length; _i3++) {
+          this.indicators[_i3].updatePosition();
+        }
+      }
+    };
+
+    BScroll.prototype._animate = function (destX, destY, duration, easingFn) {
+      var me = this;
+      var startX = this.x;
+      var startY = this.y;
+      var startTime = getNow();
+      var destTime = startTime + duration;
+
+      function step() {
+        var now = getNow();
+
+        if (now >= destTime) {
+          me.isAnimating = false;
+          me._translate(destX, destY);
+
+          if (!me.pulling && !me.resetPosition(me.options.bounceTime)) {
+            me.trigger('scrollEnd', {
+              x: me.x,
+              y: me.y
+            });
+          }
+          return;
+        }
+        now = (now - startTime) / duration;
+        var easing = easingFn(now);
+        var newX = (destX - startX) * easing + startX;
+        var newY = (destY - startY) * easing + startY;
+
+        me._translate(newX, newY);
+
+        if (me.isAnimating) {
+          me.animateTimer = requestAnimationFrame(step);
+        }
+
+        if (me.options.probeType === PROBE_REALTIME) {
+          me.trigger('scroll', {
+            x: me.x,
+            y: me.y
+          });
+        }
+      }
+
+      this.isAnimating = true;
+      cancelAnimationFrame(this.animateTimer);
+      step();
+    };
+
+    BScroll.prototype.scrollBy = function (x, y) {
+      var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+      var easing = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ease.bounce;
+
+      x = this.x + x;
+      y = this.y + y;
+
+      this.scrollTo(x, y, time, easing);
+    };
+
+    BScroll.prototype.scrollTo = function (x, y) {
+      var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+      var easing = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ease.bounce;
+
+      this.isInTransition = this.options.useTransition && time > 0 && (x !== this.x || y !== this.y);
+
+      if (!time || this.options.useTransition) {
+        this._transitionProperty();
+        this._transitionTimingFunction(easing.style);
+        this._transitionTime(time);
+        this._translate(x, y);
+
+        if (time && this.options.probeType === PROBE_REALTIME) {
+          this._startProbe();
+        }
+
+        if (this.options.wheel) {
+          if (y > 0) {
+            this.selectedIndex = 0;
+          } else if (y < this.maxScrollY) {
+            this.selectedIndex = this.items.length - 1;
+          } else {
+            this.selectedIndex = Math.round(Math.abs(y / this.itemHeight));
+          }
+        }
+      } else {
+        this._animate(x, y, time, easing.fn);
+      }
+    };
+
+    BScroll.prototype.scrollToElement = function (el, time, offsetX, offsetY, easing) {
+      if (!el) {
+        return;
+      }
+      el = el.nodeType ? el : this.scroller.querySelector(el);
+
+      if (this.options.wheel && el.className !== this.options.wheel.wheelItemClass) {
+        return;
+      }
+
+      var pos = offset(el);
+      pos.left -= this.wrapperOffset.left;
+      pos.top -= this.wrapperOffset.top;
+
+      // if offsetX/Y are true we center the element to the screen
+      if (offsetX === true) {
+        offsetX = Math.round(el.offsetWidth / 2 - this.wrapper.offsetWidth / 2);
+      }
+      if (offsetY === true) {
+        offsetY = Math.round(el.offsetHeight / 2 - this.wrapper.offsetHeight / 2);
+      }
+
+      pos.left -= offsetX || 0;
+      pos.top -= offsetY || 0;
+      pos.left = pos.left > 0 ? 0 : pos.left < this.maxScrollX ? this.maxScrollX : pos.left;
+      pos.top = pos.top > 0 ? 0 : pos.top < this.maxScrollY ? this.maxScrollY : pos.top;
+
+      if (this.options.wheel) {
+        pos.top = Math.round(pos.top / this.itemHeight) * this.itemHeight;
+      }
+
+      this.scrollTo(pos.left, pos.top, time, easing);
+    };
+
+    BScroll.prototype.resetPosition = function () {
+      var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      var easeing = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ease.bounce;
+
+      var x = this.x;
+      var roundX = Math.round(x);
+      if (!this.hasHorizontalScroll || roundX > 0) {
+        x = 0;
+      } else if (roundX < this.maxScrollX) {
+        x = this.maxScrollX;
+      }
+
+      var y = this.y;
+      var roundY = Math.round(y);
+      if (!this.hasVerticalScroll || roundY > 0) {
+        y = 0;
+      } else if (roundY < this.maxScrollY) {
+        y = this.maxScrollY;
+      }
+
+      if (x === this.x && y === this.y) {
+        return false;
+      }
+
+      this.scrollTo(x, y, time, easeing);
+
+      return true;
+    };
+
+    BScroll.prototype.getComputedPosition = function () {
+      var matrix = window.getComputedStyle(this.scroller, null);
+      var x = void 0;
+      var y = void 0;
+
+      if (this.options.useTransform) {
+        matrix = matrix[style.transform].split(')')[0].split(', ');
+        x = +(matrix[12] || matrix[4]);
+        y = +(matrix[13] || matrix[5]);
+      } else {
+        x = +matrix.left.replace(/[^-\d.]/g, '');
+        y = +matrix.top.replace(/[^-\d.]/g, '');
+      }
+
+      return {
+        x: x,
+        y: y
+      };
+    };
+
+    BScroll.prototype.stop = function () {
+      if (this.options.useTransition && this.isInTransition) {
+        this.isInTransition = false;
+        var pos = this.getComputedPosition();
+        this._translate(pos.x, pos.y);
+        if (this.options.wheel) {
+          this.target = this.items[Math.round(-pos.y / this.itemHeight)];
+        } else {
+          this.trigger('scrollEnd', {
+            x: this.x,
+            y: this.y
+          });
+        }
+        this.stopFromTransition = true;
+      } else if (!this.options.useTransition && this.isAnimating) {
+        this.isAnimating = false;
+        this.trigger('scrollEnd', {
+          x: this.x,
+          y: this.y
+        });
+        this.stopFromTransition = true;
+      }
+    };
+
+    BScroll.prototype.destroy = function () {
+      this.destroyed = true;
+      this.trigger('destroy');
+
+      this._removeDOMEvents();
+      // remove custom events
+      this._events = {};
+    };
+  }
+
+  function snapMixin(BScroll) {
+    BScroll.prototype._initSnap = function () {
+      var _this = this;
+
+      this.currentPage = {};
+      var snap = this.options.snap;
+
+      if (snap.loop) {
+        var children = this.scroller.children;
+        if (children.length > 1) {
+          prepend(children[children.length - 1].cloneNode(true), this.scroller);
+          this.scroller.appendChild(children[1].cloneNode(true));
+        } else {
+          // Loop does not make any sense if there is only one child.
+          snap.loop = false;
+        }
+      }
+
+      var el = snap.el;
+      if (typeof el === 'string') {
+        el = this.scroller.querySelectorAll(el);
+      }
+
+      this.on('refresh', function () {
+        _this.pages = [];
+
+        if (!_this.wrapperWidth || !_this.wrapperHeight || !_this.scrollerWidth || !_this.scrollerHeight) {
+          return;
+        }
+
+        var stepX = snap.stepX || _this.wrapperWidth;
+        var stepY = snap.stepY || _this.wrapperHeight;
+
+        var x = 0;
+        var y = void 0;
+        var cx = void 0;
+        var cy = void 0;
+        var i = 0;
+        var l = void 0;
+        var m = 0;
+        var n = void 0;
+        var rect = void 0;
+        if (!el) {
+          cx = Math.round(stepX / 2);
+          cy = Math.round(stepY / 2);
+
+          while (x > -_this.scrollerWidth) {
+            _this.pages[i] = [];
+            l = 0;
+            y = 0;
+
+            while (y > -_this.scrollerHeight) {
+              _this.pages[i][l] = {
+                x: Math.max(x, _this.maxScrollX),
+                y: Math.max(y, _this.maxScrollY),
+                width: stepX,
+                height: stepY,
+                cx: x - cx,
+                cy: y - cy
+              };
+
+              y -= stepY;
+              l++;
+            }
+
+            x -= stepX;
+            i++;
+          }
+        } else {
+          l = el.length;
+          n = -1;
+
+          for (; i < l; i++) {
+            rect = getRect(el[i]);
+            if (i === 0 || rect.left <= getRect(el[i - 1]).left) {
+              m = 0;
+              n++;
+            }
+
+            if (!_this.pages[m]) {
+              _this.pages[m] = [];
+            }
+
+            x = Math.max(-rect.left, _this.maxScrollX);
+            y = Math.max(-rect.top, _this.maxScrollY);
+            cx = x - Math.round(rect.width / 2);
+            cy = y - Math.round(rect.height / 2);
+
+            _this.pages[m][n] = {
+              x: x,
+              y: y,
+              width: rect.width,
+              height: rect.height,
+              cx: cx,
+              cy: cy
+            };
+
+            if (x > _this.maxScrollX) {
+              m++;
+            }
+          }
+        }
+
+        _this._checkSnapLoop();
+
+        var initPageX = snap._loopX ? 1 : 0;
+        var initPageY = snap._loopY ? 1 : 0;
+        _this._goToPage(_this.currentPage.pageX || initPageX, _this.currentPage.pageY || initPageY, 0);
+
+        // Update snap threshold if needed.
+        var snapThreshold = snap.threshold;
+        if (snapThreshold % 1 === 0) {
+          _this.snapThresholdX = snapThreshold;
+          _this.snapThresholdY = snapThreshold;
+        } else {
+          _this.snapThresholdX = Math.round(_this.pages[_this.currentPage.pageX][_this.currentPage.pageY].width * snapThreshold);
+          _this.snapThresholdY = Math.round(_this.pages[_this.currentPage.pageX][_this.currentPage.pageY].height * snapThreshold);
+        }
+      });
+
+      this.on('scrollEnd', function () {
+        if (snap.loop) {
+          if (snap._loopX) {
+            if (_this.currentPage.pageX === 0) {
+              _this._goToPage(_this.pages.length - 2, _this.currentPage.pageY, 0);
+            }
+            if (_this.currentPage.pageX === _this.pages.length - 1) {
+              _this._goToPage(1, _this.currentPage.pageY, 0);
+            }
+          } else {
+            if (_this.currentPage.pageY === 0) {
+              _this._goToPage(_this.currentPage.pageX, _this.pages[0].length - 2, 0);
+            }
+            if (_this.currentPage.pageY === _this.pages[0].length - 1) {
+              _this._goToPage(_this.currentPage.pageX, 1, 0);
+            }
+          }
+        }
+      });
+
+      if (snap.listenFlick !== false) {
+        this.on('flick', function () {
+          var time = snap.speed || Math.max(Math.max(Math.min(Math.abs(_this.x - _this.startX), 1000), Math.min(Math.abs(_this.y - _this.startY), 1000)), 300);
+
+          _this._goToPage(_this.currentPage.pageX + _this.directionX, _this.currentPage.pageY + _this.directionY, time);
+        });
+      }
+
+      this.on('destroy', function () {
+        if (snap.loop) {
+          var _children = _this.scroller.children;
+          if (_children.length > 2) {
+            removeChild(_this.scroller, _children[_children.length - 1]);
+            removeChild(_this.scroller, _children[0]);
+          }
+        }
+      });
+    };
+
+    BScroll.prototype._checkSnapLoop = function () {
+      var snap = this.options.snap;
+
+      if (!snap.loop || !this.pages) {
+        return;
+      }
+
+      if (this.pages.length > 1) {
+        snap._loopX = true;
+      }
+      if (this.pages[0] && this.pages[0].length > 1) {
+        snap._loopY = true;
+      }
+      if (snap._loopX && snap._loopY) {
+        warn('Loop does not support two direction at the same time.');
+      }
+    };
+
+    BScroll.prototype._nearestSnap = function (x, y) {
+      if (!this.pages.length) {
+        return { x: 0, y: 0, pageX: 0, pageY: 0 };
+      }
+
+      var i = 0;
+      // Check if we exceeded the snap threshold
+      if (Math.abs(x - this.absStartX) <= this.snapThresholdX && Math.abs(y - this.absStartY) <= this.snapThresholdY) {
+        return this.currentPage;
+      }
+
+      if (x > 0) {
+        x = 0;
+      } else if (x < this.maxScrollX) {
+        x = this.maxScrollX;
+      }
+
+      if (y > 0) {
+        y = 0;
+      } else if (y < this.maxScrollY) {
+        y = this.maxScrollY;
+      }
+
+      var l = this.pages.length;
+      for (; i < l; i++) {
+        if (x >= this.pages[i][0].cx) {
+          x = this.pages[i][0].x;
+          break;
+        }
+      }
+
+      l = this.pages[i].length;
+
+      var m = 0;
+      for (; m < l; m++) {
+        if (y >= this.pages[0][m].cy) {
+          y = this.pages[0][m].y;
+          break;
+        }
+      }
+
+      if (i === this.currentPage.pageX) {
+        i += this.directionX;
+
+        if (i < 0) {
+          i = 0;
+        } else if (i >= this.pages.length) {
+          i = this.pages.length - 1;
+        }
+
+        x = this.pages[i][0].x;
+      }
+
+      if (m === this.currentPage.pageY) {
+        m += this.directionY;
+
+        if (m < 0) {
+          m = 0;
+        } else if (m >= this.pages[0].length) {
+          m = this.pages[0].length - 1;
+        }
+
+        y = this.pages[0][m].y;
+      }
+
+      return {
+        x: x,
+        y: y,
+        pageX: i,
+        pageY: m
+      };
+    };
+
+    BScroll.prototype._goToPage = function (x) {
+      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      var time = arguments[2];
+      var easing = arguments[3];
+
+      var snap = this.options.snap;
+
+      if (!snap || !this.pages) {
+        return;
+      }
+
+      easing = easing || snap.easing || ease.bounce;
+
+      if (x >= this.pages.length) {
+        x = this.pages.length - 1;
+      } else if (x < 0) {
+        x = 0;
+      }
+
+      if (!this.pages[x]) {
+        return;
+      }
+
+      if (y >= this.pages[x].length) {
+        y = this.pages[x].length - 1;
+      } else if (y < 0) {
+        y = 0;
+      }
+
+      var posX = this.pages[x][y].x;
+      var posY = this.pages[x][y].y;
+
+      time = time === undefined ? snap.speed || Math.max(Math.max(Math.min(Math.abs(posX - this.x), 1000), Math.min(Math.abs(posY - this.y), 1000)), 300) : time;
+
+      this.currentPage = {
+        x: posX,
+        y: posY,
+        pageX: x,
+        pageY: y
+      };
+      this.scrollTo(posX, posY, time, easing);
+    };
+
+    BScroll.prototype.goToPage = function (x, y, time, easing) {
+      var snap = this.options.snap;
+      if (!snap) {
+        return;
+      }
+
+      if (snap.loop) {
+        var len = void 0;
+        if (snap._loopX) {
+          len = this.pages.length - 2;
+          if (x >= len) {
+            x = len - 1;
+          } else if (x < 0) {
+            x = 0;
+          }
+          x += 1;
+        } else {
+          len = this.pages[0].length - 2;
+          if (y >= len) {
+            y = len - 1;
+          } else if (y < 0) {
+            y = 0;
+          }
+          y += 1;
+        }
+      }
+      this._goToPage(x, y, time, easing);
+    };
+
+    BScroll.prototype.next = function (time, easing) {
+      var snap = this.options.snap;
+      if (!snap) {
+        return;
+      }
+
+      var x = this.currentPage.pageX;
+      var y = this.currentPage.pageY;
+
+      x++;
+      if (x >= this.pages.length && this.hasVerticalScroll) {
+        x = 0;
+        y++;
+      }
+
+      this._goToPage(x, y, time, easing);
+    };
+
+    BScroll.prototype.prev = function (time, easing) {
+      var snap = this.options.snap;
+      if (!snap) {
+        return;
+      }
+
+      var x = this.currentPage.pageX;
+      var y = this.currentPage.pageY;
+
+      x--;
+      if (x < 0 && this.hasVerticalScroll) {
+        x = 0;
+        y--;
+      }
+
+      this._goToPage(x, y, time, easing);
+    };
+
+    BScroll.prototype.getCurrentPage = function () {
+      var snap = this.options.snap;
+      if (!snap) {
+        return null;
+      }
+
+      if (snap.loop) {
+        var currentPage = void 0;
+        if (snap._loopX) {
+          currentPage = extend({}, this.currentPage, {
+            pageX: this.currentPage.pageX - 1
+          });
+        } else {
+          currentPage = extend({}, this.currentPage, {
+            pageY: this.currentPage.pageY - 1
+          });
+        }
+        return currentPage;
+      }
+      return this.currentPage;
+    };
+  }
+
+  function wheelMixin(BScroll) {
+    BScroll.prototype.wheelTo = function () {
+      var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+      if (this.options.wheel) {
+        this.y = -index * this.itemHeight;
+        this.scrollTo(0, this.y);
+      }
+    };
+
+    BScroll.prototype.getSelectedIndex = function () {
+      return this.options.wheel && this.selectedIndex;
+    };
+
+    BScroll.prototype._initWheel = function () {
+      var wheel = this.options.wheel;
+      if (!wheel.wheelWrapperClass) {
+        wheel.wheelWrapperClass = 'wheel-scroll';
+      }
+      if (!wheel.wheelItemClass) {
+        wheel.wheelItemClass = 'wheel-item';
+      }
+      if (wheel.selectedIndex === undefined) {
+        wheel.selectedIndex = 0;
+        warn('wheel option selectedIndex is required!');
+      }
+    };
+  }
+
+  var INDICATOR_MIN_LEN = 8;
+
+  function scrollbarMixin(BScroll) {
+    BScroll.prototype._initScrollbar = function () {
+      var _this = this;
+
+      var _options$scrollbar = this.options.scrollbar,
+          _options$scrollbar$fa = _options$scrollbar.fade,
+          fade = _options$scrollbar$fa === undefined ? true : _options$scrollbar$fa,
+          _options$scrollbar$in = _options$scrollbar.interactive,
+          interactive = _options$scrollbar$in === undefined ? false : _options$scrollbar$in;
+
+      this.indicators = [];
+      var indicator = void 0;
+
+      if (this.options.scrollX) {
+        indicator = {
+          el: createScrollbar('horizontal'),
+          direction: 'horizontal',
+          fade: fade,
+          interactive: interactive
+        };
+        this._insertScrollBar(indicator.el);
+
+        this.indicators.push(new Indicator(this, indicator));
+      }
+
+      if (this.options.scrollY) {
+        indicator = {
+          el: createScrollbar('vertical'),
+          direction: 'vertical',
+          fade: fade,
+          interactive: interactive
+        };
+        this._insertScrollBar(indicator.el);
+        this.indicators.push(new Indicator(this, indicator));
+      }
+
+      this.on('refresh', function () {
+        for (var i = 0; i < _this.indicators.length; i++) {
+          _this.indicators[i].refresh();
+        }
+      });
+
+      if (fade) {
+        this.on('scrollEnd', function () {
+          for (var i = 0; i < _this.indicators.length; i++) {
+            _this.indicators[i].fade();
+          }
+        });
+
+        this.on('scrollCancel', function () {
+          for (var i = 0; i < _this.indicators.length; i++) {
+            _this.indicators[i].fade();
+          }
+        });
+
+        this.on('scrollStart', function () {
+          for (var i = 0; i < _this.indicators.length; i++) {
+            _this.indicators[i].fade(true);
+          }
+        });
+
+        this.on('beforeScrollStart', function () {
+          for (var i = 0; i < _this.indicators.length; i++) {
+            _this.indicators[i].fade(true, true);
+          }
+        });
+      }
+
+      this.on('destroy', function () {
+        _this._removeScrollBars();
+      });
+    };
+
+    BScroll.prototype._insertScrollBar = function (scrollbar) {
+      this.wrapper.appendChild(scrollbar);
+    };
+
+    BScroll.prototype._removeScrollBars = function () {
+      for (var i = 0; i < this.indicators.length; i++) {
+        this.indicators[i].destroy();
+      }
+    };
+  }
+
+  function createScrollbar(direction) {
+    var scrollbar = document.createElement('div');
+    var indicator = document.createElement('div');
+
+    scrollbar.style.cssText = 'position:absolute;z-index:9999;pointerEvents:none';
+    indicator.style.cssText = 'box-sizing:border-box;position:absolute;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.9);border-radius:3px;';
+
+    indicator.className = 'bscroll-indicator';
+
+    if (direction === 'horizontal') {
+      scrollbar.style.cssText += ';height:7px;left:2px;right:2px;bottom:0';
+      indicator.style.height = '100%';
+      scrollbar.className = 'bscroll-horizontal-scrollbar';
+    } else {
+      scrollbar.style.cssText += ';width:7px;bottom:2px;top:2px;right:1px';
+      indicator.style.width = '100%';
+      scrollbar.className = 'bscroll-vertical-scrollbar';
+    }
+
+    scrollbar.style.cssText += ';overflow:hidden';
+    scrollbar.appendChild(indicator);
+
+    return scrollbar;
+  }
+
+  function Indicator(scroller, options) {
+    this.wrapper = options.el;
+    this.wrapperStyle = this.wrapper.style;
+    this.indicator = this.wrapper.children[0];
+    this.indicatorStyle = this.indicator.style;
+    this.scroller = scroller;
+    this.direction = options.direction;
+    if (options.fade) {
+      this.visible = 0;
+      this.wrapperStyle.opacity = '0';
+    } else {
+      this.visible = 1;
+    }
+
+    this.sizeRatioX = 1;
+    this.sizeRatioY = 1;
+    this.maxPosX = 0;
+    this.maxPosY = 0;
+    this.x = 0;
+    this.y = 0;
+
+    if (options.interactive) {
+      this._addDOMEvents();
+    }
+  }
+
+  Indicator.prototype.handleEvent = function (e) {
+    switch (e.type) {
+      case 'touchstart':
+      case 'mousedown':
+        this._start(e);
+        break;
+      case 'touchmove':
+      case 'mousemove':
+        this._move(e);
+        break;
+      case 'touchend':
+      case 'mouseup':
+      case 'touchcancel':
+      case 'mousecancel':
+        this._end(e);
+        break;
+    }
+  };
+
+  Indicator.prototype.refresh = function () {
+    this.transitionTime();
+    this._calculate();
+    this.updatePosition();
+  };
+
+  Indicator.prototype.fade = function (visible, hold) {
+    var _this2 = this;
+
+    if (hold && !this.visible) {
+      return;
+    }
+
+    var time = visible ? 250 : 500;
+
+    visible = visible ? '1' : '0';
+
+    this.wrapperStyle[style.transitionDuration] = time + 'ms';
+
+    clearTimeout(this.fadeTimeout);
+    this.fadeTimeout = setTimeout(function () {
+      _this2.wrapperStyle.opacity = visible;
+      _this2.visible = +visible;
+    }, 0);
+  };
+
+  Indicator.prototype.updatePosition = function () {
+    if (this.direction === 'vertical') {
+      var y = Math.round(this.sizeRatioY * this.scroller.y);
+
+      if (y < 0) {
+        this.transitionTime(500);
+        var height = Math.max(this.indicatorHeight + y * 3, INDICATOR_MIN_LEN);
+        this.indicatorStyle.height = height + 'px';
+        y = 0;
+      } else if (y > this.maxPosY) {
+        this.transitionTime(500);
+        var _height = Math.max(this.indicatorHeight - (y - this.maxPosY) * 3, INDICATOR_MIN_LEN);
+        this.indicatorStyle.height = _height + 'px';
+        y = this.maxPosY + this.indicatorHeight - _height;
+      } else {
+        this.indicatorStyle.height = this.indicatorHeight + 'px';
+      }
+      this.y = y;
+
+      if (this.scroller.options.useTransform) {
+        this.indicatorStyle[style.transform] = 'translateY(' + y + 'px)' + this.scroller.translateZ;
+      } else {
+        this.indicatorStyle.top = y + 'px';
+      }
+    } else {
+      var x = Math.round(this.sizeRatioX * this.scroller.x);
+
+      if (x < 0) {
+        this.transitionTime(500);
+        var width = Math.max(this.indicatorWidth + x * 3, INDICATOR_MIN_LEN);
+        this.indicatorStyle.width = width + 'px';
+        x = 0;
+      } else if (x > this.maxPosX) {
+        this.transitionTime(500);
+        var _width = Math.max(this.indicatorWidth - (x - this.maxPosX) * 3, INDICATOR_MIN_LEN);
+        this.indicatorStyle.width = _width + 'px';
+        x = this.maxPosX + this.indicatorWidth - _width;
+      } else {
+        this.indicatorStyle.width = this.indicatorWidth + 'px';
+      }
+
+      this.x = x;
+
+      if (this.scroller.options.useTransform) {
+        this.indicatorStyle[style.transform] = 'translateX(' + x + 'px)' + this.scroller.translateZ;
+      } else {
+        this.indicatorStyle.left = x + 'px';
+      }
+    }
+  };
+
+  Indicator.prototype.transitionTime = function () {
+    var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+    this.indicatorStyle[style.transitionDuration] = time + 'ms';
+  };
+
+  Indicator.prototype.transitionTimingFunction = function (easing) {
+    this.indicatorStyle[style.transitionTimingFunction] = easing;
+  };
+
+  Indicator.prototype.destroy = function () {
+    this._removeDOMEvents();
+    this.wrapper.parentNode.removeChild(this.wrapper);
+  };
+
+  Indicator.prototype._start = function (e) {
+    var point = e.touches ? e.touches[0] : e;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.transitionTime();
+
+    this.initiated = true;
+    this.moved = false;
+    this.lastPointX = point.pageX;
+    this.lastPointY = point.pageY;
+
+    this.startTime = getNow();
+
+    this._handleMoveEvents(addEvent);
+    this.scroller.trigger('beforeScrollStart');
+  };
+
+  Indicator.prototype._move = function (e) {
+    var point = e.touches ? e.touches[0] : e;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!this.moved) {
+      this.scroller.trigger('scrollStart');
+    }
+
+    this.moved = true;
+
+    var deltaX = point.pageX - this.lastPointX;
+    this.lastPointX = point.pageX;
+
+    var deltaY = point.pageY - this.lastPointY;
+    this.lastPointY = point.pageY;
+
+    var newX = this.x + deltaX;
+    var newY = this.y + deltaY;
+
+    this._pos(newX, newY);
+  };
+
+  Indicator.prototype._end = function (e) {
+    if (!this.initiated) {
+      return;
+    }
+    this.initiated = false;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    this._handleMoveEvents(removeEvent);
+
+    var snapOption = this.scroller.options.snap;
+    if (snapOption) {
+      var speed = snapOption.speed,
+          _snapOption$easing = snapOption.easing,
+          easing = _snapOption$easing === undefined ? ease.bounce : _snapOption$easing;
+
+      var snap = this.scroller._nearestSnap(this.scroller.x, this.scroller.y);
+
+      var time = speed || Math.max(Math.max(Math.min(Math.abs(this.scroller.x - snap.x), 1000), Math.min(Math.abs(this.scroller.y - snap.y), 1000)), 300);
+
+      if (this.scroller.x !== snap.x || this.scroller.y !== snap.y) {
+        this.scroller.directionX = 0;
+        this.scroller.directionY = 0;
+        this.scroller.currentPage = snap;
+        this.scroller.scrollTo(snap.x, snap.y, time, easing);
+      }
+    }
+
+    if (this.moved) {
+      this.scroller.trigger('scrollEnd', {
+        x: this.scroller.x,
+        y: this.scroller.y
+      });
+    }
+  };
+
+  Indicator.prototype._pos = function (x, y) {
+    if (x < 0) {
+      x = 0;
+    } else if (x > this.maxPosX) {
+      x = this.maxPosX;
+    }
+
+    if (y < 0) {
+      y = 0;
+    } else if (y > this.maxPosY) {
+      y = this.maxPosY;
+    }
+
+    x = Math.round(x / this.sizeRatioX);
+    y = Math.round(y / this.sizeRatioY);
+
+    this.scroller.scrollTo(x, y);
+    this.scroller.trigger('scroll', {
+      x: this.scroller.x,
+      y: this.scroller.y
+    });
+  };
+
+  Indicator.prototype._calculate = function () {
+    if (this.direction === 'vertical') {
+      var wrapperHeight = this.wrapper.clientHeight;
+      this.indicatorHeight = Math.max(Math.round(wrapperHeight * wrapperHeight / (this.scroller.scrollerHeight || wrapperHeight || 1)), INDICATOR_MIN_LEN);
+      this.indicatorStyle.height = this.indicatorHeight + 'px';
+
+      this.maxPosY = wrapperHeight - this.indicatorHeight;
+
+      this.sizeRatioY = this.maxPosY / this.scroller.maxScrollY;
+    } else {
+      var wrapperWidth = this.wrapper.clientWidth;
+      this.indicatorWidth = Math.max(Math.round(wrapperWidth * wrapperWidth / (this.scroller.scrollerWidth || wrapperWidth || 1)), INDICATOR_MIN_LEN);
+      this.indicatorStyle.width = this.indicatorWidth + 'px';
+
+      this.maxPosX = wrapperWidth - this.indicatorWidth;
+
+      this.sizeRatioX = this.maxPosX / this.scroller.maxScrollX;
+    }
+  };
+
+  Indicator.prototype._addDOMEvents = function () {
+    var eventOperation = addEvent;
+    this._handleDOMEvents(eventOperation);
+  };
+
+  Indicator.prototype._removeDOMEvents = function () {
+    var eventOperation = removeEvent;
+    this._handleDOMEvents(eventOperation);
+    this._handleMoveEvents(eventOperation);
+  };
+
+  Indicator.prototype._handleMoveEvents = function (eventOperation) {
+    if (!this.scroller.options.disableTouch) {
+      eventOperation(window, 'touchmove', this);
+    }
+    if (!this.scroller.options.disableMouse) {
+      eventOperation(window, 'mousemove', this);
+    }
+  };
+
+  Indicator.prototype._handleDOMEvents = function (eventOperation) {
+    if (!this.scroller.options.disableTouch) {
+      eventOperation(this.indicator, 'touchstart', this);
+      eventOperation(window, 'touchend', this);
+    }
+    if (!this.scroller.options.disableMouse) {
+      eventOperation(this.indicator, 'mousedown', this);
+      eventOperation(window, 'mouseup', this);
+    }
+  };
+
+  function pullDownMixin(BScroll) {
+    BScroll.prototype._initPullDown = function () {
+      // must watch scroll in real time
+      this.options.probeType = PROBE_REALTIME;
+    };
+
+    BScroll.prototype._checkPullDown = function () {
+      var _options$pullDownRefr = this.options.pullDownRefresh,
+          _options$pullDownRefr2 = _options$pullDownRefr.threshold,
+          threshold = _options$pullDownRefr2 === undefined ? 90 : _options$pullDownRefr2,
+          _options$pullDownRefr3 = _options$pullDownRefr.stop,
+          stop = _options$pullDownRefr3 === undefined ? 40 : _options$pullDownRefr3;
+
+      // check if a real pull down action
+
+      if (this.directionY !== DIRECTION_DOWN$1 || this.y < threshold) {
+        return false;
+      }
+
+      if (!this.pulling) {
+        this.pulling = true;
+        this.trigger('pullingDown');
+      }
+      this.scrollTo(this.x, stop, this.options.bounceTime, ease.bounce);
+
+      return this.pulling;
+    };
+
+    BScroll.prototype.finishPullDown = function () {
+      this.pulling = false;
+      this.resetPosition(this.options.bounceTime, ease.bounce);
+    };
+
+    BScroll.prototype.openPullDown = function () {
+      var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+      this.options.pullDownRefresh = config;
+      this._initPullDown();
+    };
+
+    BScroll.prototype.closePullDown = function () {
+      this.options.pullDownRefresh = false;
+    };
+  }
+
+  function pullUpMixin(BScroll) {
+    BScroll.prototype._initPullUp = function () {
+      // must watch scroll in real time
+      this.options.probeType = PROBE_REALTIME;
+
+      this.pullupWatching = false;
+      this._watchPullUp();
+    };
+
+    BScroll.prototype._watchPullUp = function () {
+      if (this.pullupWatching) {
+        return;
+      }
+      this.pullupWatching = true;
+      this.on('scroll', this._checkToEnd);
+    };
+
+    BScroll.prototype._checkToEnd = function (pos) {
+      var _this = this;
+
+      var _options$pullUpLoad$t = this.options.pullUpLoad.threshold,
+          threshold = _options$pullUpLoad$t === undefined ? 0 : _options$pullUpLoad$t;
+
+      if (this.movingDirectionY === DIRECTION_UP$1 && pos.y <= this.maxScrollY + threshold) {
+        // reset pullupWatching status after scroll end.
+        this.once('scrollEnd', function () {
+          _this.pullupWatching = false;
+        });
+        this.trigger('pullingUp');
+        this.off('scroll', this._checkToEnd);
+      }
+    };
+
+    BScroll.prototype.finishPullUp = function () {
+      var _this2 = this;
+
+      if (this.pullupWatching) {
+        this.once('scrollEnd', function () {
+          _this2._watchPullUp();
+        });
+      } else {
+        this._watchPullUp();
+      }
+    };
+
+    BScroll.prototype.openPullUp = function () {
+      var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+      this.options.pullUpLoad = config;
+      this._initPullUp();
+    };
+
+    BScroll.prototype.closePullUp = function () {
+      this.options.pullUpLoad = false;
+      if (!this.pullupWatching) {
+        return;
+      }
+      this.pullupWatching = false;
+      this.off('scroll', this._checkToEnd);
+    };
+  }
+
+  function mouseWheelMixin(BScroll) {
+    BScroll.prototype._initMouseWheel = function () {
+      var _this = this;
+
+      this._handleMouseWheelEvent(addEvent);
+
+      this.on('destroy', function () {
+        clearTimeout(_this.mouseWheelTimer);
+        _this._handleMouseWheelEvent(removeEvent);
+      });
+
+      this.firstWheelOpreation = true;
+    };
+
+    BScroll.prototype._handleMouseWheelEvent = function (eventOperation) {
+      eventOperation(this.wrapper, 'wheel', this);
+      eventOperation(this.wrapper, 'mousewheel', this);
+      eventOperation(this.wrapper, 'DOMMouseScroll', this);
+    };
+
+    BScroll.prototype._onMouseWheel = function (e) {
+      var _this2 = this;
+
+      if (!this.enabled) {
+        return;
+      }
+      e.preventDefault();
+
+      if (this.firstWheelOpreation) {
+        this.trigger('scrollStart');
+      }
+      this.firstWheelOpreation = false;
+
+      clearTimeout(this.mouseWheelTimer);
+      this.mouseWheelTimer = setTimeout(function () {
+        if (!_this2.options.snap) {
+          _this2.trigger('scrollEnd', {
+            x: _this2.x,
+            y: _this2.y
+          });
+        }
+        _this2.firstWheelOpreation = true;
+      }, 400);
+
+      var _options$mouseWheel = this.options.mouseWheel,
+          _options$mouseWheel$s = _options$mouseWheel.speed,
+          speed = _options$mouseWheel$s === undefined ? 20 : _options$mouseWheel$s,
+          _options$mouseWheel$i = _options$mouseWheel.invert,
+          invert = _options$mouseWheel$i === undefined ? false : _options$mouseWheel$i;
+
+      var wheelDeltaX = void 0;
+      var wheelDeltaY = void 0;
+
+      switch (true) {
+        case 'deltaX' in e:
+          if (e.deltaMode === 1) {
+            wheelDeltaX = -e.deltaX * speed;
+            wheelDeltaY = -e.deltaY * speed;
+          } else {
+            wheelDeltaX = -e.deltaX;
+            wheelDeltaY = -e.deltaY;
+          }
+          break;
+        case 'wheelDeltaX' in e:
+          wheelDeltaX = e.wheelDeltaX / 120 * speed;
+          wheelDeltaY = e.wheelDeltaY / 120 * speed;
+          break;
+        case 'wheelDelta' in e:
+          wheelDeltaX = wheelDeltaY = e.wheelDelta / 120 * speed;
+          break;
+        case 'detail' in e:
+          wheelDeltaX = wheelDeltaY = -e.detail / 3 * speed;
+          break;
+        default:
+          return;
+      }
+
+      var direction = invert ? -1 : 1;
+      wheelDeltaX *= direction;
+      wheelDeltaY *= direction;
+
+      if (!this.hasVerticalScroll) {
+        wheelDeltaX = wheelDeltaY;
+        wheelDeltaY = 0;
+      }
+
+      var newX = void 0;
+      var newY = void 0;
+      if (this.options.snap) {
+        newX = this.currentPage.pageX;
+        newY = this.currentPage.pageY;
+
+        if (wheelDeltaX > 0) {
+          newX--;
+        } else if (wheelDeltaX < 0) {
+          newX++;
+        }
+
+        if (wheelDeltaY > 0) {
+          newY--;
+        } else if (wheelDeltaY < 0) {
+          newY++;
+        }
+
+        this._goToPage(newX, newY);
+        return;
+      }
+
+      newX = this.x + Math.round(this.hasHorizontalScroll ? wheelDeltaX : 0);
+      newY = this.y + Math.round(this.hasVerticalScroll ? wheelDeltaY : 0);
+
+      this.directionX = wheelDeltaX > 0 ? -1 : wheelDeltaX < 0 ? 1 : 0;
+      this.directionY = wheelDeltaY > 0 ? -1 : wheelDeltaY < 0 ? 1 : 0;
+
+      if (newX > 0) {
+        newX = 0;
+      } else if (newX < this.maxScrollX) {
+        newX = this.maxScrollX;
+      }
+
+      if (newY > 0) {
+        newY = 0;
+      } else if (newY < this.maxScrollY) {
+        newY = this.maxScrollY;
+      }
+
+      this.scrollTo(newX, newY);
+      this.trigger('scroll', {
+        x: this.x,
+        y: this.y
+      });
+    };
+  }
+
+  function BScroll(el, options) {
+    this.wrapper = typeof el === 'string' ? document.querySelector(el) : el;
+    if (!this.wrapper) {
+      warn('Can not resolve the wrapper DOM.');
+    }
+    this.scroller = this.wrapper.children[0];
+    if (!this.scroller) {
+      warn('The wrapper need at least one child element to be scroller.');
+    }
+    // cache style for better performance
+    this.scrollerStyle = this.scroller.style;
+
+    this._init(el, options);
+  }
+
+  initMixin(BScroll);
+  coreMixin(BScroll);
+  eventMixin(BScroll);
+  snapMixin(BScroll);
+  wheelMixin(BScroll);
+  scrollbarMixin(BScroll);
+  pullDownMixin(BScroll);
+  pullUpMixin(BScroll);
+  mouseWheelMixin(BScroll);
+
+  BScroll.Version = '1.9.1';
+
+  function onLocalDataChange () {
+    var _this = this;
+
+    this.$nextTick(function () {
+      var scrolls = _this.scrolls;
+      var groups = _this.$refs.groups;
+
+      var _loop = function _loop(groupIndex, len) {
+        var scroll = new BScroll(groups[groupIndex], BS_OPTIONS.call(_this, groupIndex));
+        scroll.on('scrollEnd', function () {
+          _this.onScrollEnd(scroll, groupIndex);
+        }); // 级联选择器初始化
+
+        if (_this.cascaded) {
+          _this.onScrollEnd(scroll, groupIndex);
+        }
+
+        _this.scrolls[groupIndex] = scroll;
+      };
+
+      for (var groupIndex = scrolls.length, len = groups.length; groupIndex < len; groupIndex++) {
+        _loop(groupIndex, len);
+      } // 重置 data 后需刷新
+
+
+      _this.scrolls.forEach(function (scroll, groupIndex) {
+        scroll.once('refresh', function () {
+          _this.$nextTick(function () {
+            // 选项数据改变可能导致选中条目的索引改变，需同步
+            scroll.wheelTo(_this.findSelectedItemIndex(groupIndex));
+          });
+        });
+        scroll.refresh();
+      });
+    });
+  }
+
+  /** `Object#toString` result references. */
+  var mapTag$6 = '[object Map]',
+      setTag$6 = '[object Set]';
+
+  /** Used for built-in method references. */
+  var objectProto$15 = Object.prototype;
+
+  /** Used to check objects for own properties. */
+  var hasOwnProperty$12 = objectProto$15.hasOwnProperty;
+
+  /**
+   * Checks if `value` is an empty object, collection, map, or set.
+   *
+   * Objects are considered empty if they have no own enumerable string keyed
+   * properties.
+   *
+   * Array-like values such as `arguments` objects, arrays, buffers, strings, or
+   * jQuery-like collections are considered empty if they have a `length` of `0`.
+   * Similarly, maps and sets are considered empty if they have a `size` of `0`.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is empty, else `false`.
+   * @example
+   *
+   * _.isEmpty(null);
+   * // => true
+   *
+   * _.isEmpty(true);
+   * // => true
+   *
+   * _.isEmpty(1);
+   * // => true
+   *
+   * _.isEmpty([1, 2, 3]);
+   * // => false
+   *
+   * _.isEmpty({ 'a': 1 });
+   * // => false
+   */
+  function isEmpty(value) {
+    if (value == null) {
+      return true;
+    }
+    if (isArrayLike_1(value) &&
+        (isArray_1(value) || typeof value == 'string' || typeof value.splice == 'function' ||
+          isBuffer_1(value) || isTypedArray_1(value) || isArguments_1(value))) {
+      return !value.length;
+    }
+    var tag = _getTag(value);
+    if (tag == mapTag$6 || tag == setTag$6) {
+      return !value.size;
+    }
+    if (_isPrototype(value)) {
+      return !_baseKeys(value).length;
+    }
+    for (var key in value) {
+      if (hasOwnProperty$12.call(value, key)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  var isEmpty_1 = isEmpty;
+
+  /**
+   * Checks if `value` is `NaN`.
+   *
+   * **Note:** This method is based on
+   * [`Number.isNaN`](https://mdn.io/Number/isNaN) and is not the same as
+   * global [`isNaN`](https://mdn.io/isNaN) which returns `true` for
+   * `undefined` and other non-number values.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
+   * @example
+   *
+   * _.isNaN(NaN);
+   * // => true
+   *
+   * _.isNaN(new Number(NaN));
+   * // => true
+   *
+   * isNaN(undefined);
+   * // => true
+   *
+   * _.isNaN(undefined);
+   * // => false
+   */
+  function isNaN$1(value) {
+    // An `NaN` primitive is the only value that is not equal to itself.
+    // Perform the `toStringTag` check first to avoid errors with some
+    // ActiveX objects in IE.
+    return isNumber_1(value) && value != +value;
+  }
+
+  var _isNaN = isNaN$1;
+
+  function onScrollEnd (scroll, groupIndex) {
+    // 当前选中条目的索引
+    var selectedIndex = scroll.getSelectedIndex(); // 如果索引有误，直接返回
+
+    if (_isNaN(selectedIndex)) return; // 获取当前选中的条目，并将其索引植入
+
+    var selectedItem = this.localData[groupIndex][selectedIndex];
+    selectedItem.index = selectedIndex; // 跳过禁用的条目
+
+    if (selectedItem.disabled) {
+      var newIndex = this.findAvailableItemIndex(this.localData[groupIndex], selectedIndex, scroll.directionY >= 0 ? DIRECTION_DOWN : DIRECTION_UP); // 防止死循环
+
+      if (newIndex !== selectedIndex) {
+        // scroll.wheelTo(newIndex)
+        scroll.scrollTo(0, -newIndex * scroll.itemHeight, 170 // 若是 0 则不会触发 scrollEnd 事件
+        );
+      }
+
+      return;
+    } // 确保是有效滑动
+
+
+    if (!this.cascaded && this.selectedItems[groupIndex] && this.selectedItems[groupIndex].index === selectedIndex) {
+      return;
+    } // 设置当前组选中的条目为本条目
+
+
+    this.selectedItems[groupIndex] = selectedItem; // 同步绑定值
+
+    var newValue = this.localValue.slice();
+    newValue[groupIndex] = selectedItem.value;
+    this.syncValue(newValue); // change 事件
+
+    if (!this.cascaded) {
+      // 非级联时，滑动结束即触发
+      this.$emit('change', this.selectedItems.slice());
+    } else if (isEmpty_1(selectedItem.children)) {
+      // 级联时，最后一个 group 滑动结束触发
+      this.$emit('change', this.selectedItems.slice(0, groupIndex + 1));
+    } // 级联数据的联动处理
+
+
+    if (this.cascaded) {
+      var nextGroupIndex = groupIndex + 1;
+      var nextGroupItems = selectedItem.children;
+
+      if (isArray_1(nextGroupItems) && nextGroupItems.length) {
+        // set
+        this.$set(this.localData, nextGroupIndex, nextGroupItems);
+      } else if (this.localData.length > nextGroupIndex) {
+        // delete
+        this.localData.splice(nextGroupIndex);
+        this.localValue.splice(nextGroupIndex);
+        this.scrolls.splice(nextGroupIndex);
+      }
+    }
+  }
+
+  // onValueChange 是 vue-better-sync 的钩子函数：
+  // 其已实现仅当 value 由父组件本身改变，
+  // 而不是，localValue 改变触发 value 改变时，
+  // 调用此函数。
+  function onValueChange () {
+    var _this = this;
+
+    this.$nextTick(function () {
+      _this.scrolls.forEach(function (scroll, groupIndex) {
+        scroll.wheelTo(_this.findSelectedItemIndex(groupIndex, true));
+      });
+    });
+  }
+
+  var listeners = {
+    onDataChange: onDataChange,
+    onLocalDataChange: onLocalDataChange,
+    onScrollEnd: onScrollEnd,
+    onValueChange: onValueChange
+  };
+
+  var methods = Object.assign({
+    findAvailableItemIndex: findAvailableItemIndex,
+    findSelectedItemIndex: findSelectedItemIndex,
+    processData: processData
+  }, listeners);
+
+  var watch = {
+    data: {
+      immediate: true,
+      handler: 'onDataChange'
+    },
+    localData: {
+      immediate: true,
+      handler: 'onLocalDataChange'
+    }
+  };
+
+  function render (h) {
+    return h('div', {
+      styleName: '@picker-view'
+    }, [this.Mask, this.Indicator, this.Content]);
+  }
+
+  var pickerView = {
+    name: 'f-picker-view',
+    mixins: mixins,
+    props: props,
+    data: data,
+    computed: computed,
+    methods: methods,
+    watch: watch,
+    render: render
+  };
+
+  var styles$12 = {"select":"f-1rW f-1Xw"};
 
   var select = {
     name: 'f-select',
     mixins: [index({
       prop: 'value',
       event: 'change'
-    }), CSSModules(styles$11)],
+    }), CSSModules(styles$12)],
     props: {
       value: {
         type: null,
@@ -4949,40 +9205,6 @@
     }
   };
 
-  var defineProperty = (function() {
-    try {
-      var func = _getNative(Object, 'defineProperty');
-      func({}, '', {});
-      return func;
-    } catch (e) {}
-  }());
-
-  var _defineProperty = defineProperty;
-
-  /**
-   * The base implementation of `assignValue` and `assignMergeValue` without
-   * value checks.
-   *
-   * @private
-   * @param {Object} object The object to modify.
-   * @param {string} key The key of the property to assign.
-   * @param {*} value The value to assign.
-   */
-  function baseAssignValue(object, key, value) {
-    if (key == '__proto__' && _defineProperty) {
-      _defineProperty(object, key, {
-        'configurable': true,
-        'enumerable': true,
-        'value': value,
-        'writable': true
-      });
-    } else {
-      object[key] = value;
-    }
-  }
-
-  var _baseAssignValue = baseAssignValue;
-
   /**
    * Creates an object with the same keys as `object` and values generated
    * by running each own enumerable string keyed property of `object` thru
@@ -5024,10 +9246,10 @@
   var mapValues_1 = mapValues;
 
   /** Used for built-in method references. */
-  var objectProto$12 = Object.prototype;
+  var objectProto$16 = Object.prototype;
 
   /** Used to check objects for own properties. */
-  var hasOwnProperty$9 = objectProto$12.hasOwnProperty;
+  var hasOwnProperty$13 = objectProto$16.hasOwnProperty;
 
   /**
    * The base implementation of `_.has` without support for deep paths.
@@ -5038,7 +9260,7 @@
    * @returns {boolean} Returns `true` if `key` exists, else `false`.
    */
   function baseHas(object, key) {
-    return object != null && hasOwnProperty$9.call(object, key);
+    return object != null && hasOwnProperty$13.call(object, key);
   }
 
   var _baseHas = baseHas;
@@ -5076,14 +9298,14 @@
 
   var has_1 = has;
 
-  var styles$12 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
+  var styles$13 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
 
   var _switch = {
     name: 'f-switch',
     mixins: [index({
       prop: 'value',
       event: 'change'
-    }), CSSModules(styles$12)],
+    }), CSSModules(styles$13)],
     props: {
       value: {
         type: null,
@@ -5113,7 +9335,7 @@
         });
       },
       done: function done() {
-        this.syncValue(!this.actualValue);
+        this.syncValue(!this.localValue);
       },
       handleClick: function handleClick() {
         if (this.disabled) return;
@@ -5127,7 +9349,7 @@
     },
     render: function render(h) {
       return h('div', {
-        styleName: '@switch on=actualValue :disabled',
+        styleName: '@switch on=localValue :disabled',
         on: {
           click: this.handleClick
         }
@@ -5419,7 +9641,7 @@
   });
   });
 
-  var styles$13 = {};
+  var styles$14 = {};
 
   var textarea = {
     name: 'f-textarea',
@@ -5427,7 +9649,7 @@
     mixins: [index({
       prop: 'value',
       event: 'input'
-    }), CSSModules(styles$13)],
+    }), CSSModules(styles$14)],
     props: {
       value: {
         type: [String, Number],
@@ -5499,6 +9721,7 @@
     inputNumber: inputNumber,
     item: Item,
     list: List,
+    pickerView: pickerView,
     select: select,
     switch: _switch,
     textarea: textarea

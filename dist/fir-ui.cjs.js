@@ -20,7 +20,14 @@ var _isBoolean = _interopDefault(require('lodash/isBoolean'));
 var CSSModules = _interopDefault(require('vue-css-modules'));
 var _isString = _interopDefault(require('lodash/isString'));
 var _toNumber = _interopDefault(require('lodash/toNumber'));
+var _fill = _interopDefault(require('lodash/fill'));
+var _findLastIndex = _interopDefault(require('lodash/findLastIndex'));
 var _findIndex = _interopDefault(require('lodash/findIndex'));
+var _isNil = _interopDefault(require('lodash/isNil'));
+var _clone = _interopDefault(require('lodash/clone'));
+var BScroll = _interopDefault(require('better-scroll'));
+var _isEmpty = _interopDefault(require('lodash/isEmpty'));
+var _isNaN = _interopDefault(require('lodash/isNaN'));
 var _mapValues = _interopDefault(require('lodash/mapValues'));
 var _has = _interopDefault(require('lodash/has'));
 var autoSize = _interopDefault(require('autosize'));
@@ -847,14 +854,454 @@ var inputNumber = {
   }
 };
 
-var styles$11 = {"select":"f-1rW f-1Xw"};
+var styles$11 = {"picker-view":"f-qZH","mask":"f-2vK","indicator":"f-1oq","content":"f-3TD f-1Ac","scroll":"f--Yp","unit":"f-1cr f-m9L","divider":"f-dlO f-m9L","loading":"f-w9F f-m9L","item":"f-2hL","disabled":"f-6PX"};
+
+var mixins = [CSSModules(styles$11), betterSync({
+  prop: 'value',
+  event: 'input'
+})];
+
+var props = {
+  // 绑定值
+  value: {
+    type: Array,
+    sync: true
+  },
+  // 选项数据
+  data: {
+    type: Array,
+    required: true
+  },
+  // 分隔符
+  divider: [String, Number, Array],
+  // 单位
+  unit: [String, Number, Array],
+  // 可见的选项个数
+  visibleItemCount: {
+    type: Number,
+    default: 5
+  },
+  // 单个选项的高度
+  itemHeight: {
+    type: String,
+    default: '2em'
+  },
+  // 过滤选项的函数
+  filterItem: Function,
+  // 禁用选项的函数
+  disableItem: Function,
+  // 渲染选项的函数
+  renderItem: Function,
+  // 是否级联数据，即 item 含 children 节点
+  cascaded: Boolean,
+  // 是否异步加载数据中
+  loading: Boolean
+};
+
+var data = (function () {
+  return {
+    scrolls: [],
+    localData: [],
+    selectedItems: []
+  };
+});
+
+var DIRECTION_DOWN = 0;
+var DIRECTION_UP = 1;
+var GROUP_CLASS_NAME = styles$11.group;
+var ITEM_CLASS_NAME = styles$11.item;
+var BS_OPTIONS = function BS_OPTIONS(groupIndex) {
+  return {
+    wheel: {
+      selectedIndex: this.findSelectedItemIndex(groupIndex),
+      wheelWrapperClass: GROUP_CLASS_NAME,
+      wheelItemClass: ITEM_CLASS_NAME,
+      rotate: 100 / this.visibleItemCount,
+      adjustTime: 200
+    },
+    observeDOM: false,
+    bindToWrapper: this.visibleItemCount === 1
+  };
+};
+
+var computedRenders = {
+  Mask: function Mask() {
+    return this.$createElement('div', {
+      styleName: 'mask',
+      style: this.styles.mask
+    });
+  },
+  Indicator: function Indicator() {
+    return this.$createElement('div', {
+      styleName: 'indicator',
+      style: this.styles.indicator
+    });
+  },
+  Content: function Content() {
+    return this.$createElement('div', {
+      styleName: 'content',
+      style: this.styles.content
+    }, this.Groups);
+  },
+  Loading: function Loading() {
+    return this.loading && this.$createElement('div', {
+      styleName: 'loading'
+    }, 'LOADING');
+  },
+  Groups: function Groups() {
+    var _this = this;
+
+    var h = this.$createElement;
+    return this.localData.map(function (items, groupIndex) {
+      var divider = _this.localDivider[groupIndex];
+      var unit = _this.localUnit[groupIndex];
+      var Items = items.map(function (item, index) {
+        return h('li', {
+          staticClass: ITEM_CLASS_NAME,
+          styleName: ['item', item.disabled && 'disabled'],
+          style: _this.styles.item,
+          key: index
+        }, [item.label]);
+      });
+      var Divider = divider && h('div', {
+        styleName: 'divider'
+      }, [divider]);
+      var Unit = unit && h('div', {
+        styleName: 'unit'
+      }, [unit]);
+      var Loading = groupIndex === _this.groupCount - 1 && _this.Loading;
+      return [h('div', {
+        styleName: 'scroll',
+        style: _this.styles.scroll,
+        ref: 'groups',
+        refInFor: true
+      }, [h('ul', {
+        staticClass: GROUP_CLASS_NAME,
+        styleName: 'group',
+        style: _this.styles.group
+      }, Items)]), Loading || Unit, Divider];
+    });
+  }
+};
+
+var computedProps = {
+  groupCount: function groupCount() {
+    return this.localData.length;
+  },
+  localDivider: function localDivider() {
+    return _isArray(this.divider) ? this.divider : _fill(Array(this.groupCount), this.divider);
+  },
+  localUnit: function localUnit() {
+    return _isArray(this.unit) ? this.unit : _fill(Array(this.groupCount), this.unit);
+  },
+  styles: function styles() {
+    var visibleItemCount = this.visibleItemCount,
+        itemHeight = this.itemHeight;
+
+    var _itemHeight$split = itemHeight.split(/(?=([a-zA-Z]{2,}))/, 2),
+        pureItemHeight = _itemHeight$split[0],
+        _itemHeight$split$ = _itemHeight$split[1],
+        unit = _itemHeight$split$ === void 0 ? 'px' : _itemHeight$split$;
+
+    var actualItemHeight = "" + pureItemHeight + unit;
+    var pickerHeight = "" + pureItemHeight * visibleItemCount + unit;
+    var pickerHalfHeight = "" + pureItemHeight * ((visibleItemCount - 1) / 2) + unit;
+    return {
+      mask: {
+        backgroundSize: "100% " + pickerHalfHeight
+      },
+      indicator: {
+        height: actualItemHeight,
+        top: pickerHalfHeight,
+        display: visibleItemCount === 1 ? 'none' : 'block'
+      },
+      content: {
+        height: pickerHeight
+      },
+      scroll: {
+        maxWidth: 100 / this.groupCount + "%"
+      },
+      group: {
+        marginTop: pickerHalfHeight
+      },
+      item: {
+        height: actualItemHeight,
+        lineHeight: actualItemHeight
+      }
+    };
+  }
+};
+
+var computed = Object.assign({}, computedRenders, computedProps);
+
+function findAvailableItemIndex (items, currentItemIndex, direction) {
+  if (items[currentItemIndex] && !items[currentItemIndex].disabled) {
+    return currentItemIndex;
+  }
+
+  var newIndex;
+
+  var findDown = function findDown() {
+    return _findIndex(items, function (item) {
+      return !item.disabled;
+    }, currentItemIndex);
+  };
+
+  var findUp = function findUp() {
+    return _findLastIndex(items.slice(0, currentItemIndex), function (item) {
+      return !item.disabled;
+    });
+  };
+
+  if (direction === DIRECTION_DOWN) {
+    newIndex = findDown();
+
+    if (newIndex === -1) {
+      newIndex = findUp();
+    }
+  } else if (direction === DIRECTION_UP) {
+    newIndex = findUp();
+
+    if (newIndex === -1) {
+      newIndex = findDown();
+    }
+  }
+
+  newIndex = newIndex === -1 ? currentItemIndex : newIndex;
+  return newIndex;
+}
+
+function findSelectedItemIndex (groupIndex, ignoreCache) {
+  var findAvailableItemIndex = this.findAvailableItemIndex,
+      selectedItems = this.selectedItems,
+      localData = this.localData,
+      localValue = this.localValue;
+  var itemCount = localData[groupIndex].length;
+  var selectedItemIndex = -1; // 1. 从缓存的选值中找
+
+  if (!ignoreCache && selectedItems[groupIndex]) {
+    selectedItemIndex = selectedItems[groupIndex].index;
+  } // 2. 从传入的绑定值中找
+
+
+  if (selectedItemIndex === -1 && !_isNil(localValue[groupIndex])) {
+    selectedItemIndex = _findIndex(localData[groupIndex], function (item) {
+      return item.value === localValue[groupIndex];
+    });
+  } // 3. 若未找到，直接找一个可用值；若找到，确保其可用
+
+
+  selectedItemIndex = findAvailableItemIndex(localData[groupIndex], selectedItemIndex <= 0 ? 0 : selectedItemIndex >= itemCount ? itemCount - 1 : selectedItemIndex, DIRECTION_DOWN);
+  return selectedItemIndex;
+}
+
+function processData(items, groupIndex) {
+  var filterItem = this.filterItem,
+      disableItem = this.disableItem,
+      renderItem = this.renderItem;
+  var newItems = [];
+
+  for (var itemIndex = 0, len = items.length; itemIndex < len; itemIndex++) {
+    var item = _clone(items[itemIndex]);
+
+    var payload = {
+      groupIndex: groupIndex,
+      itemIndex: itemIndex,
+      item: item
+    };
+
+    if (filterItem) {
+      if (!filterItem(payload)) continue;
+    }
+
+    if (disableItem && disableItem(payload)) {
+      item.disabled = true;
+    }
+
+    if (renderItem) {
+      var label = renderItem(payload);
+
+      if (label) {
+        item.label = label;
+      }
+    }
+
+    if (_isArray(item.children) && item.children.length) {
+      item.children = processData.call(this, item.children, groupIndex + 1);
+    }
+
+    newItems.push(item);
+  }
+
+  return newItems;
+}
+
+function onDataChange (data) {
+  if (this.cascaded) {
+    this.localData = [this.processData(data, 0)];
+  } else {
+    this.localData = data.map(this.processData);
+  }
+}
+
+function onLocalDataChange () {
+  var _this = this;
+
+  this.$nextTick(function () {
+    var scrolls = _this.scrolls;
+    var groups = _this.$refs.groups;
+
+    var _loop = function _loop(groupIndex, len) {
+      var scroll = new BScroll(groups[groupIndex], BS_OPTIONS.call(_this, groupIndex));
+      scroll.on('scrollEnd', function () {
+        _this.onScrollEnd(scroll, groupIndex);
+      }); // 级联选择器初始化
+
+      if (_this.cascaded) {
+        _this.onScrollEnd(scroll, groupIndex);
+      }
+
+      _this.scrolls[groupIndex] = scroll;
+    };
+
+    for (var groupIndex = scrolls.length, len = groups.length; groupIndex < len; groupIndex++) {
+      _loop(groupIndex, len);
+    } // 重置 data 后需刷新
+
+
+    _this.scrolls.forEach(function (scroll, groupIndex) {
+      scroll.once('refresh', function () {
+        _this.$nextTick(function () {
+          // 选项数据改变可能导致选中条目的索引改变，需同步
+          scroll.wheelTo(_this.findSelectedItemIndex(groupIndex));
+        });
+      });
+      scroll.refresh();
+    });
+  });
+}
+
+function onScrollEnd (scroll, groupIndex) {
+  // 当前选中条目的索引
+  var selectedIndex = scroll.getSelectedIndex(); // 如果索引有误，直接返回
+
+  if (_isNaN(selectedIndex)) return; // 获取当前选中的条目，并将其索引植入
+
+  var selectedItem = this.localData[groupIndex][selectedIndex];
+  selectedItem.index = selectedIndex; // 跳过禁用的条目
+
+  if (selectedItem.disabled) {
+    var newIndex = this.findAvailableItemIndex(this.localData[groupIndex], selectedIndex, scroll.directionY >= 0 ? DIRECTION_DOWN : DIRECTION_UP); // 防止死循环
+
+    if (newIndex !== selectedIndex) {
+      // scroll.wheelTo(newIndex)
+      scroll.scrollTo(0, -newIndex * scroll.itemHeight, 170 // 若是 0 则不会触发 scrollEnd 事件
+      );
+    }
+
+    return;
+  } // 确保是有效滑动
+
+
+  if (!this.cascaded && this.selectedItems[groupIndex] && this.selectedItems[groupIndex].index === selectedIndex) {
+    return;
+  } // 设置当前组选中的条目为本条目
+
+
+  this.selectedItems[groupIndex] = selectedItem; // 同步绑定值
+
+  var newValue = this.localValue.slice();
+  newValue[groupIndex] = selectedItem.value;
+  this.syncValue(newValue); // change 事件
+
+  if (!this.cascaded) {
+    // 非级联时，滑动结束即触发
+    this.$emit('change', this.selectedItems.slice());
+  } else if (_isEmpty(selectedItem.children)) {
+    // 级联时，最后一个 group 滑动结束触发
+    this.$emit('change', this.selectedItems.slice(0, groupIndex + 1));
+  } // 级联数据的联动处理
+
+
+  if (this.cascaded) {
+    var nextGroupIndex = groupIndex + 1;
+    var nextGroupItems = selectedItem.children;
+
+    if (_isArray(nextGroupItems) && nextGroupItems.length) {
+      // set
+      this.$set(this.localData, nextGroupIndex, nextGroupItems);
+    } else if (this.localData.length > nextGroupIndex) {
+      // delete
+      this.localData.splice(nextGroupIndex);
+      this.localValue.splice(nextGroupIndex);
+      this.scrolls.splice(nextGroupIndex);
+    }
+  }
+}
+
+// onValueChange 是 vue-better-sync 的钩子函数：
+// 其已实现仅当 value 由父组件本身改变，
+// 而不是，localValue 改变触发 value 改变时，
+// 调用此函数。
+function onValueChange () {
+  var _this = this;
+
+  this.$nextTick(function () {
+    _this.scrolls.forEach(function (scroll, groupIndex) {
+      scroll.wheelTo(_this.findSelectedItemIndex(groupIndex, true));
+    });
+  });
+}
+
+var listeners = {
+  onDataChange: onDataChange,
+  onLocalDataChange: onLocalDataChange,
+  onScrollEnd: onScrollEnd,
+  onValueChange: onValueChange
+};
+
+var methods = Object.assign({
+  findAvailableItemIndex: findAvailableItemIndex,
+  findSelectedItemIndex: findSelectedItemIndex,
+  processData: processData
+}, listeners);
+
+var watch = {
+  data: {
+    immediate: true,
+    handler: 'onDataChange'
+  },
+  localData: {
+    immediate: true,
+    handler: 'onLocalDataChange'
+  }
+};
+
+function render (h) {
+  return h('div', {
+    styleName: '@picker-view'
+  }, [this.Mask, this.Indicator, this.Content]);
+}
+
+var pickerView = {
+  name: 'f-picker-view',
+  mixins: mixins,
+  props: props,
+  data: data,
+  computed: computed,
+  methods: methods,
+  watch: watch,
+  render: render
+};
+
+var styles$12 = {"select":"f-1rW f-1Xw"};
 
 var select = {
   name: 'f-select',
   mixins: [betterSync({
     prop: 'value',
     event: 'change'
-  }), CSSModules(styles$11)],
+  }), CSSModules(styles$12)],
   props: {
     value: {
       type: null,
@@ -910,14 +1357,14 @@ var select = {
   }
 };
 
-var styles$12 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
+var styles$13 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
 
 var _switch = {
   name: 'f-switch',
   mixins: [betterSync({
     prop: 'value',
     event: 'change'
-  }), CSSModules(styles$12)],
+  }), CSSModules(styles$13)],
   props: {
     value: {
       type: null,
@@ -947,7 +1394,7 @@ var _switch = {
       });
     },
     done: function done() {
-      this.syncValue(!this.actualValue);
+      this.syncValue(!this.localValue);
     },
     handleClick: function handleClick() {
       if (this.disabled) return;
@@ -961,7 +1408,7 @@ var _switch = {
   },
   render: function render(h) {
     return h('div', {
-      styleName: '@switch on=actualValue :disabled',
+      styleName: '@switch on=localValue :disabled',
       on: {
         click: this.handleClick
       }
@@ -969,7 +1416,7 @@ var _switch = {
   }
 };
 
-var styles$13 = {};
+var styles$14 = {};
 
 var textarea = {
   name: 'f-textarea',
@@ -977,7 +1424,7 @@ var textarea = {
   mixins: [betterSync({
     prop: 'value',
     event: 'input'
-  }), CSSModules(styles$13)],
+  }), CSSModules(styles$14)],
   props: {
     value: {
       type: [String, Number],
@@ -1049,6 +1496,7 @@ var components = /*#__PURE__*/Object.freeze({
   inputNumber: inputNumber,
   item: Item,
   list: List,
+  pickerView: pickerView,
   select: select,
   switch: _switch,
   textarea: textarea

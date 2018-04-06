@@ -44,17 +44,32 @@
     "root": true,
     "extends": "@fir-ui/fir"
   },
+  "babel": {
+    "presets": [
+      [
+        "@fir-ui/library",
+        {
+          "loose": false
+        }
+      ]
+    ]
+  },
   "browserslist": [
     "iOS 6",
     "Android 4.0"
   ],
   "dependencies": {
     "autosize": "^4.0.1",
+    "better-scroll": "^1.9.1",
+    "finger-mover": "^1.3.2",
+    "fingerd": "^1.3.2",
     "lodash": "^4.17.5",
+    "simulation-scroll-y": "^1.3.2",
     "vue-better-sync": "^3.0.0",
     "vue-css-modules": "^0.5.2"
   },
   "devDependencies": {
+    "@fir-ui/babel-preset-library": "^0.0.9",
     "@fir-ui/bundler": "^0.4.2",
     "@fir-ui/eslint-config-fir": "^0.3.0",
     "cac": "^4.4.4",
@@ -63,6 +78,7 @@
     "klaw": "^2.1.1",
     "lerna": "^2.9.0",
     "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2"
+    "stylus-loader": "^3.0.2",
+    "webpack": "^4.5.0"
   }
 }
