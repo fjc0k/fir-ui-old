@@ -40,7 +40,7 @@ export default {
       ))
     },
     done() {
-      this.syncValue(!this.actualValue)
+      this.syncValue(!this.localValue)
     },
     handleClick() {
       if (this.disabled) return
@@ -54,7 +54,7 @@ export default {
 
   render(h) {
     return h('div', {
-      styleName: '@switch on=actualValue :disabled',
+      styleName: '@switch on=localValue :disabled',
       on: {
         click: this.handleClick
       }
