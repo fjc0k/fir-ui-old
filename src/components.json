@@ -12,5 +12,6 @@
   "select": "f-select",
   "switch": "f-switch",
   "choice": "f-choice",
-  "divider": "f-divider"
+  "divider": "f-divider",
+  "pickerView": "f-picker-view"
 }
