@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.13.0
+ * fir-ui v0.14.0
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -24,6 +24,7 @@ import _clone from 'lodash/clone';
 import BScroll from 'better-scroll';
 import _isEmpty from 'lodash/isEmpty';
 import _isNaN from 'lodash/isNaN';
+import _range from 'lodash/range';
 import _mapValues from 'lodash/mapValues';
 import _has from 'lodash/has';
 import autoSize from 'autosize';
@@ -1354,14 +1355,35 @@ var select = {
   }
 };
 
-var styles$13 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
+var styles$13 = {"spinner":"f-3kd"};
+
+var N12 = _range(12);
+
+var spinner = {
+  name: 'f-spinner',
+  functional: true,
+  render: function render(h, _ref) {
+    var props = _ref.props,
+        data = _ref.data;
+    h = createElement(h, styles$13, props);
+    return h('div', Object.assign({}, data, {
+      styleName: '@spinner'
+    }), N12.map(function (key) {
+      return h('div', {
+        key: key
+      });
+    }));
+  }
+};
+
+var styles$14 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
 
 var _switch = {
   name: 'f-switch',
   mixins: [betterSync({
     prop: 'value',
     event: 'change'
-  }), CSSModules(styles$13)],
+  }), CSSModules(styles$14)],
   props: {
     value: {
       type: null,
@@ -1413,7 +1435,7 @@ var _switch = {
   }
 };
 
-var styles$14 = {};
+var styles$15 = {};
 
 var textarea = {
   name: 'f-textarea',
@@ -1421,7 +1443,7 @@ var textarea = {
   mixins: [betterSync({
     prop: 'value',
     event: 'input'
-  }), CSSModules(styles$14)],
+  }), CSSModules(styles$15)],
   props: {
     value: {
       type: [String, Number],
@@ -1495,6 +1517,7 @@ var components = /*#__PURE__*/Object.freeze({
   list: List,
   pickerView: pickerView,
   select: select,
+  spinner: spinner,
   switch: _switch,
   textarea: textarea
 });

@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.13.0
+ * fir-ui v0.14.0
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -28,6 +28,7 @@ var _clone = _interopDefault(require('lodash/clone'));
 var BScroll = _interopDefault(require('better-scroll'));
 var _isEmpty = _interopDefault(require('lodash/isEmpty'));
 var _isNaN = _interopDefault(require('lodash/isNaN'));
+var _range = _interopDefault(require('lodash/range'));
 var _mapValues = _interopDefault(require('lodash/mapValues'));
 var _has = _interopDefault(require('lodash/has'));
 var autoSize = _interopDefault(require('autosize'));
@@ -1358,14 +1359,35 @@ var select = {
   }
 };
 
-var styles$13 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
+var styles$13 = {"spinner":"f-3kd"};
+
+var N12 = _range(12);
+
+var spinner = {
+  name: 'f-spinner',
+  functional: true,
+  render: function render(h, _ref) {
+    var props = _ref.props,
+        data = _ref.data;
+    h = createElement(h, styles$13, props);
+    return h('div', Object.assign({}, data, {
+      styleName: '@spinner'
+    }), N12.map(function (key) {
+      return h('div', {
+        key: key
+      });
+    }));
+  }
+};
+
+var styles$14 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
 
 var _switch = {
   name: 'f-switch',
   mixins: [betterSync({
     prop: 'value',
     event: 'change'
-  }), CSSModules(styles$13)],
+  }), CSSModules(styles$14)],
   props: {
     value: {
       type: null,
@@ -1417,7 +1439,7 @@ var _switch = {
   }
 };
 
-var styles$14 = {};
+var styles$15 = {};
 
 var textarea = {
   name: 'f-textarea',
@@ -1425,7 +1447,7 @@ var textarea = {
   mixins: [betterSync({
     prop: 'value',
     event: 'input'
-  }), CSSModules(styles$14)],
+  }), CSSModules(styles$15)],
   props: {
     value: {
       type: [String, Number],
@@ -1499,6 +1521,7 @@ var components = /*#__PURE__*/Object.freeze({
   list: List,
   pickerView: pickerView,
   select: select,
+  spinner: spinner,
   switch: _switch,
   textarea: textarea
 });

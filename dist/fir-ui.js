@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.13.0
+ * fir-ui v0.14.0
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -9206,6 +9206,128 @@
     }
   };
 
+  /* Built-in method references for those with the same name as other `lodash` methods. */
+  var nativeCeil = Math.ceil,
+      nativeMax$2 = Math.max;
+
+  /**
+   * The base implementation of `_.range` and `_.rangeRight` which doesn't
+   * coerce arguments.
+   *
+   * @private
+   * @param {number} start The start of the range.
+   * @param {number} end The end of the range.
+   * @param {number} step The value to increment or decrement by.
+   * @param {boolean} [fromRight] Specify iterating from right to left.
+   * @returns {Array} Returns the range of numbers.
+   */
+  function baseRange(start, end, step, fromRight) {
+    var index = -1,
+        length = nativeMax$2(nativeCeil((end - start) / (step || 1)), 0),
+        result = Array(length);
+
+    while (length--) {
+      result[fromRight ? length : ++index] = start;
+      start += step;
+    }
+    return result;
+  }
+
+  var _baseRange = baseRange;
+
+  /**
+   * Creates a `_.range` or `_.rangeRight` function.
+   *
+   * @private
+   * @param {boolean} [fromRight] Specify iterating from right to left.
+   * @returns {Function} Returns the new range function.
+   */
+  function createRange(fromRight) {
+    return function(start, end, step) {
+      if (step && typeof step != 'number' && _isIterateeCall(start, end, step)) {
+        end = step = undefined;
+      }
+      // Ensure the sign of `-0` is preserved.
+      start = toFinite_1(start);
+      if (end === undefined) {
+        end = start;
+        start = 0;
+      } else {
+        end = toFinite_1(end);
+      }
+      step = step === undefined ? (start < end ? 1 : -1) : toFinite_1(step);
+      return _baseRange(start, end, step, fromRight);
+    };
+  }
+
+  var _createRange = createRange;
+
+  /**
+   * Creates an array of numbers (positive and/or negative) progressing from
+   * `start` up to, but not including, `end`. A step of `-1` is used if a negative
+   * `start` is specified without an `end` or `step`. If `end` is not specified,
+   * it's set to `start` with `start` then set to `0`.
+   *
+   * **Note:** JavaScript follows the IEEE-754 standard for resolving
+   * floating-point values which can produce unexpected results.
+   *
+   * @static
+   * @since 0.1.0
+   * @memberOf _
+   * @category Util
+   * @param {number} [start=0] The start of the range.
+   * @param {number} end The end of the range.
+   * @param {number} [step=1] The value to increment or decrement by.
+   * @returns {Array} Returns the range of numbers.
+   * @see _.inRange, _.rangeRight
+   * @example
+   *
+   * _.range(4);
+   * // => [0, 1, 2, 3]
+   *
+   * _.range(-4);
+   * // => [0, -1, -2, -3]
+   *
+   * _.range(1, 5);
+   * // => [1, 2, 3, 4]
+   *
+   * _.range(0, 20, 5);
+   * // => [0, 5, 10, 15]
+   *
+   * _.range(0, -4, -1);
+   * // => [0, -1, -2, -3]
+   *
+   * _.range(1, 4, 0);
+   * // => [1, 1, 1]
+   *
+   * _.range(0);
+   * // => []
+   */
+  var range = _createRange();
+
+  var range_1 = range;
+
+  var styles$13 = {"spinner":"f-3kd"};
+
+  var N12 = range_1(12);
+
+  var spinner = {
+    name: 'f-spinner',
+    functional: true,
+    render: function render(h, _ref) {
+      var props = _ref.props,
+          data = _ref.data;
+      h = createElement(h, styles$13, props);
+      return h('div', Object.assign({}, data, {
+        styleName: '@spinner'
+      }), N12.map(function (key) {
+        return h('div', {
+          key: key
+        });
+      }));
+    }
+  };
+
   /**
    * Creates an object with the same keys as `object` and values generated
    * by running each own enumerable string keyed property of `object` thru
@@ -9299,14 +9421,14 @@
 
   var has_1 = has;
 
-  var styles$13 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
+  var styles$14 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
 
   var _switch = {
     name: 'f-switch',
     mixins: [index({
       prop: 'value',
       event: 'change'
-    }), CSSModules(styles$13)],
+    }), CSSModules(styles$14)],
     props: {
       value: {
         type: null,
@@ -9642,7 +9764,7 @@
   });
   });
 
-  var styles$14 = {};
+  var styles$15 = {};
 
   var textarea = {
     name: 'f-textarea',
@@ -9650,7 +9772,7 @@
     mixins: [index({
       prop: 'value',
       event: 'input'
-    }), CSSModules(styles$14)],
+    }), CSSModules(styles$15)],
     props: {
       value: {
         type: [String, Number],
@@ -9724,6 +9846,7 @@
     list: List,
     pickerView: pickerView,
     select: select,
+    spinner: spinner,
     switch: _switch,
     textarea: textarea
   });
