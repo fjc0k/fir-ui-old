@@ -54,7 +54,7 @@
         <f-switch v-model="toggle" />
       </f-field>
       <f-field label="购票类型">
-        <f-picker-view :visibleItemCount="3" v-model="likes" cascaded :data="pickerData2" />
+        <f-picker-view :loading="true" :visibleItemCount="3" v-model="likes" cascaded :data="pickerData2" />
       </f-field>
     </f-form>
 
