@@ -10,7 +10,7 @@
     <br />
     <br />
 
-    <f-divider width="80%">小小墙提供技术支持</f-divider>
+    <f-divider width="80%">1小小墙提供技术支持</f-divider>
 
 
     <f-list>
