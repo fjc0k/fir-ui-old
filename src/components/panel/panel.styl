@@ -1,0 +1,21 @@
+@import "settings";
+
+.panel {
+  margin: $panel.margin;
+}
+
+.header, .tip {
+  composes: flex-align-center from "compositions";
+  font-size: $panel.header.font.size;
+  color: $panel.header.font.color;  
+  padding: $panel.header.padding;
+  min-height: $panel.header.minHeight;
+}
+
+.title {
+  flex: 1;
+}
+
+.body {
+  background-color: $panel.body.backgroundColor;
+}

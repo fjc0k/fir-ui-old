@@ -1,62 +1,28 @@
 <template>
-  <div style="background:white">
-    <f-button inline icon="f-icon-bell" type="primary" plain>按钮</f-button>
-    <br />
-    <br />
-    <f-hairline all>
+  <div>
+    <f-panel title="完成以下信息" extra="?" tip="* 部分车次可能晚点">
+      <f-form>
+        <f-field label="spinner">
+          <f-spinner />
+        </f-field>
+        <f-field label="姓名">
+          <f-input v-model="name" />
+        </f-field>
+        <f-field label="姓名2">
+          <f-textarea :autoSize="autoSize" v-model="name" />
+        </f-field>
+        <f-field label="等我">
+          <f-switch v-model="toggle" />
+        </f-field>
+        <f-field label="购票类型">
+          <f-picker-view :loading="true" :visibleItemCount="3" v-model="likes" cascaded :data="pickerData2" />
+        </f-field>
+      </f-form>
+    </f-panel>
 
-      <f-select v-model="selected" :data="data" />
-    </f-hairline>
-    <br />
-    <br />
-
-    <f-divider width="80%">12.。33小小墙提供技术支持</f-divider>
+    <f-button type="primary" whiteSpace>提交</f-button>
 
 
-    <f-list>
-      <f-item note="方剑成">
-        姓名
-        <f-choice v-model="likes" value="苹果">
-          苹果
-        </f-choice>
-        <f-choice v-model="name" value="方剑成1995">
-          方剑成1995
-        </f-choice>
-        <f-choice v-model="toggle" :value="true">
-          true
-        </f-choice>
-      </f-item>
-      <f-item>
-        <f-checkbox v-model="likes" value="苹果">
-          苹果
-        </f-checkbox>
-        <f-checkbox checkedIcon="f-icon-bell" v-model="likes" value="梨子" theme="outline">
-          梨子
-          <div slot="box" slot-scope="{ checked }">
-            {{ checked }}
-          </div>
-
-        </f-checkbox>
-      </f-item>
-    </f-list>
-
-    <f-form>
-      <f-field label="spinner">
-        <f-spinner />
-      </f-field>
-      <f-field label="姓名">
-        <f-input v-model="name" />
-      </f-field>
-      <f-field label="姓名2">
-        <f-textarea :autoSize="autoSize" v-model="name" />
-      </f-field>
-      <f-field label="等我">
-        <f-switch v-model="toggle" />
-      </f-field>
-      <f-field label="购票类型">
-        <f-picker-view :loading="true" :visibleItemCount="3" v-model="likes" cascaded :data="pickerData2" />
-      </f-field>
-    </f-form>
 
 
   </div>
