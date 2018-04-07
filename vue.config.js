@@ -15,7 +15,7 @@ module.exports = {
   configureWebpack: {
     resolve: {
       modules: [path.join(__dirname, 'src/styles'), 'D:/fjc0k/github/better-scroll/node_modules'],
-      extensions: ['.js', '.json', '.styl', '/index.js']
+      extensions: ['.js', '.json', '.ts', '.styl', '/index.js']
     }
   }
 }
