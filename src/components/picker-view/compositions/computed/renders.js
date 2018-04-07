@@ -1,3 +1,4 @@
+import Spinner from '@/components/spinner/spinner'
 import { GROUP_CLASS_NAME, ITEM_CLASS_NAME } from '../config'
 
 export default {
@@ -20,11 +21,10 @@ export default {
     }, this.Groups)
   },
   Loading() {
-    // todo
     return this.loading && this.$createElement(
       'div',
       { styleName: 'loading' },
-      'LOADING'
+      [this.$createElement(Spinner)]
     )
   },
   Groups() {
