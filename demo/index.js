@@ -28,7 +28,7 @@ import '../src/styles/commons.styl'
 // Vue.component(form.name, form)
 // Vue.component(field.name, field)
 // Vue.component(input.name, input)
-// Vue.component(textarea.name, textarea)
+// Vue.component(textarea.name, textarea);
 // Vue.component(inputNumber.name, inputNumber)
 Vue.use(fir)
 
