@@ -1,0 +1,40 @@
+@import "settings";
+
+.spinner {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  width: $spinner.size;
+  height: $spinner.size;
+  color: $spinner.color;
+  div {
+    transform-origin: $spinner.size * .5 $spinner.size * .5;
+    animation: spinner linear $spinner.speed infinite;
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: $spinner.size * .5 - $spinner.radius - $spinner.height * .5;
+      left: $spinner.size * .5 - $spinner.width * .5;
+      width: $spinner.width;
+      height: $spinner.height;
+      border-radius: $spinner.radius;
+      background: currentColor;
+    }
+    for $n in (0..11) {
+      &:nth-child({$n + 1}) {
+        transform: rotate($n * 30deg);
+        animation-delay: ($spinner.speed * -1 * (11 - $n) / 12);
+      }
+    }
+  }
+}
+
+@keyframes spinner {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

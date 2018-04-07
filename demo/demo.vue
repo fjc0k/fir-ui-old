@@ -41,6 +41,9 @@
     </f-list>
 
     <f-form>
+      <f-field label="spinner">
+        <f-spinner />
+      </f-field>
       <f-field label="姓名">
         <f-input v-model="name" />
       </f-field>
@@ -50,8 +53,8 @@
       <f-field label="等我">
         <f-switch v-model="toggle" />
       </f-field>
-      <f-field>
-        <f-picker-view loading :unit="['1', 2, 3]" v-model="likes" cascaded :data="pickerData2" />
+      <f-field label="购票类型">
+        <f-picker-view :visibleItemCount="3" v-model="likes" cascaded :data="pickerData2" />
       </f-field>
     </f-form>
 
@@ -89,35 +92,53 @@ export default {
         ]
       ],
       pickerData2: [
-        { label: '中国', value: '中国', children: [
-          { label: '中国', value: '中国', children: [
-            { label: '德国1', value: '德国' },
-            { label: '英国1', value: '英国' },
-          ] },
-          { label: '美国', value: '美国' },
-          { label: '俄罗斯', value: '俄罗斯' },
-          { label: '德国', value: '德国' },
-          { label: '英国', value: '英国' },
-          { label: '意大利', value: '意大利' },
-        ]  },
-        { label: '美国', value: '美国' },
-        { label: '俄罗斯', value: '俄罗斯', children: [
-          { label: '中国1', value: '中国' },
-          { label: '美国1', value: '美国', children: [
-            { label: '德国1', value: '德国' },
-            { label: '英国1', value: '英国' },
-          ] },
-          { label: '俄罗斯1', value: '俄罗斯' },
-          { label: '德国1', value: '德国' },
-          { label: '英国1', value: '英国' },
-          { label: '意大利1', value: '意大利' },
-          { label: '德国21', value: '德国' },
-          { label: '英国21', value: '英国' },
-          { label: '意大利21', value: '意大利' },
-        ] },
-        { label: '德国', value: '德国', disabled: true },
-        { label: '英国', value: '英国'  },
-        { label: '意大利', value: '意大利', disabled: true  }
+        {
+          label: '飞机票',
+          value: 0,
+          children: [
+            {
+              label: '经济舱',
+              value: 1
+            },
+            {
+              label: '商务舱',
+              value: 2
+            }
+          ]
+        },
+        {
+          label: '火车票',
+          value: 1,
+          children: [
+            {
+              label: '卧铺',
+              value: 1,
+              disabled: true // 不可用
+            },
+            {
+              label: '坐票',
+              value: 2
+            },
+            {
+              label: '站票',
+              value: 3
+            }
+          ]
+        },
+        {
+          label: '汽车票',
+          value: 3,
+          children: [
+            {
+              label: '快班',
+              value: 1
+            },
+            {
+              label: '普通',
+              value: 2
+            }
+          ]
+        }
       ],
       likes: [],
       autoSize: true

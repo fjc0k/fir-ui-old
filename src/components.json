@@ -13,5 +13,6 @@
   "switch": "f-switch",
   "choice": "f-choice",
   "divider": "f-divider",
-  "pickerView": "f-picker-view"
+  "pickerView": "f-picker-view",
+  "spinner": "f-spinner"
 }
