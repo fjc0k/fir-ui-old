@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.14.0
+ * fir-ui v0.15.0
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  *//*  imported from icon.styl  */
@@ -510,11 +510,6 @@
   pointer-events: none;
 }
 
-/*  imported from select.styl  */
-
-.f-1rW {
-}
-
 /*  imported from spinner.styl  */
 
 .f-3kd {
@@ -619,6 +614,11 @@
   100% {
     opacity: 0;
   }
+}
+
+/*  imported from select.styl  */
+
+.f-1rW {
 }
 
 /*  imported from switch.styl  */

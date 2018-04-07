@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.14.0
+ * fir-ui v0.15.0
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -16,6 +16,7 @@ import _isBoolean from 'lodash/isBoolean';
 import CSSModules from 'vue-css-modules';
 import _isString from 'lodash/isString';
 import _toNumber from 'lodash/toNumber';
+import _range from 'lodash/range';
 import _fill from 'lodash/fill';
 import _findLastIndex from 'lodash/findLastIndex';
 import _findIndex from 'lodash/findIndex';
@@ -24,7 +25,6 @@ import _clone from 'lodash/clone';
 import BScroll from 'better-scroll';
 import _isEmpty from 'lodash/isEmpty';
 import _isNaN from 'lodash/isNaN';
-import _range from 'lodash/range';
 import _mapValues from 'lodash/mapValues';
 import _has from 'lodash/has';
 import autoSize from 'autosize';
@@ -903,6 +903,27 @@ var data = (function () {
   };
 });
 
+var styles$12 = {"spinner":"f-3kd"};
+
+var N12 = _range(12);
+
+var Spinner = {
+  name: 'f-spinner',
+  functional: true,
+  render: function render(h, _ref) {
+    var props = _ref.props,
+        data = _ref.data;
+    h = createElement(h, styles$12, props);
+    return h('div', Object.assign({}, data, {
+      styleName: '@spinner'
+    }), N12.map(function (key) {
+      return h('div', {
+        key: key
+      });
+    }));
+  }
+};
+
 var DIRECTION_DOWN = 0;
 var DIRECTION_UP = 1;
 var GROUP_CLASS_NAME = styles$11.group;
@@ -941,10 +962,9 @@ var computedRenders = {
     }, this.Groups);
   },
   Loading: function Loading() {
-    // todo
     return this.loading && this.$createElement('div', {
       styleName: 'loading'
-    }, 'LOADING');
+    }, [this.$createElement(Spinner)]);
   },
   Groups: function Groups() {
     var _this = this;
@@ -1292,14 +1312,14 @@ var pickerView = {
   render: render
 };
 
-var styles$12 = {"select":"f-1rW f-1Xw"};
+var styles$13 = {"select":"f-1rW f-1Xw"};
 
 var select = {
   name: 'f-select',
   mixins: [betterSync({
     prop: 'value',
     event: 'change'
-  }), CSSModules(styles$12)],
+  }), CSSModules(styles$13)],
   props: {
     value: {
       type: null,
@@ -1352,27 +1372,6 @@ var select = {
         change: this.handleChange
       }
     }, this.Options);
-  }
-};
-
-var styles$13 = {"spinner":"f-3kd"};
-
-var N12 = _range(12);
-
-var spinner = {
-  name: 'f-spinner',
-  functional: true,
-  render: function render(h, _ref) {
-    var props = _ref.props,
-        data = _ref.data;
-    h = createElement(h, styles$13, props);
-    return h('div', Object.assign({}, data, {
-      styleName: '@spinner'
-    }), N12.map(function (key) {
-      return h('div', {
-        key: key
-      });
-    }));
   }
 };
 
@@ -1517,7 +1516,7 @@ var components = /*#__PURE__*/Object.freeze({
   list: List,
   pickerView: pickerView,
   select: select,
-  spinner: spinner,
+  spinner: Spinner,
   switch: _switch,
   textarea: textarea
 });

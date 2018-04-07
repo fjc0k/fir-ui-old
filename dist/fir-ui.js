@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.14.0
+ * fir-ui v0.15.0
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -1128,7 +1128,7 @@
               }
 
               if ((binding ? context[binding] : true) && styles[className]) {
-                data.staticClass += " " + styles[className];
+                data.staticClass = styles[className] + " " + data.staticClass;
                 data.staticClass = data.staticClass.trim();
               }
 
@@ -4821,84 +4821,60 @@
     };
   });
 
-  var DIRECTION_DOWN = 0;
-  var DIRECTION_UP = 1;
-  var GROUP_CLASS_NAME = styles$11.group;
-  var ITEM_CLASS_NAME = styles$11.item;
-  var BS_OPTIONS = function BS_OPTIONS(groupIndex) {
-    return {
-      wheel: {
-        selectedIndex: this.findSelectedItemIndex(groupIndex),
-        wheelWrapperClass: GROUP_CLASS_NAME,
-        wheelItemClass: ITEM_CLASS_NAME,
-        rotate: 100 / this.visibleItemCount,
-        adjustTime: 200
-      },
-      observeDOM: false,
-      bindToWrapper: this.visibleItemCount === 1
-    };
-  };
+  /* Built-in method references for those with the same name as other `lodash` methods. */
+  var nativeCeil = Math.ceil,
+      nativeMax = Math.max;
 
-  var computedRenders = {
-    Mask: function Mask() {
-      return this.$createElement('div', {
-        styleName: 'mask',
-        style: this.styles.mask
-      });
-    },
-    Indicator: function Indicator() {
-      return this.$createElement('div', {
-        styleName: 'indicator',
-        style: this.styles.indicator
-      });
-    },
-    Content: function Content() {
-      return this.$createElement('div', {
-        styleName: 'content',
-        style: this.styles.content
-      }, this.Groups);
-    },
-    Loading: function Loading() {
-      // todo
-      return this.loading && this.$createElement('div', {
-        styleName: 'loading'
-      }, 'LOADING');
-    },
-    Groups: function Groups() {
-      var _this = this;
+  /**
+   * The base implementation of `_.range` and `_.rangeRight` which doesn't
+   * coerce arguments.
+   *
+   * @private
+   * @param {number} start The start of the range.
+   * @param {number} end The end of the range.
+   * @param {number} step The value to increment or decrement by.
+   * @param {boolean} [fromRight] Specify iterating from right to left.
+   * @returns {Array} Returns the range of numbers.
+   */
+  function baseRange(start, end, step, fromRight) {
+    var index = -1,
+        length = nativeMax(nativeCeil((end - start) / (step || 1)), 0),
+        result = Array(length);
 
-      var h = this.$createElement;
-      return this.localData.map(function (items, groupIndex) {
-        var divider = _this.localDivider[groupIndex];
-        var unit = _this.localUnit[groupIndex];
-        var Items = items.map(function (item, index) {
-          return h('li', {
-            staticClass: ITEM_CLASS_NAME,
-            styleName: ['item', item.disabled && 'disabled'],
-            style: _this.styles.item,
-            key: index
-          }, [item.label]);
-        });
-        var Divider = divider && h('div', {
-          styleName: 'divider'
-        }, [divider]);
-        var Unit = unit && h('div', {
-          styleName: 'unit'
-        }, [unit]);
-        var Loading = groupIndex === _this.groupCount - 1 && _this.Loading;
-        return [h('div', {
-          styleName: 'scroll',
-          style: _this.styles.scroll,
-          ref: 'groups',
-          refInFor: true
-        }, [h('ul', {
-          staticClass: GROUP_CLASS_NAME,
-          styleName: 'group',
-          style: _this.styles.group
-        }, Items)]), Loading || Unit, Divider];
-      });
+    while (length--) {
+      result[fromRight ? length : ++index] = start;
+      start += step;
     }
-  };
+    return result;
+  }
+
+  var _baseRange = baseRange;
+
+  /**
+   * Checks if the given arguments are from an iteratee call.
+   *
+   * @private
+   * @param {*} value The potential iteratee value argument.
+   * @param {*} index The potential iteratee index or key argument.
+   * @param {*} object The potential iteratee object argument.
+   * @returns {boolean} Returns `true` if the arguments are from an iteratee call,
+   *  else `false`.
+   */
+  function isIterateeCall(value, index, object) {
+    if (!isObject_1(object)) {
+      return false;
+    }
+    var type = typeof index;
+    if (type == 'number'
+          ? (isArrayLike_1(object) && _isIndex(index, object.length))
+          : (type == 'string' && index in object)
+        ) {
+      return eq_1(object[index], value);
+    }
+    return false;
+  }
+
+  var _isIterateeCall = isIterateeCall;
 
   /** Used as references for various `Number` constants. */
   var INFINITY$2 = 1 / 0,
@@ -4940,6 +4916,177 @@
   }
 
   var toFinite_1 = toFinite;
+
+  /**
+   * Creates a `_.range` or `_.rangeRight` function.
+   *
+   * @private
+   * @param {boolean} [fromRight] Specify iterating from right to left.
+   * @returns {Function} Returns the new range function.
+   */
+  function createRange(fromRight) {
+    return function(start, end, step) {
+      if (step && typeof step != 'number' && _isIterateeCall(start, end, step)) {
+        end = step = undefined;
+      }
+      // Ensure the sign of `-0` is preserved.
+      start = toFinite_1(start);
+      if (end === undefined) {
+        end = start;
+        start = 0;
+      } else {
+        end = toFinite_1(end);
+      }
+      step = step === undefined ? (start < end ? 1 : -1) : toFinite_1(step);
+      return _baseRange(start, end, step, fromRight);
+    };
+  }
+
+  var _createRange = createRange;
+
+  /**
+   * Creates an array of numbers (positive and/or negative) progressing from
+   * `start` up to, but not including, `end`. A step of `-1` is used if a negative
+   * `start` is specified without an `end` or `step`. If `end` is not specified,
+   * it's set to `start` with `start` then set to `0`.
+   *
+   * **Note:** JavaScript follows the IEEE-754 standard for resolving
+   * floating-point values which can produce unexpected results.
+   *
+   * @static
+   * @since 0.1.0
+   * @memberOf _
+   * @category Util
+   * @param {number} [start=0] The start of the range.
+   * @param {number} end The end of the range.
+   * @param {number} [step=1] The value to increment or decrement by.
+   * @returns {Array} Returns the range of numbers.
+   * @see _.inRange, _.rangeRight
+   * @example
+   *
+   * _.range(4);
+   * // => [0, 1, 2, 3]
+   *
+   * _.range(-4);
+   * // => [0, -1, -2, -3]
+   *
+   * _.range(1, 5);
+   * // => [1, 2, 3, 4]
+   *
+   * _.range(0, 20, 5);
+   * // => [0, 5, 10, 15]
+   *
+   * _.range(0, -4, -1);
+   * // => [0, -1, -2, -3]
+   *
+   * _.range(1, 4, 0);
+   * // => [1, 1, 1]
+   *
+   * _.range(0);
+   * // => []
+   */
+  var range = _createRange();
+
+  var range_1 = range;
+
+  var styles$12 = {"spinner":"f-3kd"};
+
+  var N12 = range_1(12);
+
+  var Spinner = {
+    name: 'f-spinner',
+    functional: true,
+    render: function render(h, _ref) {
+      var props = _ref.props,
+          data = _ref.data;
+      h = createElement(h, styles$12, props);
+      return h('div', Object.assign({}, data, {
+        styleName: '@spinner'
+      }), N12.map(function (key) {
+        return h('div', {
+          key: key
+        });
+      }));
+    }
+  };
+
+  var DIRECTION_DOWN = 0;
+  var DIRECTION_UP = 1;
+  var GROUP_CLASS_NAME = styles$11.group;
+  var ITEM_CLASS_NAME = styles$11.item;
+  var BS_OPTIONS = function BS_OPTIONS(groupIndex) {
+    return {
+      wheel: {
+        selectedIndex: this.findSelectedItemIndex(groupIndex),
+        wheelWrapperClass: GROUP_CLASS_NAME,
+        wheelItemClass: ITEM_CLASS_NAME,
+        rotate: 100 / this.visibleItemCount,
+        adjustTime: 200
+      },
+      observeDOM: false,
+      bindToWrapper: this.visibleItemCount === 1
+    };
+  };
+
+  var computedRenders = {
+    Mask: function Mask() {
+      return this.$createElement('div', {
+        styleName: 'mask',
+        style: this.styles.mask
+      });
+    },
+    Indicator: function Indicator() {
+      return this.$createElement('div', {
+        styleName: 'indicator',
+        style: this.styles.indicator
+      });
+    },
+    Content: function Content() {
+      return this.$createElement('div', {
+        styleName: 'content',
+        style: this.styles.content
+      }, this.Groups);
+    },
+    Loading: function Loading() {
+      return this.loading && this.$createElement('div', {
+        styleName: 'loading'
+      }, [this.$createElement(Spinner)]);
+    },
+    Groups: function Groups() {
+      var _this = this;
+
+      var h = this.$createElement;
+      return this.localData.map(function (items, groupIndex) {
+        var divider = _this.localDivider[groupIndex];
+        var unit = _this.localUnit[groupIndex];
+        var Items = items.map(function (item, index) {
+          return h('li', {
+            staticClass: ITEM_CLASS_NAME,
+            styleName: ['item', item.disabled && 'disabled'],
+            style: _this.styles.item,
+            key: index
+          }, [item.label]);
+        });
+        var Divider = divider && h('div', {
+          styleName: 'divider'
+        }, [divider]);
+        var Unit = unit && h('div', {
+          styleName: 'unit'
+        }, [unit]);
+        var Loading = groupIndex === _this.groupCount - 1 && _this.Loading;
+        return [h('div', {
+          styleName: 'scroll',
+          style: _this.styles.scroll,
+          ref: 'groups',
+          refInFor: true
+        }, [h('ul', {
+          staticClass: GROUP_CLASS_NAME,
+          styleName: 'group',
+          style: _this.styles.group
+        }, Items)]), Loading || Unit, Divider];
+      });
+    }
+  };
 
   /**
    * Converts `value` to an integer.
@@ -5066,32 +5213,6 @@
   var _baseFill = baseFill;
 
   /**
-   * Checks if the given arguments are from an iteratee call.
-   *
-   * @private
-   * @param {*} value The potential iteratee value argument.
-   * @param {*} index The potential iteratee index or key argument.
-   * @param {*} object The potential iteratee object argument.
-   * @returns {boolean} Returns `true` if the arguments are from an iteratee call,
-   *  else `false`.
-   */
-  function isIterateeCall(value, index, object) {
-    if (!isObject_1(object)) {
-      return false;
-    }
-    var type = typeof index;
-    if (type == 'number'
-          ? (isArrayLike_1(object) && _isIndex(index, object.length))
-          : (type == 'string' && index in object)
-        ) {
-      return eq_1(object[index], value);
-    }
-    return false;
-  }
-
-  var _isIterateeCall = isIterateeCall;
-
-  /**
    * Fills elements of `array` with `value` from `start` up to, but not
    * including, `end`.
    *
@@ -5210,7 +5331,7 @@
   var _baseFindIndex = baseFindIndex;
 
   /* Built-in method references for those with the same name as other `lodash` methods. */
-  var nativeMax = Math.max,
+  var nativeMax$1 = Math.max,
       nativeMin = Math.min;
 
   /**
@@ -5257,7 +5378,7 @@
     if (fromIndex !== undefined) {
       index = toInteger_1(fromIndex);
       index = fromIndex < 0
-        ? nativeMax(length + index, 0)
+        ? nativeMax$1(length + index, 0)
         : nativeMin(index, length - 1);
     }
     return _baseFindIndex(array, _baseIteratee(predicate, 3), index, true);
@@ -5266,7 +5387,7 @@
   var findLastIndex_1 = findLastIndex;
 
   /* Built-in method references for those with the same name as other `lodash` methods. */
-  var nativeMax$1 = Math.max;
+  var nativeMax$2 = Math.max;
 
   /**
    * This method is like `_.find` except that it returns the index of the first
@@ -5310,7 +5431,7 @@
     }
     var index = fromIndex == null ? 0 : toInteger_1(fromIndex);
     if (index < 0) {
-      index = nativeMax$1(length + index, 0);
+      index = nativeMax$2(length + index, 0);
     }
     return _baseFindIndex(array, _baseIteratee(predicate, 3), index);
   }
@@ -9143,14 +9264,14 @@
     render: render
   };
 
-  var styles$12 = {"select":"f-1rW f-1Xw"};
+  var styles$13 = {"select":"f-1rW f-1Xw"};
 
   var select = {
     name: 'f-select',
     mixins: [index({
       prop: 'value',
       event: 'change'
-    }), CSSModules(styles$12)],
+    }), CSSModules(styles$13)],
     props: {
       value: {
         type: null,
@@ -9203,128 +9324,6 @@
           change: this.handleChange
         }
       }, this.Options);
-    }
-  };
-
-  /* Built-in method references for those with the same name as other `lodash` methods. */
-  var nativeCeil = Math.ceil,
-      nativeMax$2 = Math.max;
-
-  /**
-   * The base implementation of `_.range` and `_.rangeRight` which doesn't
-   * coerce arguments.
-   *
-   * @private
-   * @param {number} start The start of the range.
-   * @param {number} end The end of the range.
-   * @param {number} step The value to increment or decrement by.
-   * @param {boolean} [fromRight] Specify iterating from right to left.
-   * @returns {Array} Returns the range of numbers.
-   */
-  function baseRange(start, end, step, fromRight) {
-    var index = -1,
-        length = nativeMax$2(nativeCeil((end - start) / (step || 1)), 0),
-        result = Array(length);
-
-    while (length--) {
-      result[fromRight ? length : ++index] = start;
-      start += step;
-    }
-    return result;
-  }
-
-  var _baseRange = baseRange;
-
-  /**
-   * Creates a `_.range` or `_.rangeRight` function.
-   *
-   * @private
-   * @param {boolean} [fromRight] Specify iterating from right to left.
-   * @returns {Function} Returns the new range function.
-   */
-  function createRange(fromRight) {
-    return function(start, end, step) {
-      if (step && typeof step != 'number' && _isIterateeCall(start, end, step)) {
-        end = step = undefined;
-      }
-      // Ensure the sign of `-0` is preserved.
-      start = toFinite_1(start);
-      if (end === undefined) {
-        end = start;
-        start = 0;
-      } else {
-        end = toFinite_1(end);
-      }
-      step = step === undefined ? (start < end ? 1 : -1) : toFinite_1(step);
-      return _baseRange(start, end, step, fromRight);
-    };
-  }
-
-  var _createRange = createRange;
-
-  /**
-   * Creates an array of numbers (positive and/or negative) progressing from
-   * `start` up to, but not including, `end`. A step of `-1` is used if a negative
-   * `start` is specified without an `end` or `step`. If `end` is not specified,
-   * it's set to `start` with `start` then set to `0`.
-   *
-   * **Note:** JavaScript follows the IEEE-754 standard for resolving
-   * floating-point values which can produce unexpected results.
-   *
-   * @static
-   * @since 0.1.0
-   * @memberOf _
-   * @category Util
-   * @param {number} [start=0] The start of the range.
-   * @param {number} end The end of the range.
-   * @param {number} [step=1] The value to increment or decrement by.
-   * @returns {Array} Returns the range of numbers.
-   * @see _.inRange, _.rangeRight
-   * @example
-   *
-   * _.range(4);
-   * // => [0, 1, 2, 3]
-   *
-   * _.range(-4);
-   * // => [0, -1, -2, -3]
-   *
-   * _.range(1, 5);
-   * // => [1, 2, 3, 4]
-   *
-   * _.range(0, 20, 5);
-   * // => [0, 5, 10, 15]
-   *
-   * _.range(0, -4, -1);
-   * // => [0, -1, -2, -3]
-   *
-   * _.range(1, 4, 0);
-   * // => [1, 1, 1]
-   *
-   * _.range(0);
-   * // => []
-   */
-  var range = _createRange();
-
-  var range_1 = range;
-
-  var styles$13 = {"spinner":"f-3kd"};
-
-  var N12 = range_1(12);
-
-  var spinner = {
-    name: 'f-spinner',
-    functional: true,
-    render: function render(h, _ref) {
-      var props = _ref.props,
-          data = _ref.data;
-      h = createElement(h, styles$13, props);
-      return h('div', Object.assign({}, data, {
-        styleName: '@spinner'
-      }), N12.map(function (key) {
-        return h('div', {
-          key: key
-        });
-      }));
     }
   };
 
@@ -9846,7 +9845,7 @@
     list: List,
     pickerView: pickerView,
     select: select,
-    spinner: spinner,
+    spinner: Spinner,
     switch: _switch,
     textarea: textarea
   });

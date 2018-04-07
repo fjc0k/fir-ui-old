@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.14.0
+ * fir-ui v0.15.0
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -20,6 +20,7 @@ var _isBoolean = _interopDefault(require('lodash/isBoolean'));
 var CSSModules = _interopDefault(require('vue-css-modules'));
 var _isString = _interopDefault(require('lodash/isString'));
 var _toNumber = _interopDefault(require('lodash/toNumber'));
+var _range = _interopDefault(require('lodash/range'));
 var _fill = _interopDefault(require('lodash/fill'));
 var _findLastIndex = _interopDefault(require('lodash/findLastIndex'));
 var _findIndex = _interopDefault(require('lodash/findIndex'));
@@ -28,7 +29,6 @@ var _clone = _interopDefault(require('lodash/clone'));
 var BScroll = _interopDefault(require('better-scroll'));
 var _isEmpty = _interopDefault(require('lodash/isEmpty'));
 var _isNaN = _interopDefault(require('lodash/isNaN'));
-var _range = _interopDefault(require('lodash/range'));
 var _mapValues = _interopDefault(require('lodash/mapValues'));
 var _has = _interopDefault(require('lodash/has'));
 var autoSize = _interopDefault(require('autosize'));
@@ -907,6 +907,27 @@ var data = (function () {
   };
 });
 
+var styles$12 = {"spinner":"f-3kd"};
+
+var N12 = _range(12);
+
+var Spinner = {
+  name: 'f-spinner',
+  functional: true,
+  render: function render(h, _ref) {
+    var props = _ref.props,
+        data = _ref.data;
+    h = createElement(h, styles$12, props);
+    return h('div', Object.assign({}, data, {
+      styleName: '@spinner'
+    }), N12.map(function (key) {
+      return h('div', {
+        key: key
+      });
+    }));
+  }
+};
+
 var DIRECTION_DOWN = 0;
 var DIRECTION_UP = 1;
 var GROUP_CLASS_NAME = styles$11.group;
@@ -945,10 +966,9 @@ var computedRenders = {
     }, this.Groups);
   },
   Loading: function Loading() {
-    // todo
     return this.loading && this.$createElement('div', {
       styleName: 'loading'
-    }, 'LOADING');
+    }, [this.$createElement(Spinner)]);
   },
   Groups: function Groups() {
     var _this = this;
@@ -1296,14 +1316,14 @@ var pickerView = {
   render: render
 };
 
-var styles$12 = {"select":"f-1rW f-1Xw"};
+var styles$13 = {"select":"f-1rW f-1Xw"};
 
 var select = {
   name: 'f-select',
   mixins: [betterSync({
     prop: 'value',
     event: 'change'
-  }), CSSModules(styles$12)],
+  }), CSSModules(styles$13)],
   props: {
     value: {
       type: null,
@@ -1356,27 +1376,6 @@ var select = {
         change: this.handleChange
       }
     }, this.Options);
-  }
-};
-
-var styles$13 = {"spinner":"f-3kd"};
-
-var N12 = _range(12);
-
-var spinner = {
-  name: 'f-spinner',
-  functional: true,
-  render: function render(h, _ref) {
-    var props = _ref.props,
-        data = _ref.data;
-    h = createElement(h, styles$13, props);
-    return h('div', Object.assign({}, data, {
-      styleName: '@spinner'
-    }), N12.map(function (key) {
-      return h('div', {
-        key: key
-      });
-    }));
   }
 };
 
@@ -1521,7 +1520,7 @@ var components = /*#__PURE__*/Object.freeze({
   list: List,
   pickerView: pickerView,
   select: select,
-  spinner: spinner,
+  spinner: Spinner,
   switch: _switch,
   textarea: textarea
 });
