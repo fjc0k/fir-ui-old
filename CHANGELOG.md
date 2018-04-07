@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.15.0"></a>
+# [0.15.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.14.0...fir-ui@0.15.0) (2018-04-07)
+
+
+### Features
+
+* **PickerView:** 支持显示加载状态 ([75cada2](https://github.com/fjc0k/fir-ui/commit/75cada2))
+
+
+
+
 <a name="0.14.0"></a>
 # [0.14.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.13.0...fir-ui@0.14.0) (2018-04-07)
 
