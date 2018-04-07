@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.14.0"></a>
+# [0.14.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.13.0...fir-ui@0.14.0) (2018-04-07)
+
+
+### Bug Fixes
+
+* **Divider:** 设置 height = 1px ([81da5c1](https://github.com/fjc0k/fir-ui/commit/81da5c1))
+
+
+### Features
+
+* **组件:** 新增 spinner 组件 ([d51e28c](https://github.com/fjc0k/fir-ui/commit/d51e28c))
+
+
+
+
 <a name="0.13.0"></a>
 # [0.13.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.12.0...fir-ui@0.13.0) (2018-04-06)
 
