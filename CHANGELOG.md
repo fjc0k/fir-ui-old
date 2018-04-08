@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.16.1"></a>
+## [0.16.1](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.16.0...fir-ui@0.16.1) (2018-04-08)
+
+
+### Bug Fixes
+
+* **InputNumber:** 最大最小值应为正负无穷大 ([f7324d0](https://github.com/fjc0k/fir-ui/commit/f7324d0))
+
+
+
+
 <a name="0.16.0"></a>
 # [0.16.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.15.0...fir-ui@0.16.0) (2018-04-08)
 
