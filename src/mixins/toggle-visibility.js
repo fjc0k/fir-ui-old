@@ -43,7 +43,7 @@ export default (defaultVisible, isModel) => ({
       this.syncVisible(false)
     },
     toggle() {
-      this.syncVisible(!this.actualVisible)
+      this.syncVisible(!this.localVisible)
     }
   }
 })

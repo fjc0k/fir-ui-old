@@ -15,7 +15,7 @@ export default startZIndex => ({
   },
 
   computed: {
-    actualZIndex() {
+    localZIndex() {
       return (
         this.useCustomZIndex || !isNumber(this.zIndex) ?
           this.customZIndex :
@@ -26,7 +26,7 @@ export default startZIndex => ({
 
   methods: {
     getZIndex() {
-      return this.actualZIndex
+      return this.localZIndex
     },
     setZIndex(index) {
       this.customZIndex = index
