@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.16.0"></a>
+# [0.16.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.15.0...fir-ui@0.16.0) (2018-04-08)
+
+
+### Bug Fixes
+
+* 修复第一片叶子过细的问题 ([158010c](https://github.com/fjc0k/fir-ui/commit/158010c))
+* 适配新版 vue-better-sync ([65e7c24](https://github.com/fjc0k/fir-ui/commit/65e7c24))
+
+
+### Features
+
+* **style:** 新增 transitions 全局样式 ([17dab35](https://github.com/fjc0k/fir-ui/commit/17dab35))
+* **组件:** 新增 panel 组件 ([a887530](https://github.com/fjc0k/fir-ui/commit/a887530))
+* **组件:** 新增 Popup 组件 ([0bff7a5](https://github.com/fjc0k/fir-ui/commit/0bff7a5))
+
+
+
+
 <a name="0.15.0"></a>
 # [0.15.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.14.0...fir-ui@0.15.0) (2018-04-07)
 
