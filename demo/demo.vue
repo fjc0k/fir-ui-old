@@ -8,8 +8,8 @@
         <f-field label="姓名">
           <f-input v-model="name" />
         </f-field>
-        <f-field label="姓名2">
-          <f-textarea :autoSize="autoSize" v-model="name" />
+        <f-field label="年龄">
+          <f-input-number v-model="age" />
         </f-field>
         <f-field label="等我">
           <f-switch v-model="toggle" />
@@ -39,6 +39,7 @@
 export default {
   data() {
     return {
+      age: 24,
       showPopup: true,
       toggle: false,
       selected: '中国',

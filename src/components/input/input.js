@@ -35,8 +35,7 @@ export default {
   },
 
   methods: {
-    transformValue(_, fromProp) {
-      if (fromProp) return _
+    transformLocalValue(_) {
       if (this.type === 'number') {
         const newValue = _.newValue.trim()
         if (newValue !== '') {

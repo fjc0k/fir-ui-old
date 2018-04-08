@@ -32,12 +32,17 @@ export default {
   },
 
   methods: {
-    transformValue(_, fromProp) {
-      return mapValues(_, value => (
-        fromProp ?
-          this.valueMap.on === value :
-          this.valueMap[value ? 'on' : 'off']
-      ))
+    transformValue(_) {
+      return mapValues(
+        _,
+        value => this.valueMap.on === value
+      )
+    },
+    transformLocalValue(_) {
+      return mapValues(
+        _,
+        value => this.valueMap[value ? 'on' : 'off']
+      )
     },
     done() {
       this.syncValue(!this.localValue)

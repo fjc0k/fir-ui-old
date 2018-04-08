@@ -65,7 +65,7 @@
     "fingerd": "^1.3.2",
     "lodash": "^4.17.5",
     "simulation-scroll-y": "^1.3.2",
-    "vue-better-sync": "^3.0.0",
+    "vue-better-sync": "^3.1.0",
     "vue-css-modules": "^1.0.1"
   },
   "devDependencies": {
