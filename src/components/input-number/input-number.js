@@ -30,11 +30,11 @@ export default {
     },
     min: {
       type: Number,
-      default: Number.MIN_VALUE
+      default: Number.NEGATIVE_INFINITY
     },
     max: {
       type: Number,
-      default: Number.MAX_VALUE
+      default: Number.POSITIVE_INFINITY
     },
     step: {
       type: Number,
