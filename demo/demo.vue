@@ -22,7 +22,14 @@
 
     <f-button type="primary" whiteSpace>提交</f-button>
 
+    <f-popup v-model="showPopup" placement="bottom">
+      <f-panel title="弹出框">
 
+        弹出框呀弹出框呀弹出框呀弹出框呀弹出框呀弹出框呀弹出框呀弹出
+        框呀弹出框呀弹出框呀弹出框呀弹出框
+        弹出框呀弹出框呀弹出框呀弹出框呀弹出框呀呀弹出框呀
+      </f-panel>
+    </f-popup>
 
 
   </div>
@@ -32,6 +39,7 @@
 export default {
   data() {
     return {
+      showPopup: true,
       toggle: false,
       selected: '中国',
       name: '方剑成',
