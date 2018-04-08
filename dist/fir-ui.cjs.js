@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.15.0
+ * fir-ui v0.16.0
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -11,6 +11,7 @@ var _toString = _interopDefault(require('lodash/toString'));
 var _isArray = _interopDefault(require('lodash/isArray'));
 var _forOwn = _interopDefault(require('lodash/forOwn'));
 var createElement = _interopDefault(require('vue-css-modules/lib/create-element'));
+var _isNumber = _interopDefault(require('lodash/isNumber'));
 var _upperFirst = _interopDefault(require('lodash/upperFirst'));
 var _reduce = _interopDefault(require('lodash/reduce'));
 var _isObjectLike = _interopDefault(require('lodash/isObjectLike'));
@@ -198,6 +199,34 @@ var button = {
   }
 };
 
+var adjustZIndex = (function (startZIndex) {
+  return {
+    props: {
+      zIndex: Number
+    },
+    data: function data() {
+      return {
+        useCustomZIndex: false,
+        customZIndex: startZIndex++
+      };
+    },
+    computed: {
+      localZIndex: function localZIndex() {
+        return this.useCustomZIndex || !_isNumber(this.zIndex) ? this.customZIndex : this.zIndex;
+      }
+    },
+    methods: {
+      getZIndex: function getZIndex() {
+        return this.localZIndex;
+      },
+      setZIndex: function setZIndex(index) {
+        this.customZIndex = index;
+        this.useCustomZIndex = true;
+      }
+    }
+  };
+});
+
 var customRenderer = (function (renderFns) {
   return _reduce(renderFns, function (mixin, defaultRenderFn, propName) {
     var PropName = _upperFirst(propName);
@@ -266,6 +295,50 @@ var extractVNodes = {
     }
   }
 };
+
+var toggleVisibility = (function (defaultVisible, isModel) {
+  return {
+    mixins: [betterSync(isModel && {
+      prop: 'visible',
+      event: 'change'
+    })],
+    props: {
+      visible: {
+        type: Boolean,
+        default: defaultVisible,
+        sync: true
+      }
+    },
+    methods: {
+      beforeSyncVisible: function beforeSyncVisible(_, visible, confirm) {
+        var _this = this;
+
+        var Api = visible ? 'Show' : 'Hide';
+        var beforeMethod = "before" + Api;
+        var afterMethod = "after" + Api;
+        var beforeFn = _isFunction(this[beforeMethod]) ? this[beforeMethod] : function (next) {
+          return next();
+        };
+        beforeFn(function () {
+          confirm();
+
+          if (_isFunction(_this[afterMethod])) {
+            _this.$nextTick(_this[afterMethod]);
+          }
+        });
+      },
+      show: function show() {
+        this.syncVisible(true);
+      },
+      hide: function hide() {
+        this.syncVisible(false);
+      },
+      toggle: function toggle() {
+        this.syncVisible(!this.localVisible);
+      }
+    }
+  };
+});
 
 var styles$2 = {"choice":"f-1sZ f-1wz","box":"f-2G7","selected":"f-28u","input":"f-oRD"};
 
@@ -855,9 +928,53 @@ var inputNumber = {
   }
 };
 
-var styles$11 = {"picker-view":"f-qZH","mask":"f-2vK","indicator":"f-1oq","content":"f-3TD f-1Ac","scroll":"f--Yp","unit":"f-1cr f-m9L","divider":"f-dlO f-m9L","loading":"f-w9F f-m9L","item":"f-2hL","disabled":"f-6PX"};
+var styles$11 = {"panel":"f-1F3","header":"f-1cu f-ZhX","tip":"f--eC f-ZhX","title":"f-1mh","body":"f-D9Y"};
 
-var mixins = [CSSModules(styles$11), betterSync({
+var propDescriptors$1 = {
+  title: VNodeType,
+  extra: VNodeType,
+  tip: VNodeType
+};
+var VNodeProps$1 = extractVNodes.methods.extractVNodeProps(propDescriptors$1);
+var panel = {
+  name: 'f-panel',
+  functional: true,
+  props: propDescriptors$1,
+  render: function render(h, _ref) {
+    var props = _ref.props,
+        data = _ref.data,
+        children = _ref.children,
+        slots = _ref.slots;
+    h = createElement(h, styles$11, props);
+
+    var _extractVNodes$method = extractVNodes.methods.extractVNodes({
+      slots: slots(),
+      props: props,
+      VNodeProps: VNodeProps$1
+    }),
+        title = _extractVNodes$method.title,
+        extra = _extractVNodes$method.extra,
+        tip = _extractVNodes$method.tip;
+
+    return h('div', Object.assign({}, data, {
+      styleName: '@panel'
+    }), [Boolean(title || extra) && h('div', {
+      styleName: 'header'
+    }, [h('div', {
+      styleName: 'title'
+    }, title), h('div', {
+      styleName: 'extra'
+    }, extra)]), h('div', {
+      styleName: 'body'
+    }, children), tip && h('div', {
+      styleName: 'tip'
+    }, tip)]);
+  }
+};
+
+var styles$12 = {"picker-view":"f-qZH","mask":"f-2vK","indicator":"f-1oq","content":"f-3TD f-1Ac","scroll":"f--Yp","unit":"f-1cr f-m9L","divider":"f-dlO f-m9L","loading":"f-w9F f-m9L","item":"f-2hL","disabled":"f-6PX"};
+
+var mixins = [CSSModules(styles$12), betterSync({
   prop: 'value',
   event: 'input'
 })];
@@ -907,7 +1024,7 @@ var data = (function () {
   };
 });
 
-var styles$12 = {"spinner":"f-3kd"};
+var styles$13 = {"spinner":"f-3kd"};
 
 var N12 = _range(12);
 
@@ -917,7 +1034,7 @@ var Spinner = {
   render: function render(h, _ref) {
     var props = _ref.props,
         data = _ref.data;
-    h = createElement(h, styles$12, props);
+    h = createElement(h, styles$13, props);
     return h('div', Object.assign({}, data, {
       styleName: '@spinner'
     }), N12.map(function (key) {
@@ -930,8 +1047,8 @@ var Spinner = {
 
 var DIRECTION_DOWN = 0;
 var DIRECTION_UP = 1;
-var GROUP_CLASS_NAME = styles$11.group;
-var ITEM_CLASS_NAME = styles$11.item;
+var GROUP_CLASS_NAME = styles$12.group;
+var ITEM_CLASS_NAME = styles$12.item;
 var BS_OPTIONS = function BS_OPTIONS(groupIndex) {
   return {
     wheel: {
@@ -1316,14 +1433,100 @@ var pickerView = {
   render: render
 };
 
-var styles$13 = {"select":"f-1rW f-1Xw"};
+var styles$14 = {"fix":"f-3JZ","popup":"f-JE4 f-m9L","right":"f-1fi","left":"f-1bb","top":"f-2oL","bottom":"f-3_k"};
+
+var PLACEMENTS$1 = ['center', 'top', 'right', 'bottom', 'left'];
+var popup = {
+  name: 'f-popup',
+  mixins: [CSSModules(styles$14), adjustZIndex(5000), toggleVisibility(false, true)],
+  props: {
+    placement: {
+      type: String,
+      default: PLACEMENTS$1[0],
+      validator: function validator(value) {
+        return PLACEMENTS$1.indexOf(value) >= 0;
+      }
+    },
+    transition: String,
+    mask: {
+      type: [Boolean, String],
+      default: true
+    },
+    lockScroll: {
+      type: Boolean,
+      default: true
+    },
+    closeOnMaskClick: {
+      type: Boolean,
+      default: true
+    }
+  },
+  computed: {
+    localTransition: function localTransition() {
+      return this.transition || (this.placement === 'center' ? 'f--fade' : 'f--slide-from-' + this.placement);
+    }
+  },
+  mounted: function mounted() {
+    var el = this.$el;
+
+    if (el.parentNode) {
+      el.parentNode.replaceChild(document.createComment(''), el);
+      document.body.appendChild(el);
+    }
+  },
+  methods: {
+    handleMaskClick: function handleMaskClick(e) {
+      if (!this.closeOnMaskClick || e.target !== e.currentTarget) return;
+      this.hide();
+    },
+    onVisibleChange: function onVisibleChange(visible) {
+      if (!this.lockScroll) return;
+      var bodyElement = document.body;
+      var scrollingElement = document.scrollingElement || (document.documentElement.scrollTop ? document.documentElement : document.body);
+
+      if (visible) {
+        this.scrollTop = scrollingElement.scrollTop;
+        bodyElement.classList.add(styles$14.fix);
+        bodyElement.style.top = -this.scrollTop + 'px';
+      } else {
+        bodyElement.classList.remove(styles$14.fix);
+        scrollingElement.scrollTop = this.scrollTop;
+      }
+    }
+  },
+  render: function render(h) {
+    return h('div', [h('transition', {
+      attrs: {
+        appear: true,
+        name: 'f--fade'
+      }
+    }, [h('div', {
+      styleName: '@popup $placement',
+      style: {
+        zIndex: this.localZIndex,
+        backgroundColor: this.mask,
+        display: this.localVisible || 'none'
+      },
+      on: {
+        click: this.handleMaskClick
+      }
+    }, [h('transition', {
+      attrs: {
+        appear: true,
+        name: this.localTransition
+      }
+    }, this.$slots.default)])])]);
+  }
+};
+
+var styles$15 = {"select":"f-1rW f-1Xw"};
 
 var select = {
   name: 'f-select',
   mixins: [betterSync({
     prop: 'value',
     event: 'change'
-  }), CSSModules(styles$13)],
+  }), CSSModules(styles$15)],
   props: {
     value: {
       type: null,
@@ -1379,14 +1582,14 @@ var select = {
   }
 };
 
-var styles$14 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
+var styles$16 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
 
 var _switch = {
   name: 'f-switch',
   mixins: [betterSync({
     prop: 'value',
     event: 'change'
-  }), CSSModules(styles$14)],
+  }), CSSModules(styles$16)],
   props: {
     value: {
       type: null,
@@ -1438,7 +1641,7 @@ var _switch = {
   }
 };
 
-var styles$15 = {};
+var styles$17 = {};
 
 var textarea = {
   name: 'f-textarea',
@@ -1446,7 +1649,7 @@ var textarea = {
   mixins: [betterSync({
     prop: 'value',
     event: 'input'
-  }), CSSModules(styles$15)],
+  }), CSSModules(styles$17)],
   props: {
     value: {
       type: [String, Number],
@@ -1518,7 +1721,9 @@ var components = /*#__PURE__*/Object.freeze({
   inputNumber: inputNumber,
   item: Item,
   list: List,
+  panel: panel,
   pickerView: pickerView,
+  popup: popup,
   select: select,
   spinner: Spinner,
   switch: _switch,

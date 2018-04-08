@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.15.0
+ * fir-ui v0.16.0
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -1686,6 +1686,34 @@
   }
 
   var isNumber_1 = isNumber;
+
+  var adjustZIndex = (function (startZIndex) {
+    return {
+      props: {
+        zIndex: Number
+      },
+      data: function data() {
+        return {
+          useCustomZIndex: false,
+          customZIndex: startZIndex++
+        };
+      },
+      computed: {
+        localZIndex: function localZIndex() {
+          return this.useCustomZIndex || !isNumber_1(this.zIndex) ? this.customZIndex : this.zIndex;
+        }
+      },
+      methods: {
+        getZIndex: function getZIndex() {
+          return this.localZIndex;
+        },
+        setZIndex: function setZIndex(index) {
+          this.customZIndex = index;
+          this.useCustomZIndex = true;
+        }
+      }
+    };
+  });
 
   /**
    * The base implementation of `_.slice` without an iteratee call guard.
@@ -4090,6 +4118,50 @@
     }
   };
 
+  var toggleVisibility = (function (defaultVisible, isModel) {
+    return {
+      mixins: [index(isModel && {
+        prop: 'visible',
+        event: 'change'
+      })],
+      props: {
+        visible: {
+          type: Boolean,
+          default: defaultVisible,
+          sync: true
+        }
+      },
+      methods: {
+        beforeSyncVisible: function beforeSyncVisible(_, visible, confirm) {
+          var _this = this;
+
+          var Api = visible ? 'Show' : 'Hide';
+          var beforeMethod = "before" + Api;
+          var afterMethod = "after" + Api;
+          var beforeFn = isFunction_1(this[beforeMethod]) ? this[beforeMethod] : function (next) {
+            return next();
+          };
+          beforeFn(function () {
+            confirm();
+
+            if (isFunction_1(_this[afterMethod])) {
+              _this.$nextTick(_this[afterMethod]);
+            }
+          });
+        },
+        show: function show() {
+          this.syncVisible(true);
+        },
+        hide: function hide() {
+          this.syncVisible(false);
+        },
+        toggle: function toggle() {
+          this.syncVisible(!this.localVisible);
+        }
+      }
+    };
+  });
+
   var styles$2 = {"choice":"f-1sZ f-1wz","box":"f-2G7","selected":"f-28u","input":"f-oRD"};
 
   var CHECKBOX = 1;
@@ -4769,9 +4841,53 @@
     }
   };
 
-  var styles$11 = {"picker-view":"f-qZH","mask":"f-2vK","indicator":"f-1oq","content":"f-3TD f-1Ac","scroll":"f--Yp","unit":"f-1cr f-m9L","divider":"f-dlO f-m9L","loading":"f-w9F f-m9L","item":"f-2hL","disabled":"f-6PX"};
+  var styles$11 = {"panel":"f-1F3","header":"f-1cu f-ZhX","tip":"f--eC f-ZhX","title":"f-1mh","body":"f-D9Y"};
 
-  var mixins = [CSSModules(styles$11), index({
+  var propDescriptors$1 = {
+    title: VNodeType,
+    extra: VNodeType,
+    tip: VNodeType
+  };
+  var VNodeProps$1 = extractVNodes.methods.extractVNodeProps(propDescriptors$1);
+  var panel = {
+    name: 'f-panel',
+    functional: true,
+    props: propDescriptors$1,
+    render: function render(h, _ref) {
+      var props = _ref.props,
+          data = _ref.data,
+          children = _ref.children,
+          slots = _ref.slots;
+      h = createElement(h, styles$11, props);
+
+      var _extractVNodes$method = extractVNodes.methods.extractVNodes({
+        slots: slots(),
+        props: props,
+        VNodeProps: VNodeProps$1
+      }),
+          title = _extractVNodes$method.title,
+          extra = _extractVNodes$method.extra,
+          tip = _extractVNodes$method.tip;
+
+      return h('div', Object.assign({}, data, {
+        styleName: '@panel'
+      }), [Boolean(title || extra) && h('div', {
+        styleName: 'header'
+      }, [h('div', {
+        styleName: 'title'
+      }, title), h('div', {
+        styleName: 'extra'
+      }, extra)]), h('div', {
+        styleName: 'body'
+      }, children), tip && h('div', {
+        styleName: 'tip'
+      }, tip)]);
+    }
+  };
+
+  var styles$12 = {"picker-view":"f-qZH","mask":"f-2vK","indicator":"f-1oq","content":"f-3TD f-1Ac","scroll":"f--Yp","unit":"f-1cr f-m9L","divider":"f-dlO f-m9L","loading":"f-w9F f-m9L","item":"f-2hL","disabled":"f-6PX"};
+
+  var mixins = [CSSModules(styles$12), index({
     prop: 'value',
     event: 'input'
   })];
@@ -4989,7 +5105,7 @@
 
   var range_1 = range;
 
-  var styles$12 = {"spinner":"f-3kd"};
+  var styles$13 = {"spinner":"f-3kd"};
 
   var N12 = range_1(12);
 
@@ -4999,7 +5115,7 @@
     render: function render(h, _ref) {
       var props = _ref.props,
           data = _ref.data;
-      h = createElement(h, styles$12, props);
+      h = createElement(h, styles$13, props);
       return h('div', Object.assign({}, data, {
         styleName: '@spinner'
       }), N12.map(function (key) {
@@ -5012,8 +5128,8 @@
 
   var DIRECTION_DOWN = 0;
   var DIRECTION_UP = 1;
-  var GROUP_CLASS_NAME = styles$11.group;
-  var ITEM_CLASS_NAME = styles$11.item;
+  var GROUP_CLASS_NAME = styles$12.group;
+  var ITEM_CLASS_NAME = styles$12.item;
   var BS_OPTIONS = function BS_OPTIONS(groupIndex) {
     return {
       wheel: {
@@ -9264,14 +9380,100 @@
     render: render
   };
 
-  var styles$13 = {"select":"f-1rW f-1Xw"};
+  var styles$14 = {"fix":"f-3JZ","popup":"f-JE4 f-m9L","right":"f-1fi","left":"f-1bb","top":"f-2oL","bottom":"f-3_k"};
+
+  var PLACEMENTS$1 = ['center', 'top', 'right', 'bottom', 'left'];
+  var popup = {
+    name: 'f-popup',
+    mixins: [CSSModules(styles$14), adjustZIndex(5000), toggleVisibility(false, true)],
+    props: {
+      placement: {
+        type: String,
+        default: PLACEMENTS$1[0],
+        validator: function validator(value) {
+          return PLACEMENTS$1.indexOf(value) >= 0;
+        }
+      },
+      transition: String,
+      mask: {
+        type: [Boolean, String],
+        default: true
+      },
+      lockScroll: {
+        type: Boolean,
+        default: true
+      },
+      closeOnMaskClick: {
+        type: Boolean,
+        default: true
+      }
+    },
+    computed: {
+      localTransition: function localTransition() {
+        return this.transition || (this.placement === 'center' ? 'f--fade' : 'f--slide-from-' + this.placement);
+      }
+    },
+    mounted: function mounted() {
+      var el = this.$el;
+
+      if (el.parentNode) {
+        el.parentNode.replaceChild(document.createComment(''), el);
+        document.body.appendChild(el);
+      }
+    },
+    methods: {
+      handleMaskClick: function handleMaskClick(e) {
+        if (!this.closeOnMaskClick || e.target !== e.currentTarget) return;
+        this.hide();
+      },
+      onVisibleChange: function onVisibleChange(visible) {
+        if (!this.lockScroll) return;
+        var bodyElement = document.body;
+        var scrollingElement = document.scrollingElement || (document.documentElement.scrollTop ? document.documentElement : document.body);
+
+        if (visible) {
+          this.scrollTop = scrollingElement.scrollTop;
+          bodyElement.classList.add(styles$14.fix);
+          bodyElement.style.top = -this.scrollTop + 'px';
+        } else {
+          bodyElement.classList.remove(styles$14.fix);
+          scrollingElement.scrollTop = this.scrollTop;
+        }
+      }
+    },
+    render: function render(h) {
+      return h('div', [h('transition', {
+        attrs: {
+          appear: true,
+          name: 'f--fade'
+        }
+      }, [h('div', {
+        styleName: '@popup $placement',
+        style: {
+          zIndex: this.localZIndex,
+          backgroundColor: this.mask,
+          display: this.localVisible || 'none'
+        },
+        on: {
+          click: this.handleMaskClick
+        }
+      }, [h('transition', {
+        attrs: {
+          appear: true,
+          name: this.localTransition
+        }
+      }, this.$slots.default)])])]);
+    }
+  };
+
+  var styles$15 = {"select":"f-1rW f-1Xw"};
 
   var select = {
     name: 'f-select',
     mixins: [index({
       prop: 'value',
       event: 'change'
-    }), CSSModules(styles$13)],
+    }), CSSModules(styles$15)],
     props: {
       value: {
         type: null,
@@ -9420,14 +9622,14 @@
 
   var has_1 = has;
 
-  var styles$14 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
+  var styles$16 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
 
   var _switch = {
     name: 'f-switch',
     mixins: [index({
       prop: 'value',
       event: 'change'
-    }), CSSModules(styles$14)],
+    }), CSSModules(styles$16)],
     props: {
       value: {
         type: null,
@@ -9763,7 +9965,7 @@
   });
   });
 
-  var styles$15 = {};
+  var styles$17 = {};
 
   var textarea = {
     name: 'f-textarea',
@@ -9771,7 +9973,7 @@
     mixins: [index({
       prop: 'value',
       event: 'input'
-    }), CSSModules(styles$15)],
+    }), CSSModules(styles$17)],
     props: {
       value: {
         type: [String, Number],
@@ -9843,7 +10045,9 @@
     inputNumber: inputNumber,
     item: Item,
     list: List,
+    panel: panel,
     pickerView: pickerView,
+    popup: popup,
     select: select,
     spinner: Spinner,
     switch: _switch,

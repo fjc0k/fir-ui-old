@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.15.0
+ * fir-ui v0.16.0
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  *//*  imported from icon.styl  */
@@ -439,6 +439,25 @@
   background-color: #e5e5e5;
 }
 
+/*  imported from panel.styl  */
+
+.f-1F3 {
+  margin: 1rem 0;
+}
+.f-1cu,
+.f--eC {
+  font-size: 1.4rem;
+  color: #909399;
+  padding: 0 0.85rem;
+  min-height: 2.8rem;
+}
+.f-1mh {
+  flex: 1;
+}
+.f-D9Y {
+  background-color: #fff;
+}
+
 /*  imported from picker-view.styl  */
 
 .f-qZH {
@@ -536,7 +555,7 @@
   background: currentColor;
 }
 .f-3kd div:nth-child(1) {
-  transform: rotate(0deg);
+  transform: rotate(0.1deg);
   animation-delay: -1.1s;
 }
 .f-3kd div:nth-child(2) {
@@ -614,6 +633,34 @@
   100% {
     opacity: 0;
   }
+}
+
+/*  imported from popup.styl  */
+
+body.f-3JZ {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+.f-JE4 {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.6);
+}
+.f-JE4.f-1fi {
+  justify-content: flex-end;
+}
+.f-JE4.f-1bb {
+  justify-content: flex-start;
+}
+.f-JE4.f-2oL {
+  align-items: flex-start;
+}
+.f-JE4.f-3_k {
+  align-items: flex-end;
 }
 
 /*  imported from select.styl  */
@@ -1096,4 +1143,48 @@ video {
   background-color: #b3d4fc; /* Required when declaring ::selection */
   color: #000;
   text-shadow: none;
+}
+.f--fade-enter,
+.f--fade-leave-to {
+  opacity: 0;
+}
+.f--fade-enter-active,
+.f--fade-leave-active {
+  transition: opacity 0.32s;
+}
+.f--slide-from-bottom-enter,
+.f--slide-from-bottom-leave-to {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.f--slide-from-bottom-enter-active,
+.f--slide-from-bottom-leave-active {
+  transition: 0.32s ease;
+}
+.f--slide-from-top-enter,
+.f--slide-from-top-leave-to {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+.f--slide-from-top-enter-active,
+.f--slide-from-top-leave-active {
+  transition: 0.32s ease;
+}
+.f--slide-from-right-enter,
+.f--slide-from-right-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.f--slide-from-right-enter-active,
+.f--slide-from-right-leave-active {
+  transition: 0.32s ease;
+}
+.f--slide-from-left-enter,
+.f--slide-from-left-leave-to {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.f--slide-from-left-enter-active,
+.f--slide-from-left-leave-active {
+  transition: 0.32s ease;
 }
