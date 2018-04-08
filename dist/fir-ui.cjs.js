@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.16.0
+ * fir-ui v0.16.1
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -769,9 +769,7 @@ var Input = {
     }
   },
   methods: {
-    transformValue: function transformValue(_, fromProp) {
-      if (fromProp) return _;
-
+    transformLocalValue: function transformLocalValue(_) {
       if (this.type === 'number') {
         var newValue = _.newValue.trim();
 
@@ -835,11 +833,11 @@ var inputNumber = {
     },
     min: {
       type: Number,
-      default: Number.MIN_VALUE
+      default: Number.NEGATIVE_INFINITY
     },
     max: {
       type: Number,
-      default: Number.MAX_VALUE
+      default: Number.POSITIVE_INFINITY
     },
     step: {
       type: Number,
@@ -1611,11 +1609,18 @@ var _switch = {
     disabled: Boolean
   },
   methods: {
-    transformValue: function transformValue(_, fromProp) {
+    transformValue: function transformValue(_) {
       var _this = this;
 
       return _mapValues(_, function (value) {
-        return fromProp ? _this.valueMap.on === value : _this.valueMap[value ? 'on' : 'off'];
+        return _this.valueMap.on === value;
+      });
+    },
+    transformLocalValue: function transformLocalValue(_) {
+      var _this2 = this;
+
+      return _mapValues(_, function (value) {
+        return _this2.valueMap[value ? 'on' : 'off'];
       });
     },
     done: function done() {

@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.16.0
+ * fir-ui v0.16.1
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -1487,7 +1487,7 @@
   var CSSModules = unwrapExports(lib);
 
   /*!
-   * vue-better-sync v3.0.0
+   * vue-better-sync v3.1.0
    * (c) 2018-present fjc0k <fjc0kb@gmail.com>
    * Released under the MIT License.
    */
@@ -1555,7 +1555,8 @@
         var proxy = "local" + PropName;
         var syncMethod = "sync" + PropName;
         var directSyncMethod = "sync" + PropName + "Directly";
-        var transformMethod = "transform" + PropName;
+        var transformPropMethod = "transform" + PropName;
+        var transformProxyMethod = "transformLocal" + PropName;
         var watchMethod = "_VBS_W_" + propName + "_";
         var onPropChange = "on" + PropName + "Change";
         var onProxyChange = "onLocal" + PropName + "Change";
@@ -1595,12 +1596,13 @@
             var LAST_VALUES_FROM = fromProp ? X_LAST_VALUES_FROM_PARENT : X_LAST_VALUES_FROM_CHILD;
             var CHANGED_BY = fromProp ? X_PROP_CHANGED_BY_PARENT : X_PROP_CHANGED_BY_CHILD;
             this[LAST_VALUES_FROM][propName] = newValue;
+            var transformMethod = fromProp ? transformPropMethod : transformProxyMethod;
 
             if (isFunction$1(this[transformMethod])) {
               var transformedValue = this[transformMethod]({
                 oldValue: oldValue,
                 newValue: newValue
-              }, fromProp);
+              });
 
               if (isObject$1(transformedValue)) {
                 oldValue = transformedValue.oldValue;
@@ -1613,10 +1615,8 @@
                 if (isFunction$1(this[onPropChange])) {
                   this[onPropChange](newValue, oldValue);
                 }
-              } else {
-                if (isFunction$1(this[onProxyChange])) {
-                  this[onProxyChange](newValue, oldValue);
-                }
+              } else if (isFunction$1(this[onProxyChange])) {
+                this[onProxyChange](newValue, oldValue);
               }
 
               this[directSyncMethod](newValue, oldValue, CHANGED_BY);
@@ -4682,9 +4682,7 @@
       }
     },
     methods: {
-      transformValue: function transformValue(_, fromProp) {
-        if (fromProp) return _;
-
+      transformLocalValue: function transformLocalValue(_) {
         if (this.type === 'number') {
           var newValue = _.newValue.trim();
 
@@ -4748,11 +4746,11 @@
       },
       min: {
         type: Number,
-        default: Number.MIN_VALUE
+        default: Number.NEGATIVE_INFINITY
       },
       max: {
         type: Number,
-        default: Number.MAX_VALUE
+        default: Number.POSITIVE_INFINITY
       },
       step: {
         type: Number,
@@ -9651,11 +9649,18 @@
       disabled: Boolean
     },
     methods: {
-      transformValue: function transformValue(_, fromProp) {
+      transformValue: function transformValue(_) {
         var _this = this;
 
         return mapValues_1(_, function (value) {
-          return fromProp ? _this.valueMap.on === value : _this.valueMap[value ? 'on' : 'off'];
+          return _this.valueMap.on === value;
+        });
+      },
+      transformLocalValue: function transformLocalValue(_) {
+        var _this2 = this;
+
+        return mapValues_1(_, function (value) {
+          return _this2.valueMap[value ? 'on' : 'off'];
         });
       },
       done: function done() {
