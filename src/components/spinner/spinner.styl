@@ -23,7 +23,7 @@
     }
     for $n in (0..11) {
       &:nth-child({$n + 1}) {
-        transform: rotate($n * 30deg);
+        transform: rotate((($n * 30) ? ($n * 30) : .1) * 1deg);
         animation-delay: ($spinner.speed * -1 * (11 - $n) / 12);
       }
     }
