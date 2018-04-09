@@ -16,5 +16,6 @@
   "pickerView": "f-picker-view",
   "spinner": "f-spinner",
   "panel": "f-panel",
-  "popup": "f-popup"
+  "popup": "f-popup",
+  "sheet": "f-sheet"
 }

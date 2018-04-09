@@ -1,0 +1,23 @@
+@import "settings";
+
+.sheet {
+  width: 100%;
+  background-color: $sheet.backgroundColor;
+  & > [data-component-item] > [data-component-body] > [data-component-middle] {
+    justify-content: center;
+  }
+}
+
+.header {
+  font-size: $sheet.header.font.size;
+}
+
+.cancel {
+  color: $sheet.header.cancel.font.color;
+  font-size: $sheet.header.cancel.font.size;
+}
+
+.confirm {
+  color: $sheet.header.confirm.font.color;
+  font-size: $sheet.header.confirm.font.size;
+}
