@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.16.1
+ * fir-ui v0.17.1
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  *//*  imported from icon.styl  */
@@ -666,6 +666,27 @@ body.f-3JZ {
 /*  imported from select.styl  */
 
 .f-1rW {
+}
+
+/*  imported from sheet.styl  */
+
+.f-2KP {
+  width: 100%;
+  background-color: #fff;
+}
+.f-2KP > [data-component-item] > [data-component-body] > [data-component-middle] {
+  justify-content: center;
+}
+.f-ym_ {
+  font-size: 1.8rem;
+}
+.f-3Wm {
+  color: #606266;
+  font-size: 1em;
+}
+.f-13m {
+  color: #1aad19;
+  font-size: 1em;
 }
 
 /*  imported from switch.styl  */

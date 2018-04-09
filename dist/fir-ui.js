@@ -1,5 +1,5 @@
 /*!
- * fir-ui v0.16.1
+ * fir-ui v0.17.1
  * (c) 2018-present fjc0k <fjc0kb@gmail.com>
  * Released under the MIT License.
  */
@@ -4073,7 +4073,7 @@
   };
 
   var normalizePropVNode = function normalizePropVNode(propVNode) {
-    return isObjectLike_1(propVNode) ? propVNode : toString_1(propVNode);
+    return propVNode === 0 ? '0' : propVNode;
   };
 
   var extractVNodes = {
@@ -4467,7 +4467,10 @@
       }, [note]), right]), // Arrow
       h(Icon, {
         styleName: '@arrow',
-        style: "display: " + (arrow ? 'block' : 'none') + ";",
+        directives: [{
+          name: 'show',
+          value: arrow
+        }],
         attrs: {
           name: "f-icon-arrow-" + (arrow || 'right')
         }
@@ -9381,7 +9384,7 @@
   var styles$14 = {"fix":"f-3JZ","popup":"f-JE4 f-m9L","right":"f-1fi","left":"f-1bb","top":"f-2oL","bottom":"f-3_k"};
 
   var PLACEMENTS$1 = ['center', 'top', 'right', 'bottom', 'left'];
-  var popup = {
+  var Popup = {
     name: 'f-popup',
     mixins: [CSSModules(styles$14), adjustZIndex(5000), toggleVisibility(false, true)],
     props: {
@@ -9440,6 +9443,10 @@
       }
     },
     render: function render(h) {
+      this.$slots.default[0].data.directives = [{
+        name: 'show',
+        value: this.localVisible
+      }];
       return h('div', [h('transition', {
         attrs: {
           appear: true,
@@ -9449,9 +9456,12 @@
         styleName: '@popup $placement',
         style: {
           zIndex: this.localZIndex,
-          backgroundColor: this.mask,
-          display: this.localVisible || 'none'
+          backgroundColor: this.mask
         },
+        directives: [{
+          name: 'show',
+          value: this.localVisible
+        }],
         on: {
           click: this.handleMaskClick
         }
@@ -9524,6 +9534,104 @@
           change: this.handleChange
         }
       }, this.Options);
+    }
+  };
+
+  var styles$16 = {"sheet":"f-2KP","header":"f-ym_","cancel":"f-3Wm","confirm":"f-13m"};
+
+  var sheet = {
+    name: 'f-sheet',
+    inheritAttrs: false,
+    mixins: [extractVNodes, CSSModules(styles$16), toggleVisibility(false, true)],
+    props: {
+      title: extractVNodes.VNodeType,
+      desc: extractVNodes.VNodeType,
+      cancel: Object.assign({}, extractVNodes.VNodeType, {
+        default: '取消'
+      }),
+      confirm: Object.assign({}, extractVNodes.VNodeType, {
+        default: '确定'
+      }),
+      beforeCancel: Function,
+      beforeConfirm: Function,
+      noHeader: Boolean
+    },
+    methods: {
+      handleCancel: function handleCancel() {
+        var _this = this;
+
+        var done = function done() {
+          _this.hide();
+
+          _this.$emit('cancel');
+        };
+
+        if (isFunction_1(this.beforeCancel)) {
+          this.beforeCancel(done);
+        } else {
+          done();
+        }
+      },
+      handleConfirm: function handleConfirm() {
+        var _this2 = this;
+
+        var done = function done() {
+          _this2.hide();
+
+          _this2.$emit('confirm');
+        };
+
+        if (isFunction_1(this.beforeConfirm)) {
+          this.beforeConfirm(done);
+        } else {
+          done();
+        }
+      }
+    },
+    render: function render(h) {
+      var _extractVNodes = this.extractVNodes(),
+          title = _extractVNodes.title,
+          desc = _extractVNodes.desc,
+          cancel = _extractVNodes.cancel,
+          confirm = _extractVNodes.confirm;
+
+      return h(Popup, {
+        model: {
+          value: this.localVisible,
+          callback: this.toggle
+        },
+        attrs: Object.assign({}, this.$attrs, {
+          placement: 'bottom'
+        })
+      }, [h('div', {
+        styleName: '@sheet'
+      }, [h(Item, {
+        styleName: 'header',
+        attrs: {
+          left: cancel && h('a', {
+            styleName: 'cancel',
+            attrs: {
+              href: 'javascript:;' // eslint-disable-line no-script-url
+
+            },
+            on: {
+              click: this.handleCancel
+            }
+          }, [cancel]),
+          right: confirm && h('a', {
+            styleName: 'confirm',
+            attrs: {
+              href: 'javascript:;' // eslint-disable-line no-script-url
+
+            },
+            on: {
+              click: this.handleConfirm
+            }
+          }, [confirm]),
+          title: title,
+          desc: desc
+        }
+      }), this.$slots.default])]);
     }
   };
 
@@ -9620,14 +9728,14 @@
 
   var has_1 = has;
 
-  var styles$16 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
+  var styles$17 = {"switch":"f-fDD","on":"f-3bg","disabled":"f-TLD"};
 
   var _switch = {
     name: 'f-switch',
     mixins: [index({
       prop: 'value',
       event: 'change'
-    }), CSSModules(styles$16)],
+    }), CSSModules(styles$17)],
     props: {
       value: {
         type: null,
@@ -9970,7 +10078,7 @@
   });
   });
 
-  var styles$17 = {};
+  var styles$18 = {};
 
   var textarea = {
     name: 'f-textarea',
@@ -9978,7 +10086,7 @@
     mixins: [index({
       prop: 'value',
       event: 'input'
-    }), CSSModules(styles$17)],
+    }), CSSModules(styles$18)],
     props: {
       value: {
         type: [String, Number],
@@ -10052,8 +10160,9 @@
     list: List,
     panel: panel,
     pickerView: pickerView,
-    popup: popup,
+    popup: Popup,
     select: select,
+    sheet: sheet,
     spinner: Spinner,
     switch: _switch,
     textarea: textarea
@@ -10076,10 +10185,11 @@
     install.installed = true;
   }
 
-  Object.defineProperty(components, 'install', {
-    value: install
-  });
+  var index$1 = {
+    components: components,
+    install: install
+  };
 
-  return components;
+  return index$1;
 
 })));
