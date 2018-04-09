@@ -4,7 +4,6 @@ import { toggleVisibility, extractVNodes } from '@/mixins'
 import Popup from '@/components/popup/popup'
 import Item from '@/components/item/item'
 import styles from './sheet.styl'
-import { Function } from 'core-js'
 
 export default {
   name: 'f-sheet',
