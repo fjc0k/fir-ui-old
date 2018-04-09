@@ -20,16 +20,12 @@
       </f-form>
     </f-panel>
 
-    <f-button type="primary" whiteSpace>提交</f-button>
+    <f-button @click="showPopup=!showPopup" type="primary" whiteSpace>提交</f-button>
 
-    <f-popup v-model="showPopup" placement="bottom">
-      <f-panel title="弹出框">
+    <f-sheet :cancel="false" title="SHEET" desc="选择时间" v-model="showPopup">
+      <f-picker-view :loading="true" :visibleItemCount="5" v-model="likes" cascaded :data="pickerData2" />
 
-        弹出框呀弹出框呀弹出框呀弹出框呀弹出框呀弹出框呀弹出框呀弹出
-        框呀弹出框呀弹出框呀弹出框呀弹出框
-        弹出框呀弹出框呀弹出框呀弹出框呀弹出框呀呀弹出框呀
-      </f-panel>
-    </f-popup>
+    </f-sheet>
 
 
   </div>

@@ -97,7 +97,10 @@ export default {
           // Arrow
           h(Icon, {
             styleName: '@arrow',
-            style: `display: ${arrow ? 'block' : 'none'};`,
+            directives: [{
+              name: 'show',
+              value: arrow
+            }],
             attrs: {
               name: `f-icon-arrow-${arrow || 'right'}`
             }

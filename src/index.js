@@ -19,6 +19,7 @@ function install(Vue) {
   install.installed = true
 }
 
-Object.defineProperty(components, 'install', { value: install })
-
-export default components
+export default {
+  components,
+  install
+}

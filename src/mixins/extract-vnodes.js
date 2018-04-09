@@ -1,19 +1,13 @@
 // 统一 prop VNode 和 slot
 
-import { reduce, isObjectLike, toString } from 'lodash'
+import { reduce } from 'lodash'
 
 const VNodeType = {
   type: null,
   vnode: true
 }
 
-const normalizePropVNode = propVNode => {
-  return (
-    isObjectLike(propVNode) ?
-      propVNode :
-      toString(propVNode)
-  )
-}
+const normalizePropVNode = propVNode => propVNode === 0 ? '0' : propVNode
 
 export default {
   VNodeType,

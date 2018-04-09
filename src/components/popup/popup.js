@@ -86,6 +86,11 @@ export default {
   },
 
   render(h) {
+    this.$slots.default[0].data.directives = [{
+      name: 'show',
+      value: this.localVisible
+    }]
+
     return h('div', [
       h('transition', {
         attrs: {
@@ -97,9 +102,12 @@ export default {
           styleName: '@popup $placement',
           style: {
             zIndex: this.localZIndex,
-            backgroundColor: this.mask,
-            display: this.localVisible || 'none'
+            backgroundColor: this.mask
           },
+          directives: [{
+            name: 'show',
+            value: this.localVisible
+          }],
           on: {
             click: this.handleMaskClick
           }
