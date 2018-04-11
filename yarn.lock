@@ -576,6 +576,10 @@
     stringify-author "^0.1.3"
     use-config "^2.0.4"
 
+"@fir-ui/date-formatter@^0.1.1":
+  version "0.1.1"
+  resolved "http://registry.npm.taobao.org/@fir-ui/date-formatter/download/@fir-ui/date-formatter-0.1.1.tgz#ceba1bf4bc9822b70dc388bbd93e91c914b63754"
+
 "@fir-ui/eslint-config-fir@^0.3.0":
   version "0.3.0"
   resolved "http://registry.npm.taobao.org/@fir-ui/eslint-config-fir/download/@fir-ui/eslint-config-fir-0.3.0.tgz#9edc90a83ae8fa0e09c2d3bb86911f9ed4b48903"
