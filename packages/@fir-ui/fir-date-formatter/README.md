@@ -15,7 +15,7 @@ yarn add @fir-ui/date-formatter
 <script src="//unpkg.com/@fir-ui/date-formatter"></script>
 ```
 
-CDN引入时，可通过全局变量 `firDateFormatter` 使用。
+CDN 引入时，可通过全局变量 `firDateFormatter` 使用。
 
 ## 🔧 使用
 
