@@ -1,5 +1,5 @@
 /*!
- * @fir-ui/date-formatter v0.0.1
+ * @fir-ui/date-formatter v0.1.1
  * (c) 2018-present fjc0k
  * Released under the MIT License.
  */
