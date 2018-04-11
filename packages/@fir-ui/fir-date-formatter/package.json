@@ -1,0 +1,31 @@
+{
+  "name": "@fir-ui/date-formatter",
+  "version": "0.0.1",
+  "description": "Date formatter for fir-ui",
+  "author": "fjc0k",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/fir-date-formatter.cjs.js",
+  "module": "dist/fir-date-formatter.es.js",
+  "unpkg": "dist/fir-date-formatter.min.js",
+  "jsdelivr": "dist/fir-date-formatter.min.js",
+  "scripts": {
+    "build": "bundler"
+  },
+  "firb": {
+    "entry": {
+      "fir-date-formatter": [
+        "src/index.js",
+        "firDateFormatter"
+      ]
+    }
+  },
+  "devDependencies": {
+    "@fir-ui/bundler": "^0.4.2"
+  }
+}
