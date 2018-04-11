@@ -63,6 +63,7 @@ export default function (scroll, groupIndex) {
   if (this.cascaded) {
     const nextGroupIndex = groupIndex + 1
     const nextGroupItems = selectedItem.children
+
     if (isArray(nextGroupItems) && nextGroupItems.length) { // set
       this.$set(
         this.localData,

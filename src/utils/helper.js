@@ -2,6 +2,8 @@
 
 import { forOwn, isArray, toString } from 'lodash'
 
+export const mergeData = genFunctionalData
+
 export function genFunctionalData() {
   const finalData = {}
   let i = arguments.length

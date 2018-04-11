@@ -23,7 +23,18 @@
           </f-placeholder>
         </f-field>
         <f-field label="购票类型">
-          <f-picker-view :loading="true" :visibleItemCount="3" v-model="likes" cascaded :data="pickerData2" />
+          <f-date-picker-view
+            v-model="likes"
+            :startYear="2012"
+            :endYear="2012"
+          >
+            <template slot="year" slot-scope="{ year }">
+              {{ year }} 年
+            </template>
+            <template slot="month" slot-scope="{ year, month }">
+              {{ month }}月
+            </template>
+          </f-date-picker-view>
         </f-field>
       </f-form>
     </f-panel>
@@ -31,7 +42,7 @@
     <f-button @click="showPopup=!showPopup" type="primary" whiteSpace>提交</f-button>
 
     <f-sheet :cancel="false" title="SHEET" desc="选择时间" v-model="showPopup">
-      <f-picker-view :loading="true" :visibleItemCount="5" v-model="likes" cascaded :data="pickerData2" />
+      <f-date-picker-view v-model="likes" :data="pickerData2" />
 
     </f-sheet>
 
@@ -44,7 +55,7 @@ export default {
   data() {
     return {
       age: 24,
-      showPopup: true,
+      showPopup: false,
       toggle: false,
       selected: '中国',
       name: '方剑成',
@@ -70,55 +81,17 @@ export default {
           { label: '意大利', value: '意大利', disabled: true  }
         ]
       ],
-      pickerData2: [
-        {
-          label: '飞机票',
-          value: 0,
-          children: [
-            {
-              label: '经济舱',
-              value: 1
-            },
-            {
-              label: '商务舱',
-              value: 2
-            }
-          ]
-        },
-        {
-          label: '火车票',
-          value: 1,
-          children: [
-            {
-              label: '卧铺',
-              value: 1,
-              disabled: true // 不可用
-            },
-            {
-              label: '坐票',
-              value: 2
-            },
-            {
-              label: '站票',
-              value: 3
-            }
-          ]
-        },
-        {
-          label: '汽车票',
-          value: 3,
-          children: [
-            {
-              label: '快班',
-              value: 1
-            },
-            {
-              label: '普通',
-              value: 2
-            }
-          ]
-        }
-      ],
+      pickerData2: [{
+          label: '2012', value: '2012', children: [{
+            label: '2013', value: '2013'
+          }, {
+            label: '2013', value: '2013'
+          }]
+        }, {
+          label: '20124', value: '20124', children: [{
+            label: '2013', value: '2013'
+          }]
+        }],
       likes: [],
       autoSize: true
     }

@@ -29,6 +29,7 @@ export default {
   },
   Groups() {
     const h = this.$createElement
+    this.$log(this.localData)
 
     return this.localData.map((items, groupIndex) => {
       const divider = this.localDivider[groupIndex]

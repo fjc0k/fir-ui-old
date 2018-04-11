@@ -1,11 +1,14 @@
-import { forOwn, castArray } from 'lodash'
+import { forOwn, castArray, cloneDeep } from 'lodash'
 import * as components from '@/components'
 import '@/styles/commons.styl'
 
 function install(Vue) {
   if (install.installed) return
 
-  Vue.prototype.$log = console.log
+  Vue.prototype.$log = (...args) => console.log.apply(
+    console,
+    args.map(cloneDeep)
+  )
 
   forOwn(components, component => {
     if (component.alias) {

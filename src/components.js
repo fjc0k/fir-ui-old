@@ -1,5 +1,7 @@
 export { default as button } from '@/components/button/button'
 export { default as choice } from '@/components/choice/choice'
+export { default as datePicker } from '@/components/date-picker/date-picker'
+export { default as datePickerView } from '@/components/date-picker-view/date-picker-view'
 export { default as divider } from '@/components/divider/divider'
 export { default as field } from '@/components/field/field'
 export { default as form } from '@/components/form/form'
