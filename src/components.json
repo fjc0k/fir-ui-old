@@ -17,5 +17,6 @@
   "spinner": "f-spinner",
   "panel": "f-panel",
   "popup": "f-popup",
-  "sheet": "f-sheet"
+  "sheet": "f-sheet",
+  "placeholder": "f-placeholder"
 }
