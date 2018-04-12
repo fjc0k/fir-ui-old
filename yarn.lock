@@ -5842,6 +5842,10 @@ vue-template-es2015-compiler@^1.6.0:
   version "1.6.0"
   resolved "http://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
 
+vue@2.5.17-beta.0:
+  version "2.5.17-beta.0"
+  resolved "http://registry.npm.taobao.org/vue/download/vue-2.5.17-beta.0.tgz#b9985447818827306beee146923a1bd64f1bb834"
+
 watchpack@^1.5.0:
   version "1.5.0"
   resolved "http://registry.npm.taobao.org/watchpack/download/watchpack-1.5.0.tgz#231e783af830a22f8966f65c4c4bacc814072eed"

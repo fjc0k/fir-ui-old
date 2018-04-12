@@ -1,4 +1,5 @@
 import CSSModules from 'vue-css-modules'
+import dateFormatter from '@fir-ui/date-formatter'
 import { range, defaultTo, mapValues, isFunction, zipObject, toArray } from 'lodash'
 import { mergeData } from '@/utils/helper'
 import { getMonthDays } from '@/utils/date'
@@ -17,14 +18,29 @@ export default {
   mixins: [
     CSSModules(styles),
     customRenderer({
-      year({ year }) {
-        return year
+      year: {
+        default({ year }) {
+          return year
+        },
+        literal(str, { year: y }) {
+          return dateFormatter({ y }, str)
+        }
       },
-      month({ month }) {
-        return month
+      month: {
+        default({ month }) {
+          return month
+        },
+        literal(str, { year: y, month: m }) {
+          return dateFormatter({ y, m }, str)
+        }
       },
-      day({ day }) {
-        return day
+      day: {
+        default({ day }) {
+          return day
+        },
+        literal(str, { year: y, month: m, day: d }) {
+          return dateFormatter({ y, m, d }, str)
+        }
       }
     })
   ],
@@ -38,8 +54,8 @@ export default {
       type: Number,
       default: CURRENT_YEAR + 10
     },
-    filter: Function,
-    disabler: Function
+    filter: Function, // 应在 methods 里定义，否则会触发重渲染
+    disabler: Function // 应在 methods 里定义，否则会触发重渲染
   },
 
   methods: {

@@ -25,14 +25,14 @@
         <f-field label="购票类型">
           <f-date-picker-view
             v-model="likes"
-            :startYear="2012"
+            :startYear="2000"
             :endYear="2012"
+            renderYear="yy 年"
+            renderDay="dd 日"
+            :visibleItemCount="3"
           >
-            <template slot="year" slot-scope="{ year }">
-              {{ year }} 年
-            </template>
             <template slot="month" slot-scope="{ year, month }">
-              {{ month }}月
+              <i>{{ month }}</i>
             </template>
           </f-date-picker-view>
         </f-field>
