@@ -5,18 +5,15 @@ const cac = require('cac')
 const path = require('path')
 const fs = require('fs-extra')
 const { execSync } = require('child_process')
-const { cssExt, vueComponentExt } = require('./config')
+const { cssExt, vueComponentExt, r, EXPORT_COMPONENTS_SCRIPT } = require('./config')
 
 const TEMPLATES_PATH = path.resolve(__dirname, './templates')
 
-const r = path.resolve.bind(path, __dirname)
 const t = _.flow([
   path.join.bind(path, TEMPLATES_PATH),
   fs.readFileSync,
   template => values => _.template(template)(values).trim() + '\n'
 ])
-
-const EXPORT_COMPONENTS_SCRIPT = r('export-components.js')
 
 const COMPONENT_JS_PATH = r('../src/components')
 const COMPONENT_CSS_PATH = r('../src/components')

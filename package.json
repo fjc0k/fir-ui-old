@@ -34,8 +34,9 @@
     "prepublishOnly": "yarn run build",
     "demo": "vue serve demo/index.js",
     "build": "bundler build",
-    "add": "node scripts/add-component.js",
-    "export": "node scripts/export-components.js",
+    "ac": "node scripts/add-component.js",
+    "ec": "node scripts/export-components.js",
+    "rc": "node scripts/remove-component.js",
     "pub": "lerna publish --conventional-commits",
     "link": "lerna link",
     "postinstall": "lerna link"

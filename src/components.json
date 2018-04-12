@@ -19,6 +19,6 @@
   "popup": "f-popup",
   "sheet": "f-sheet",
   "placeholder": "f-placeholder",
-  "datePicker": "f-date-picker",
-  "datePickerView": "f-date-picker-view"
+  "datePickerView": "f-date-picker-view",
+  "timePickerView": "f-time-picker-view"
 }
