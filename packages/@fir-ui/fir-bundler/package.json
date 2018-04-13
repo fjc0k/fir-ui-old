@@ -1,6 +1,6 @@
 {
   "name": "@fir-ui/bundler",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Library bundler for fir-ui",
   "main": "src/bundle.js",
   "author": "fjc0k",
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.0.0-beta.42",
-    "@fir-ui/babel-preset-library": "^0.0.9",
+    "@fir-ui/babel-preset-library": "^0.0.10",
     "cac": "^4.4.4",
     "first-commit-date": "^0.2.0",
     "fs-extra": "^5.0.0",
