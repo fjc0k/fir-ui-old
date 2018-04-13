@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.18.0"></a>
+# [0.18.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.17.1...fir-ui@0.18.0) (2018-04-13)
+
+
+### Bug Fixes
+
+* **bundler:** correct bin ([c4fe5a4](https://github.com/fjc0k/fir-ui/commit/c4fe5a4))
+* **PickerView:** 完善数据流动机制 ([fae1aa5](https://github.com/fjc0k/fir-ui/commit/fae1aa5))
+* **PickerView:** 逻辑梳理 ([016fa92](https://github.com/fjc0k/fir-ui/commit/016fa92))
+
+
+### Features
+
+* 新增 fir-date-formatter ([0f8f4fa](https://github.com/fjc0k/fir-ui/commit/0f8f4fa))
+* **fir-date-formatter:** 添加测试 ([9ad3818](https://github.com/fjc0k/fir-ui/commit/9ad3818))
+* **mixins:** 新增 stage-values ([58448cb](https://github.com/fjc0k/fir-ui/commit/58448cb))
+* **scripts:** 新增删除组件脚本 ([da15f3e](https://github.com/fjc0k/fir-ui/commit/da15f3e))
+* **组件:** 新增 DatePicker 和 TimePicker 组件 ([14daa9e](https://github.com/fjc0k/fir-ui/commit/14daa9e))
+* **组件:** 新增 DatePickerView 组件 ([1734b71](https://github.com/fjc0k/fir-ui/commit/1734b71))
+* **组件:** 新增 Picker 组件 ([d2b6697](https://github.com/fjc0k/fir-ui/commit/d2b6697))
+* **组件:** 新增 Placeholder 组件 ([538eb65](https://github.com/fjc0k/fir-ui/commit/538eb65))
+
+
+
+
 <a name="0.17.1"></a>
 ## [0.17.1](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.17.0...fir-ui@0.17.1) (2018-04-09)
 
