@@ -1,6 +1,9 @@
 export default {
   // 绑定值
-  value: Array,
+  value: {
+    type: Array,
+    default: () => []
+  },
   // 绑定值详情
   detail: {
     type: Array,
