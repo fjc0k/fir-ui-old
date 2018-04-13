@@ -8,7 +8,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "bin": "src/cli.js",
+  "bin": {
+    "bundler": "./src/cli.js"
+  },
   "files": [
     "src"
   ],
