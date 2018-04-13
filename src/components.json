@@ -20,5 +20,6 @@
   "sheet": "f-sheet",
   "placeholder": "f-placeholder",
   "datePickerView": "f-date-picker-view",
-  "timePickerView": "f-time-picker-view"
+  "timePickerView": "f-time-picker-view",
+  "picker": "f-picker"
 }
