@@ -28,6 +28,7 @@
             :startYear="2000"
             :endYear="2012"
             renderYear="yy 年"
+            renderMonth="mm 月"
             renderDay="dd 日"
             :visibleItemCount="3"
             renderHour="hh 点"
