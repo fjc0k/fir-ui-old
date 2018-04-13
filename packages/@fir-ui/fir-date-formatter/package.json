@@ -1,6 +1,6 @@
 {
   "name": "@fir-ui/date-formatter",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Date formatter for fir-ui",
   "author": "fjc0k",
   "license": "MIT",
@@ -30,7 +30,7 @@
     "transform": {}
   },
   "devDependencies": {
-    "@fir-ui/bundler": "^0.4.4",
+    "@fir-ui/bundler": "^0.4.5",
     "jest": "^22.4.3"
   }
 }
