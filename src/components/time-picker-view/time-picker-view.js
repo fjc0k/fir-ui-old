@@ -13,6 +13,8 @@ const genPayload = zipObject.bind(null, PAYLOAD_KEYS)
 export default {
   name: 'f-time-picker-view',
 
+  inheritAttrs: false,
+
   mixins: [
     CSSModules(styles),
     customRenderer({

@@ -15,26 +15,17 @@ export default (defaultVisible, isModel) => ({
     visible: {
       type: Boolean,
       default: defaultVisible,
-      sync: true
+      sync: !isModel
     }
   },
 
   methods: {
-    beforeSyncVisible(_, visible, confirm) {
-      const Api = visible ? 'Show' : 'Hide'
-      const beforeMethod = `before${Api}`
-      const afterMethod = `after${Api}`
-      const beforeFn = (
-        isFunction(this[beforeMethod]) ?
-          this[beforeMethod] :
-          next => next()
-      )
-      beforeFn(() => {
-        confirm()
-        if (isFunction(this[afterMethod])) {
-          this.$nextTick(this[afterMethod])
+    onLocalVisibleChange(visible) {
+      if (visible) {
+        if (isFunction(this.onShow)) {
+          this.onShow()
         }
-      })
+      }
     },
     show() {
       this.syncVisible(true)

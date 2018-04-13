@@ -15,12 +15,12 @@
           <f-switch v-model="toggle" />
         </f-field>
         <f-field label="等我">
-          <f-placeholder :value="toggle">
-            <div slot-scope="bool">
-              {{ bool ? 'ok' : 'false' }}
-            </div>
-            等一下
-          </f-placeholder>
+          <f-picker
+            :visible="false"
+            v-model="pickerValue"
+            :data="pickerData"
+            placeholder="选择一个"
+          ></f-picker>
         </f-field>
         <f-field label="购票类型">
           <f-date-picker-view
@@ -61,6 +61,7 @@ export default {
       toggle: false,
       selected: '中国',
       name: '方剑成',
+      pickerValue: [],
       data: [
         { label: '中国', value: '中国' },
         { label: '美国', value: '美国' }

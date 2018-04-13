@@ -15,6 +15,8 @@ const genPayload = zipObject.bind(null, PAYLOAD_KEYS)
 export default {
   name: 'f-date-picker-view',
 
+  inheritAttrs: false,
+
   mixins: [
     CSSModules(styles),
     customRenderer({

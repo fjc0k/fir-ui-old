@@ -9,6 +9,7 @@ export default {
 
   props: {
     value: null,
+    text: null,
     predicate: {
       type: Function,
       default: value => {
@@ -39,9 +40,12 @@ export default {
       ...data,
       styleName: '@placeholder :inline'
     }, [
-      props.predicate(props.value) ?
-        h('div', { styleName: 'value' }, [renderValue(props.value)]) :
-        h('div', { styleName: 'text' }, [children])
+      (
+        props.predicate(props.value) ?
+          h('div', { styleName: 'value' }, [renderValue(props.value)]) :
+          h('div', { styleName: 'text' }, [props.text])
+      ),
+      children
     ])
   }
 }
