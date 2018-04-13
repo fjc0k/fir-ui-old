@@ -6,6 +6,6 @@ export default [
   CSSModules(styles),
   betterSync({
     prop: 'value',
-    event: 'input'
+    event: 'change'
   })
 ]

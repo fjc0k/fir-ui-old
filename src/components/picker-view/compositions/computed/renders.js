@@ -1,5 +1,4 @@
 import Spinner from '@/components/spinner/spinner'
-import { GROUP_CLASS_NAME, ITEM_CLASS_NAME } from '../config'
 
 export default {
   Mask() {
@@ -37,7 +36,6 @@ export default {
 
       const Items = items.map(
         (item, index) => h('li', {
-          staticClass: ITEM_CLASS_NAME,
           styleName: ['item', item.disabled && 'disabled'],
           style: this.styles.item,
           key: index
@@ -56,7 +54,6 @@ export default {
           refInFor: true
         }, [
           h('ul', {
-            staticClass: GROUP_CLASS_NAME,
             styleName: 'group',
             style: this.styles.group
           }, Items)

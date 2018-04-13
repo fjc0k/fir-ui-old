@@ -39,24 +39,21 @@ export default function (scroll, groupIndex) {
   // 设置当前组选中的条目为本条目
   this.selectedItems[groupIndex] = selectedItem
 
-  // 同步绑定值
-  const newValue = this.localValue.slice()
-  newValue[groupIndex] = selectedItem.value
-  this.syncValue(newValue)
+  this.localValue[groupIndex] = selectedItem.value
 
-  // change 事件
+  // 同步绑定值
   if (!this.cascaded) {
     // 非级联时，滑动结束即触发
-    this.$emit(
-      'change',
-      this.selectedItems.slice()
-    )
+    this.syncDetail(this.selectedItems.slice())
+    this.syncValue(this.localValue.slice())
   } else if (isEmpty(selectedItem.children)) {
-    // 级联时，最后一个 group 滑动结束触发
-    this.$emit(
-      'change',
-      this.selectedItems.slice(0, groupIndex + 1)
-    )
+    if (this.disableSync) {
+      this.disableSync = false
+    } else {
+      // 级联时，最后一个 group 滑动结束触发
+      this.syncDetail(this.selectedItems.slice(0, groupIndex + 1))
+      this.syncValue(this.localValue.slice(0, groupIndex + 1))
+    }
   }
 
   // 级联数据的联动处理
@@ -65,6 +62,7 @@ export default function (scroll, groupIndex) {
     const nextGroupItems = selectedItem.children
 
     if (isArray(nextGroupItems) && nextGroupItems.length) { // set
+      this.nextGroupIndex = nextGroupIndex
       this.$set(
         this.localData,
         nextGroupIndex,

@@ -30,6 +30,7 @@
             renderYear="yy 年"
             renderDay="dd 日"
             :visibleItemCount="3"
+            renderHour="hh 点"
           >
             <template slot="month" slot-scope="{ year, month }">
               <i>{{ month }}</i>

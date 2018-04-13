@@ -1,6 +1,8 @@
 export default {
   // 绑定值
-  value: {
+  value: Array,
+  // 绑定值详情
+  detail: {
     type: Array,
     sync: true
   },
@@ -21,7 +23,7 @@ export default {
   // 单个选项的高度
   itemHeight: {
     type: String,
-    default: '2em'
+    default: '2.4em'
   },
   // 过滤选项的函数
   filterItem: Function,

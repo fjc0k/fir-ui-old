@@ -28,18 +28,32 @@ export default function () {
     }
 
     // 重置 data 后需刷新
-    this.scrolls.forEach(
-      (scroll, groupIndex) => {
+    if (this.cascaded) {
+      const groupIndex = this.nextGroupIndex
+      const scroll = this.scrolls[groupIndex]
+      if (scroll) {
         scroll.once('refresh', () => {
-          this.$nextTick(() => {
-            // 选项数据改变可能导致选中条目的索引改变，需同步
-            scroll.wheelTo(
-              this.findSelectedItemIndex(groupIndex)
-            )
-          })
+          scroll.wheelTo(
+            this.findSelectedItemIndex(groupIndex)
+          )
+          this.onScrollEnd(scroll, groupIndex)
         })
         scroll.refresh()
       }
-    )
+    } else {
+      this.scrolls.forEach(
+        (scroll, groupIndex) => {
+          scroll.once('refresh', () => {
+            this.$nextTick(() => {
+              // 选项数据改变可能导致选中条目的索引改变，需同步
+              scroll.wheelTo(
+                this.findSelectedItemIndex(groupIndex)
+              )
+            })
+          })
+          scroll.refresh()
+        }
+      )
+    }
   })
 }
