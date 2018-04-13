@@ -31,16 +31,20 @@ export default {
     placeholder: {
       type: null,
       default: ' '
+    },
+    view: {
+      type: [Object, Function],
+      default: () => PickerView
     }
   },
 
   methods: {
     onShow() {
-      const { picker } = this.$refs
+      const pickerView = this.$refs.picker.getPickerView()
       if (this.localValue.length) {
-        picker.localValue = this.localValue.slice()
+        pickerView.localValue = this.localValue.slice()
       }
-      picker.refresh(true)
+      pickerView.refresh(true)
     },
     handleChange(value) {
       this.stage('localValue', value)
@@ -74,7 +78,7 @@ export default {
           confirm: this.handleConfirm
         }
       }, [
-        h(PickerView, {
+        h(this.view, {
           styleName: '@picker',
           model: {
             value: this.localValue,

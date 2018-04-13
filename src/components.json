@@ -21,5 +21,7 @@
   "placeholder": "f-placeholder",
   "datePickerView": "f-date-picker-view",
   "timePickerView": "f-time-picker-view",
-  "picker": "f-picker"
+  "picker": "f-picker",
+  "datePicker": "f-date-picker",
+  "timePicker": "f-time-picker"
 }

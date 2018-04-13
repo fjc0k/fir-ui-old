@@ -11,6 +11,20 @@
         <f-field label="年龄">
           <f-input-number v-model="age" />
         </f-field>
+        <f-field label="你的生日">
+          <f-date-picker
+            v-model="birthday"
+            placeholder="选择日期"
+            :startYear="1980"
+            :endYear="2018"
+          />
+        </f-field>
+        <f-field label="出生时间">
+          <f-time-picker
+            v-model="birthtime"
+            placeholder="选择时间"
+          />
+        </f-field>
         <f-field label="等我">
           <f-switch v-model="toggle" />
         </f-field>
@@ -41,12 +55,9 @@
       </f-form>
     </f-panel>
 
-    <f-button @click="showPopup=!showPopup" type="primary" whiteSpace>提交</f-button>
+    <f-button type="primary" whiteSpace>提交</f-button>
 
-    <f-sheet :cancel="false" title="SHEET" desc="选择时间" v-model="showPopup">
-      <f-date-picker-view v-model="likes" :data="pickerData2" />
-
-    </f-sheet>
+    <f-divider>小小墙<br/>提供技术支持</f-divider>
 
 
   </div>
@@ -61,6 +72,8 @@ export default {
       toggle: false,
       selected: '中国',
       name: '方剑成',
+      birthday: [],
+      birthtime: [],
       pickerValue: [],
       data: [
         { label: '中国', value: '中国' },

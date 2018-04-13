@@ -51,6 +51,9 @@ export default {
   },
 
   methods: {
+    getPickerView() {
+      return this.$refs.PickerView
+    },
     localFilter() {
       return defaultTo(
         this.filter && this.filter(
@@ -149,7 +152,8 @@ export default {
       attrs: {
         data: this.data,
         cascaded: true
-      }
+      },
+      ref: 'PickerView'
     }))
   }
 }
