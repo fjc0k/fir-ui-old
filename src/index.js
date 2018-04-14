@@ -1,7 +1,7 @@
 import '@/styles/commons.styl'
 import { forOwn, castArray, cloneDeep } from 'lodash'
 import * as components from '@/components'
-import { inBrowser } from '@/utils/env'
+import { ensureBrowser } from '@/utils/env'
 
 function install(Vue) {
   if (install.installed) return
@@ -23,9 +23,9 @@ function install(Vue) {
   })
 }
 
-if (inBrowser && window.Vue) {
-  window.Vue.use(install)
-}
+ensureBrowser(({ Vue }) => {
+  Vue && install(Vue)
+})
 
 export default {
   components,
