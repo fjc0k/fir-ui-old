@@ -540,9 +540,9 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@fir-ui/babel-preset-library@^0.0.9":
-  version "0.0.9"
-  resolved "http://registry.npm.taobao.org/@fir-ui/babel-preset-library/download/@fir-ui/babel-preset-library-0.0.9.tgz#dcd8d9d8b9a204267a2489e61d058f952b64a85f"
+"@fir-ui/babel-preset-library@^0.0.11":
+  version "0.0.11"
+  resolved "http://registry.npm.taobao.org/@fir-ui/babel-preset-library/download/@fir-ui/babel-preset-library-0.0.11.tgz#48885aac0560f57b6e7e623c3c5109d30a3dbbe2"
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0-beta.42"
     "@babel/plugin-proposal-class-properties" "^7.0.0-beta.42"
@@ -1660,6 +1660,15 @@ postcss-filter-plugins@^2.0.0:
     postcss "^5.0.4"
     uniqid "^4.0.0"
 
+postcss-icss-composes@^2.0.3:
+  version "2.0.3"
+  resolved "http://registry.npm.taobao.org/postcss-icss-composes/download/postcss-icss-composes-2.0.3.tgz#ac24b13de1979f5d7f0e7194ef203a10b0f653e6"
+  dependencies:
+    css-selector-tokenizer "^0.7.0"
+    icss-utils "^3.0.1"
+    postcss "^6.0.2"
+    postcss-value-parser "^3.3.0"
+
 postcss-load-config@^1.2.0:
   version "1.2.0"
   resolved "http://registry.npm.taobao.org/postcss-load-config/download/postcss-load-config-1.2.0.tgz#539e9afc9ddc8620121ebf9d8c3673e0ce50d28a"
@@ -1744,7 +1753,7 @@ postcss-minify-selectors@^2.0.4:
     postcss "^5.0.14"
     postcss-selector-parser "^2.0.0"
 
-postcss-modules-extract-imports@1.1.0:
+postcss-modules-extract-imports@1.1.0, postcss-modules-extract-imports@^1.1.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/postcss-modules-extract-imports/download/postcss-modules-extract-imports-1.1.0.tgz#b614c9720be6816eaee35fb3a5faa1dba6a05ddb"
   dependencies:

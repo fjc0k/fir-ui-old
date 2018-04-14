@@ -1,5 +1,8 @@
-import styles from '@/style.module.styl'
+import styles from '@/style.styl'
+
+import x from '@/x.styl'
 
 export default {
-  styles
+  styles,
+  x
 }

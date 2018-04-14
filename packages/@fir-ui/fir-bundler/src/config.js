@@ -8,11 +8,6 @@ const pkgPath = realPath('package.json')
 const pkg = require('fs').existsSync(pkgPath) ? require(pkgPath) : {}
 const pkgName = pkg.name || 'app'
 
-const css = {
-  paths: [],
-  extensions: ['.css', '.styl', '.less', '.scss', '.sass']
-}
-
 const config = {
   entry: {
     [pkgName]: ['src/index.js', pkgName]
@@ -20,7 +15,7 @@ const config = {
   dest: 'dist',
   format: ['es', 'cjs', 'umd', 'umd-min'],
   banner: true,
-  css: {},
+  postcss: {},
   alias: {
     '@': 'src'
   },
@@ -38,11 +33,6 @@ const config = {
 config.entry = config.entry ? parseEntry(config.entry) : {}
 config.format = config.format ? parseFormat(config.format) : {}
 config.dest = realPath(config.dest)
-config.css = {
-  ...css,
-  ...config.css
-}
-config.css.paths = config.css.paths.map(path => realPath(path))
 
 if (_.isPlainObject(config.alias)) {
   config.alias = _.mapValues(
