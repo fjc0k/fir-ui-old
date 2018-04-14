@@ -1,9 +1,12 @@
 import '@/styles/commons.styl'
 import { forOwn, castArray, cloneDeep } from 'lodash'
 import * as components from '@/components'
+import { inBrowser } from '@/utils/env'
 
 function install(Vue) {
   if (install.installed) return
+
+  install.installed = true
 
   Vue.prototype.$log = (...args) => console.log.apply(
     console,
@@ -18,8 +21,10 @@ function install(Vue) {
     }
     Vue.component(component.name, component)
   })
+}
 
-  install.installed = true
+if (inBrowser && window.Vue) {
+  window.Vue.use(install)
 }
 
 export default {
