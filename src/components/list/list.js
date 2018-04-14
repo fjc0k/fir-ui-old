@@ -1,6 +1,6 @@
 import createElement from 'vue-css-modules/lib/create-element'
 import Hairline from '@/components/hairline/hairline'
-import { genFunctionalData } from '@/utils/helper'
+import mergeData from 'vue-merge-data'
 import styles from './list.styl'
 
 export default {
@@ -30,7 +30,7 @@ export default {
 
     return h(
       Hairline,
-      genFunctionalData(
+      mergeData(
         data,
         {
           styleName: '@list :offset',

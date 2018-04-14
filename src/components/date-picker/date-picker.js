@@ -1,5 +1,5 @@
 import createElement from 'vue-css-modules/lib/create-element'
-import { mergeData } from '@/utils/helper'
+import mergeData from 'vue-merge-data'
 import Picker from '@/components/picker/picker'
 import DatePickerView from '@/components/date-picker-view/date-picker-view'
 import styles from './date-picker.styl'

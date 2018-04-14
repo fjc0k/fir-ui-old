@@ -1,5 +1,5 @@
 import createElement from 'vue-css-modules/lib/create-element'
-import { genFunctionalData } from '@/utils/helper'
+import mergeData from 'vue-merge-data'
 import styles from './hairline.styl'
 
 const PLACEMENT_PROPS = {
@@ -41,7 +41,7 @@ export default {
       })
     )
 
-    return h(props.tag, genFunctionalData(data, { styleName: '@hairline' }), [
+    return h(props.tag, mergeData(data, { styleName: '@hairline' }), [
       hairlines,
       ...(children || [])
     ])

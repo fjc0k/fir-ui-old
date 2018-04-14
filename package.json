@@ -68,7 +68,8 @@
     "lodash": "^4.17.5",
     "simulation-scroll-y": "^1.3.2",
     "vue-better-sync": "^3.1.0",
-    "vue-css-modules": "^1.0.1"
+    "vue-css-modules": "^1.0.1",
+    "vue-merge-data": "^0.1.0"
   },
   "devDependencies": {
     "@fir-ui/babel-preset-library": "^0.0.11",

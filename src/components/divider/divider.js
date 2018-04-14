@@ -1,5 +1,5 @@
 import createElement from 'vue-css-modules/lib/create-element'
-import { genFunctionalData } from '@/utils/helper'
+import mergeData from 'vue-merge-data'
 import styles from './divider.styl'
 
 export default {
@@ -20,7 +20,7 @@ export default {
     }
     const colorStyle = { color: props.color }
 
-    return h('div', genFunctionalData(data, {
+    return h('div', mergeData(data, {
       styleName: '@divider'
     }), [
       h('div', {

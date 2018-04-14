@@ -1,5 +1,5 @@
 import createElement from 'vue-css-modules/lib/create-element'
-import { genFunctionalData } from '@/utils/helper'
+import mergeData from 'vue-merge-data'
 import styles from './icon.styl'
 
 export default {
@@ -24,14 +24,14 @@ export default {
 
     return (
       isSVG ?
-        h('i', genFunctionalData(data, {
+        h('i', mergeData(data, {
           styleName: '@svg'
         }), [h('svg', [h('use', {
           attrs: {
             'xlink:href': `#${name}`
           }
         })])]) :
-        h('i', genFunctionalData(data, {
+        h('i', mergeData(data, {
           styleName: '@icon',
           staticClass: name
         }))

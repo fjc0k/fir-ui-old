@@ -1,5 +1,5 @@
 import createElement from 'vue-css-modules/lib/create-element'
-import { genFunctionalData } from '@/utils/helper'
+import mergeData from 'vue-merge-data'
 import Icon from '@/components/icon/icon'
 import styles from './button.styl'
 
@@ -34,7 +34,7 @@ export default {
       }
     })
 
-    return h('a', genFunctionalData(data, {
+    return h('a', mergeData(data, {
       styleName: '@button $type :mini :plain :inline :disabled :white-space',
       attrs: {
         href: 'javascript:;' // eslint-disable-line no-script-url

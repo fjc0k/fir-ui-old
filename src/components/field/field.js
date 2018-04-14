@@ -1,5 +1,4 @@
 import CSSModules from 'vue-css-modules'
-import { VNodeType } from '@/utils/helper'
 import { extractVNodes } from '@/mixins'
 import Item from '@/components/item/item'
 import styles from './field.styl'
@@ -27,7 +26,7 @@ export default {
   ],
 
   props: {
-    label: VNodeType,
+    label: extractVNodes.VNodeType,
     labelWidth: {
       type: String,
       default() {

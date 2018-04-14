@@ -1,5 +1,5 @@
 import createElement from 'vue-css-modules/lib/create-element'
-import { mergeData } from '@/utils/helper'
+import mergeData from 'vue-merge-data'
 import Picker from '@/components/picker/picker'
 import TimePickerView from '@/components/time-picker-view/time-picker-view'
 import styles from './time-picker.styl'

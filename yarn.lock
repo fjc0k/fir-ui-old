@@ -540,9 +540,9 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@fir-ui/babel-preset-library@^0.0.9":
-  version "0.0.9"
-  resolved "http://registry.npm.taobao.org/@fir-ui/babel-preset-library/download/@fir-ui/babel-preset-library-0.0.9.tgz#dcd8d9d8b9a204267a2489e61d058f952b64a85f"
+"@fir-ui/babel-preset-library@^0.0.11":
+  version "0.0.11"
+  resolved "http://registry.npm.taobao.org/@fir-ui/babel-preset-library/download/@fir-ui/babel-preset-library-0.0.11.tgz#48885aac0560f57b6e7e623c3c5109d30a3dbbe2"
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0-beta.42"
     "@babel/plugin-proposal-class-properties" "^7.0.0-beta.42"
@@ -552,12 +552,12 @@
     babel-plugin-lodash "^3.3.2"
     fast-async "^6.3.1"
 
-"@fir-ui/bundler@^0.4.2":
-  version "0.4.2"
-  resolved "http://registry.npm.taobao.org/@fir-ui/bundler/download/@fir-ui/bundler-0.4.2.tgz#cea7ff4346de6b57f05946402a3c8d380b1fb5d8"
+"@fir-ui/bundler@^0.4.5":
+  version "0.4.5"
+  resolved "http://registry.npm.taobao.org/@fir-ui/bundler/download/@fir-ui/bundler-0.4.5.tgz#520c1be380700ea15df0146c8c8058fe7a9dc984"
   dependencies:
     "@babel/core" "^7.0.0-beta.42"
-    "@fir-ui/babel-preset-library" "^0.0.9"
+    "@fir-ui/babel-preset-library" "^0.0.11"
     cac "^4.4.4"
     first-commit-date "^0.2.0"
     fs-extra "^5.0.0"
@@ -576,13 +576,13 @@
     stringify-author "^0.1.3"
     use-config "^2.0.4"
 
-"@fir-ui/date-formatter@^0.1.1":
-  version "0.1.1"
-  resolved "http://registry.npm.taobao.org/@fir-ui/date-formatter/download/@fir-ui/date-formatter-0.1.1.tgz#ceba1bf4bc9822b70dc388bbd93e91c914b63754"
+"@fir-ui/date-formatter@^0.2.2":
+  version "0.2.2"
+  resolved "http://registry.npm.taobao.org/@fir-ui/date-formatter/download/@fir-ui/date-formatter-0.2.2.tgz#d1069d72994094728c078ccab0b9444e7f03d1e1"
 
-"@fir-ui/eslint-config-fir@^0.3.0":
-  version "0.3.0"
-  resolved "http://registry.npm.taobao.org/@fir-ui/eslint-config-fir/download/@fir-ui/eslint-config-fir-0.3.0.tgz#9edc90a83ae8fa0e09c2d3bb86911f9ed4b48903"
+"@fir-ui/eslint-config-fir@^0.3.2":
+  version "0.3.2"
+  resolved "http://registry.npm.taobao.org/@fir-ui/eslint-config-fir/download/@fir-ui/eslint-config-fir-0.3.2.tgz#90ec6e9511bd7d14c90d88ba9cee3228889d858a"
   dependencies:
     babel-eslint "^8.2.2"
     eslint-config-xo "^0.20.1"
@@ -5837,6 +5837,10 @@ vue-better-sync@^3.1.0:
 vue-css-modules@^1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/vue-css-modules/download/vue-css-modules-1.0.1.tgz#076ece8c6e8f3152b4db246507d19cb7681db3ce"
+
+vue-merge-data@^0.1.0:
+  version "0.1.0"
+  resolved "http://registry.npm.taobao.org/vue-merge-data/download/vue-merge-data-0.1.0.tgz#a54f2c6dd6213df3460afe7c1a82187aa2b7ffc7"
 
 vue-template-es2015-compiler@^1.6.0:
   version "1.6.0"

@@ -1,7 +1,7 @@
 import CSSModules from 'vue-css-modules'
 import dateFormatter from '@fir-ui/date-formatter'
 import { range, defaultTo, mapValues, isFunction, zipObject, toArray } from 'lodash'
-import { mergeData } from '@/utils/helper'
+import mergeData from 'vue-merge-data'
 import { customRenderer } from '@/mixins'
 import PickerView from '@/components/picker-view/picker-view'
 import styles from './time-picker-view.styl'

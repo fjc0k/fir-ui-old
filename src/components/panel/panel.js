@@ -1,12 +1,11 @@
 import createElement from 'vue-css-modules/lib/create-element'
-import { VNodeType } from '@/utils/helper'
 import { extractVNodes } from '@/mixins'
 import styles from './panel.styl'
 
 const propDescriptors = {
-  title: VNodeType,
-  extra: VNodeType,
-  tip: VNodeType
+  title: extractVNodes.VNodeType,
+  extra: extractVNodes.VNodeType,
+  tip: extractVNodes.VNodeType
 }
 const VNodeProps = extractVNodes.methods.extractVNodeProps(propDescriptors)
 

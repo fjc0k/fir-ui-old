@@ -3,12 +3,7 @@
 <% } %><%
 if (options.model) {
 %>import betterSync from 'vue-better-sync'
-<% }
-const helpers = []
-if (options.fn) helpers.push('genFunctionalData')
-if (options.vnode) helpers.push('VNodeType')
-if (helpers.length > 0) {
-%>import { <%= helpers.join(', ') %> } from '@/utils/helper'
+<% } if (options.fn) { %>import mergeData from 'vue-merge-data'
 <% }
 const mixins = []
 if (options.vnode) mixins.push('extractVNodes')
@@ -17,7 +12,7 @@ if (mixins.length > 0) {
 <% } %>import styles from './<%= _.kebabCase(component) %>.styl'
 <% if (options.vnode && options.fn) { %>
 const propDescriptors = {
-  x: VNodeType
+  x: extractVNodes.VNodeType
 }
 const VNodeProps = extractVNodes.methods.extractVNodeProps(propDescriptors)
 <% } %>
@@ -52,9 +47,9 @@ if (options.vnode && options.fn) { %>    const { x } = extractVNodes.methods.ext
       props,
       VNodeProps
     })
-<% } %>    return h('div', <% if (options.fn) { %>genFunctionalData(data, {
+<% } %>    return h('div', <% if (options.fn) { %>mergeData(data, {
       styleName: '@<%= _.kebabCase(component) %>'
-    })<% } else { %>{
+    }, children)<% } else { %>{
       styleName: '@<%= _.kebabCase(component) %>'
     }<% } %>)
   }

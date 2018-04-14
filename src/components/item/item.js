@@ -1,12 +1,14 @@
 import createElement from 'vue-css-modules/lib/create-element'
 import Hairline from '@/components/hairline/hairline'
 import Icon from '@/components/icon/icon'
-import { genFunctionalData, VNodeType } from '@/utils/helper'
+import mergeData from 'vue-merge-data'
 import { isString, isBoolean } from 'lodash'
 import { extractVNodes } from '@/mixins'
 import styles from './item.styl'
 
 const ARROWS = ['right', 'down', 'left', 'up']
+
+const { VNodeType } = extractVNodes
 
 const propDescriptors = {
   header: VNodeType,
@@ -57,7 +59,7 @@ export default {
 
     const arrow = isBoolean(props.arrow) ? props.arrow && 'right' : props.arrow
 
-    return h(Hairline, genFunctionalData(data, {
+    return h(Hairline, mergeData(data, {
       styleName: '@item',
       attrs: {
         bottom: true
