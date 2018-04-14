@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.20.0"></a>
+# [0.20.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.19.0...fir-ui@0.20.0) (2018-04-14)
+
+
+### Features
+
+* auto install ([c3bf525](https://github.com/fjc0k/fir-ui/commit/c3bf525))
+* auto install ([e80e653](https://github.com/fjc0k/fir-ui/commit/e80e653))
+* ensure browser ([41b6b29](https://github.com/fjc0k/fir-ui/commit/41b6b29))
+
+
+
+
 <a name="0.19.0"></a>
 # [0.19.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.18.4...fir-ui@0.19.0) (2018-04-14)
 
