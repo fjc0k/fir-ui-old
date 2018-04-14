@@ -45,6 +45,21 @@ module.exports = (config = require('./config')) => {
             minimize: compress,
             sourceMap: config.sourceMap,
             ...config.postcss,
+            plugins: [
+              ...(config.postcss.plugins || []),
+              require('autoprefixer')
+            ],
+            use: [
+              ['stylus', {
+                paths: config.postcss.paths
+              }],
+              ['sass', {
+                includePaths: config.postcss.paths
+              }],
+              ['less', {
+                paths: config.postcss.paths
+              }]
+            ],
             onExtract(getExtracted) {
               const id = `${filePath}-${compress ? '-min' : ''}`
               if (!cssProcessed[id]) {
@@ -55,7 +70,8 @@ module.exports = (config = require('./config')) => {
                     .replace(/\[suffix\]/g, compress ? '.min' : '')
                     .replace(/\[type\]/g, 'css')
                 )
-                const { code, map } = getExtracted()
+                let { code, map } = getExtracted()
+                code = compress ? String(code).replace(/\r|\n/g, '') : code
                 fs.writeFile(cssFilePath, banner + code, 'utf8')
                 config.sourceMap && fs.writeFile(`${cssFilePath}.map`, map, 'utf8')
                 cssProcessed[id] = true

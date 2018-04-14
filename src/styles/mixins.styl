@@ -61,3 +61,36 @@ ellipsis($line = 1, $width = auto) {
     -webkit-line-clamp: $line;
   }
 }
+
+form-field-reset() {
+  border: 0;
+  outline: 0;
+  margin: 0;
+  padding: 0;
+
+  resize: none;
+  -webkit-appearance: none;
+  box-shadow: none;
+
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+
+  background-color: transparent;
+  width: 100%;
+
+  &::placeholder {
+    color: $color.text.placeholder;
+  }
+}
+
+flex-center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+flex-align-center() {
+  display: flex;
+  align-items: center;
+}

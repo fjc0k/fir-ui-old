@@ -36,7 +36,7 @@
 }
 
 .content {
-  composes: flex from "compositions";
+  display: flex;
   overflow: hidden;
   text-align: center;
 }
@@ -46,18 +46,18 @@
 }
 
 .unit {
-  composes: flex-center from "compositions";
+  flex-center: true;
 }
 
 .divider {
-  composes: flex-center from "compositions";
+  flex-center: true;
   &:last-child {
     display: none;
   }
 }
 
 .loading {
-  composes: flex-center from "compositions";
+  flex-center: true;
   flex: 1;
 }
 

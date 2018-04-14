@@ -15,25 +15,27 @@
     "src"
   ],
   "firb": {
-    "entry": "test/app.js",
+    "entry": "test/index.js",
     "format": "cjs",
     "alias": {
       "@": "test"
     },
     "dest": "test/dist",
-    "css": {
-      "paths": [
-        "test/dd"
-      ],
+    "postcss": {
       "modules": true
     }
   },
   "scripts": {
     "test": "node src/cli.js"
   },
+  "browserslist": [
+    "iOS 6",
+    "Android 4.0"
+  ],
   "dependencies": {
     "@babel/core": "^7.0.0-beta.42",
     "@fir-ui/babel-preset-library": "^0.0.11",
+    "autoprefixer": "^8.2.0",
     "cac": "^4.4.4",
     "first-commit-date": "^0.2.0",
     "fs-extra": "^5.0.0",

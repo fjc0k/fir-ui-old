@@ -21,7 +21,7 @@
       ]
     },
     "format": "all",
-    "css": {
+    "postcss": {
       "paths": [
         "src/styles"
       ],

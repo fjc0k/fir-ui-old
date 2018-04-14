@@ -1,7 +1,8 @@
 @import "settings";
 
 .item {
-  composes: flex-column from "compositions";
+  display: flex;
+  flex-direction: column;
   &:last-child {
     > [data-component-line] {
       display: none;
@@ -9,36 +10,37 @@
   }
 }
 
-.gap {
+$gap {
   > *:not(:first-child) {
     margin-left: $item.body.gap;
   }
 }
 
 .body {
-  composes: flex-align-center from "compositions";
-  composes: gap;
+  @extend $gap;
+  flex-center: true;
   min-height: $item.body.minHeight;
   padding: $item.body.padding;
 }
 
 .left, .right {
-  composes: flex-align-center from "compositions";
+  flex-center: true;
 }
 
 .middle {
-  composes: flex-align-center from "compositions";
-  composes: gap;
+  @extend $gap;
+  flex-center: true;
   flex: 1;
 }
 
 .info {
-  composes: flex-align-center from "compositions";
-  composes: gap;
+  @extend $gap;
+  flex-center: true;
 }
 
 .outline {
-  composes: flex-column from "compositions";
+  display: flex;
+  flex-direction: column;
   flex: 1;
   overflow-x: hidden;
 }

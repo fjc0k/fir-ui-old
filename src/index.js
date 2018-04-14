@@ -1,6 +1,6 @@
+import '@/styles/commons.styl'
 import { forOwn, castArray, cloneDeep } from 'lodash'
 import * as components from '@/components'
-import '@/styles/commons.styl'
 
 function install(Vue) {
   if (install.installed) return
