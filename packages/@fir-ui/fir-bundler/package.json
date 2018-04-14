@@ -1,6 +1,6 @@
 {
   "name": "@fir-ui/bundler",
-  "version": "0.4.6",
+  "version": "0.5.0",
   "description": "Library bundler for fir-ui",
   "main": "src/bundle.js",
   "author": "fjc0k",
