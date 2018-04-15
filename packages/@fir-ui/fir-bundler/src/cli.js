@@ -7,8 +7,13 @@ cli
   .command('*', {
     alias: 'build',
     desc: 'Bundle all assets'
-  }, () => {
-    require('./bundle')()
+  }, (input, { config }) => {
+    config = config || input[0] || 'firb'
+    require('./bundle')({ config })
+  })
+  .option('config', {
+    desc: 'Config name',
+    default: ''
   })
 
 cli

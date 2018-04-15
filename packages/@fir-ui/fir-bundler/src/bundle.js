@@ -1,6 +1,8 @@
 const _ = require('lodash')
 const fs = require('fs-extra')
 const path = require('path')
+const consola = require('consola')
+const minimatch = require('minimatch')
 const uglify = require('rollup-plugin-uglify')
 const babel = require('rollup-plugin-babel')
 const postcss = require('rollup-plugin-postcss')
@@ -8,11 +10,16 @@ const resolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
 const alias = require('rollup-plugin-alias')
 const json = require('rollup-plugin-json')
+const re = require('rollup-plugin-re')
 const preset = require('@fir-ui/babel-preset-library')
 const createBanner = require('./create-banner')
 const rollup = require('./rollup')
 
-module.exports = (config = require('./config')) => {
+module.exports = ({ config: configName = 'firb' } = {}) => {
+  consola.start('Building...')
+
+  const config = require('./config')(configName)
+
   const cssProcessed = {}
 
   config.clear && fs.emptyDirSync(config.dest)
@@ -24,12 +31,35 @@ module.exports = (config = require('./config')) => {
       const banner = createBanner(config.banner, config.pkg) || ''
       const inline = format === 'umd' ? true : config.inline
       rollup({
+        onwarn(err) {
+          if (_.isString(err)) {
+            return consola.warn(err)
+          }
+          const { loc, frame, message, code, source } = err
+          if (
+            code === 'UNUSED_EXTERNAL_IMPORT' ||
+            code === 'THIS_IS_UNDEFINED' ||
+            (!inline && code === 'UNRESOLVED_IMPORT' && source)
+          ) return // eslint-disable-line
+          if (loc) {
+            consola.warn(`${loc.file} (${loc.line}:${loc.column}) ${message}`)
+            if (frame) consola.warn(frame)
+          } else {
+            consola.warn(code, message)
+          }
+        },
         input: filePath,
         treeshake: {
           pureExternalModules: !config.sideEffects
         },
+        external: config.external && (id => {
+          return id !== filePath && _.castArray(config.external).some(pattern => {
+            return minimatch(id, pattern)
+          })
+        }),
         plugins: [
-          alias({
+          config.replace && re(config.replace),
+          config.alias && alias({
             ...config.alias,
             resolve: ['', '/index.js', ...config.resolve]
           }),
@@ -73,6 +103,7 @@ module.exports = (config = require('./config')) => {
                 let { code, map } = getExtracted()
                 code = compress ? String(code).replace(/\r|\n/g, '') : code
                 fs.writeFile(cssFilePath, banner + code, 'utf8')
+                consola.success(`Built: ${path.basename(cssFilePath)}`)
                 config.sourceMap && fs.writeFile(`${cssFilePath}.map`, map, 'utf8')
                 cssProcessed[id] = true
               }
@@ -108,6 +139,8 @@ module.exports = (config = require('./config')) => {
             .replace(/\[suffix\]/g, suffix)
             .replace(/\[type\]/g, 'js')
         )
+      }, config.afterBundle, (_, { file }) => {
+        consola.success(`Built: ${path.basename(file)}`)
       })
     })
   })

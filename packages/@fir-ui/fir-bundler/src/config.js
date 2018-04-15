@@ -1,14 +1,15 @@
 const _ = require('lodash')
+const fs = require('fs-extra')
 const UseConfig = require('use-config')
 const parseEntry = require('./parse-entry')
 const parseFormat = require('./parse-format')
 const realPath = require('./real-path')
 
 const pkgPath = realPath('package.json')
-const pkg = require('fs').existsSync(pkgPath) ? require(pkgPath) : {}
+const pkg = fs.existsSync(pkgPath) ? require(pkgPath) : {}
 const pkgName = pkg.name || 'app'
 
-const config = {
+const defaultConfig = {
   entry: {
     [pkgName]: ['src/index.js', pkgName]
   },
@@ -26,19 +27,30 @@ const config = {
   sourceMap: false,
   clear: true,
   inline: false,
-  ...(new UseConfig({ name: 'firb' }).loadSync().config || {}),
-  pkg: pkg
+  replace: false,
+  external: false
 }
 
-config.entry = config.entry ? parseEntry(config.entry) : {}
-config.format = config.format ? parseFormat(config.format) : {}
-config.dest = realPath(config.dest)
+module.exports = configName => {
+  const config = {
+    ..._.cloneDeep(defaultConfig),
+    ...(new UseConfig({
+      name: configName,
+      files: fs.existsSync(realPath(configName)) ? [configName] : []
+    }).loadSync().config || {}),
+    pkg: pkg
+  }
 
-if (_.isPlainObject(config.alias)) {
-  config.alias = _.mapValues(
-    config.alias,
-    src => realPath(src)
-  )
+  config.entry = config.entry ? parseEntry(config.entry) : {}
+  config.format = config.format ? parseFormat(config.format) : {}
+  config.dest = realPath(config.dest)
+
+  if (_.isPlainObject(config.alias)) {
+    config.alias = _.mapValues(
+      config.alias,
+      src => realPath(src)
+    )
+  }
+
+  return config
 }
-
-module.exports = config
