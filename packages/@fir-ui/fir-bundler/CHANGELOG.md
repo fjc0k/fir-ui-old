@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/fjc0k/fir-ui/compare/@fir-ui/bundler@0.6.0...@fir-ui/bundler@0.7.0) (2018-04-15)
+
+
+### Features
+
+* **打包器:** 支持 dev ([b9ed6da](https://github.com/fjc0k/fir-ui/commit/b9ed6da))
+
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/fjc0k/fir-ui/compare/@fir-ui/bundler@0.5.0...@fir-ui/bundler@0.6.0) (2018-04-15)
 

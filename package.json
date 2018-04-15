@@ -1,6 +1,6 @@
 {
   "name": "fir-ui",
-  "version": "0.21.0",
+  "version": "0.22.0",
   "description": "一个好用的 Vue 移动端 UI 组件库",
   "main": "src/index.js",
   "repository": {
@@ -42,7 +42,7 @@
     "Android 4.0"
   ],
   "dependencies": {
-    "@fir-ui/date-formatter": "^0.2.5",
+    "@fir-ui/date-formatter": "^0.2.6",
     "autosize": "^4.0.1",
     "better-scroll": "^1.9.1",
     "lodash": "^4.17.5",
@@ -51,7 +51,7 @@
     "vue-merge-data": "^0.1.0"
   },
   "devDependencies": {
-    "@fir-ui/bundler": "^0.6.0",
+    "@fir-ui/bundler": "^0.7.0",
     "@fir-ui/eslint-config-fir": "^0.3.2",
     "cac": "^4.4.4",
     "eslint": "^4.19.1",
