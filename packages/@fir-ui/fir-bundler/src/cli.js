@@ -29,4 +29,13 @@ cli
     default: 'lib'
   })
 
+cli
+  .command('dev', 'Dev mode', ([entry], flags) => {
+    require('./poi')('develop', {
+      ...flags,
+      entry,
+      hotReload: true
+    })
+  })
+
 cli.parse()
