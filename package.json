@@ -13,27 +13,12 @@
     "dist",
     "lib"
   ],
-  "firb": {
-    "entry": {
-      "fir-ui": [
-        "src/index.js",
-        "fir"
-      ]
-    },
-    "format": "all",
-    "postcss": {
-      "paths": [
-        "src/styles"
-      ],
-      "modules": {
-        "generateScopedName": "f-[hash:base64:3]"
-      }
-    }
-  },
   "scripts": {
-    "prepublishOnly": "yarn run build",
+    "prepublishOnly": "yarn build",
     "demo": "vue serve demo/index.js",
-    "build": "bundler build",
+    "build": "bundler config/fir-ui.config.js",
+    "build:lib": "bundler config/fir-lib.config.js",
+    "build:all": "yarn build & yarn build:lib",
     "ac": "node scripts/add-component.js",
     "ec": "node scripts/export-components.js",
     "rc": "node scripts/remove-component.js",
