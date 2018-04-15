@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "prepublishOnly": "yarn build",
-    "demo": "vue serve demo/index.js",
+    "dev": "bundler dev playground/index.js --config config/dev.config.js",
     "build": "bundler config/fir-ui.config.js",
     "build:lib": "bundler config/fir-lib.config.js",
     "build:all": "yarn build & yarn build:lib",
@@ -30,16 +30,13 @@
     "root": true,
     "extends": "@fir-ui/fir"
   },
-  "babel": {
-    "presets": [
-      [
-        "@fir-ui/library",
-        {
-          "loose": false
-        }
-      ]
-    ]
-  },
+  "eslintIgnore": [
+    "**/fixtures/**",
+    "**/dist/**",
+    "**/lib/**",
+    "**/docs/**",
+    "**/templates/**"
+  ],
   "browserslist": [
     "iOS 6",
     "Android 4.0"
@@ -54,17 +51,12 @@
     "vue-merge-data": "^0.1.0"
   },
   "devDependencies": {
-    "@fir-ui/babel-preset-library": "^0.0.11",
     "@fir-ui/bundler": "^0.6.0",
     "@fir-ui/eslint-config-fir": "^0.3.2",
     "cac": "^4.4.4",
     "eslint": "^4.19.1",
     "fs-extra": "^5.0.0",
     "klaw": "^2.1.1",
-    "lerna": "^2.10.0",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2",
-    "vue": "2.5.17-beta.0",
-    "webpack": "^4.5.0"
+    "lerna": "^2.10.0"
   }
 }
