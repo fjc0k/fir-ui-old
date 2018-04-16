@@ -5,7 +5,7 @@ cache:
   directories:
     - node_modules
 install:
-  - yarn
+  - npm i
 script:
   - yarn build:ui-doc
   - yarn docs:build
