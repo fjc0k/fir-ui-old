@@ -1,14 +1,14 @@
 language: node_js
 node_js:
   - node
-# cache:
-#   directories:
-#     - node_modules
+cache:
+  directories:
+    - node_modules
 install:
-  - npm i
+  - npm install
 script:
-  - npm run build:ui-doc
-  - npm run docs:build
+  - yarn build:ui-doc
+  - yarn docs:build
 deploy:
   provider: pages
   skip-cleanup: true

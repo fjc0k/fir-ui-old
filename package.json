@@ -15,10 +15,10 @@
   ],
   "scripts": {
     "prepublishOnly": "yarn build",
-    "dev": "bundler dev playground/index.js --config config/dev.config.js",
-    "build:ui": "bundler config/fir-ui.config.js",
-    "build:ui-doc": "bundler config/fir-ui-doc.config.js",
-    "build:lib": "bundler config/fir-lib.config.js",
+    "dev": "bdr dev playground/index.js --config config/dev.config.js",
+    "build:ui": "bdr config/fir-ui.config.js",
+    "build:ui-doc": "bdr config/fir-ui-doc.config.js",
+    "build:lib": "bdr config/fir-lib.config.js",
     "build": "yarn build:ui & yarn build:ui-doc & yarn build:lib",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
@@ -54,8 +54,8 @@
     "vue-merge-data": "^0.1.0"
   },
   "devDependencies": {
-    "@fir-ui/bundler": "^0.7.0",
     "@fir-ui/eslint-config-fir": "^0.3.2",
+    "bdr": "^1.0.0",
     "cac": "^4.4.4",
     "eslint": "^4.19.1",
     "fs-extra": "^5.0.0",

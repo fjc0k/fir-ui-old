@@ -591,34 +591,6 @@
     babel-plugin-lodash "^3.3.2"
     fast-async "^6.3.1"
 
-"@fir-ui/bundler@^0.7.0":
-  version "0.7.0"
-  resolved "http://registry.npm.taobao.org/@fir-ui/bundler/download/@fir-ui/bundler-0.7.0.tgz#1a63dbdd6f52c548cbd0ab40df3dc1db8b036736"
-  dependencies:
-    "@babel/core" "^7.0.0-beta.42"
-    "@fir-ui/babel-preset-library" "^0.0.11"
-    autoprefixer "^8.2.0"
-    cac "^4.4.4"
-    consola "^1.3.0"
-    first-commit-date "^0.2.0"
-    fs-extra "^5.0.0"
-    glob "^7.1.2"
-    lodash "^4.17.5"
-    minimatch "^3.0.4"
-    path-depth "^0.2.0"
-    poi "^10.0.3"
-    rollup "^0.57.1"
-    rollup-plugin-alias "^1.4.0"
-    rollup-plugin-babel "^4.0.0-beta.3"
-    rollup-plugin-commonjs "^9.1.0"
-    rollup-plugin-json "^2.3.0"
-    rollup-plugin-node-resolve "^3.3.0"
-    rollup-plugin-postcss "^1.4.1"
-    rollup-plugin-re "^1.0.6"
-    rollup-plugin-uglify "^3.0.0"
-    stringify-author "^0.1.3"
-    use-config "^2.0.4"
-
 "@fir-ui/date-formatter@^0.2.6":
   version "0.2.6"
   resolved "http://registry.npm.taobao.org/@fir-ui/date-formatter/download/@fir-ui/date-formatter-0.2.6.tgz#79ae303771c0977074d2d9af06a8dfbbbb925b23"
@@ -1241,6 +1213,38 @@ bcrypt-pbkdf@^1.0.0:
   resolved "http://registry.npm.taobao.org/bcrypt-pbkdf/download/bcrypt-pbkdf-1.0.1.tgz#63bc5dcb61331b92bc05fd528953c33462a06f8d"
   dependencies:
     tweetnacl "^0.14.3"
+
+bdr@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/bdr/download/bdr-1.0.0.tgz#544cd099b645adf3e00bf82b66d464b396e02d83"
+  dependencies:
+    "@babel/core" "^7.0.0-beta.42"
+    "@fir-ui/babel-preset-library" "^0.0.11"
+    autoprefixer "^8.2.0"
+    cac "^4.4.4"
+    consola "^1.3.0"
+    filesize "^3.6.1"
+    first-commit-date "^0.2.0"
+    fs-extra "^5.0.0"
+    glob "^7.1.2"
+    gzip-size "^4.1.0"
+    lodash "^4.17.5"
+    minimatch "^3.0.4"
+    path-depth "^0.2.0"
+    poi "^10.0.3"
+    postcss-url "^7.3.2"
+    rollup "^0.57.1"
+    rollup-plugin-alias "^1.4.0"
+    rollup-plugin-babel "^4.0.0-beta.3"
+    rollup-plugin-commonjs "^9.1.0"
+    rollup-plugin-json "^2.3.0"
+    rollup-plugin-node-resolve "^3.3.0"
+    rollup-plugin-postcss "^1.4.1"
+    rollup-plugin-re "^1.0.6"
+    rollup-plugin-uglify "^3.0.0"
+    stringify-author "^0.1.3"
+    stylus "^0.54.5"
+    use-config "^2.0.4"
 
 better-scroll@^1.9.1:
   version "1.9.1"
@@ -2367,6 +2371,10 @@ csso@~2.3.1:
     clap "^1.0.9"
     source-map "^0.5.3"
 
+cuint@^0.2.2:
+  version "0.2.2"
+  resolved "http://registry.npm.taobao.org/cuint/download/cuint-0.2.2.tgz#408086d409550c2631155619e9fa7bcadc3b991b"
+
 currently-unhandled@^0.4.1:
   version "0.4.1"
   resolved "http://registry.npm.taobao.org/currently-unhandled/download/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
@@ -3133,6 +3141,10 @@ filename-regex@^2.0.0:
   version "2.0.1"
   resolved "http://registry.npm.taobao.org/filename-regex/download/filename-regex-2.0.1.tgz#c1c4b9bee3e09725ddb106b75c1e301fe2f18b26"
 
+filesize@^3.6.1:
+  version "3.6.1"
+  resolved "http://registry.npm.taobao.org/filesize/download/filesize-3.6.1.tgz#090bb3ee01b6f801a8a8be99d31710b3422bb317"
+
 fill-range@^2.1.0:
   version "2.2.3"
   resolved "http://registry.npm.taobao.org/fill-range/download/fill-range-2.2.3.tgz#50b77dfd7e469bc7492470963699fe7a8485a723"
@@ -3566,6 +3578,13 @@ got@^6.7.1:
 graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.11"
   resolved "http://registry.npm.taobao.org/graceful-fs/download/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
+
+gzip-size@^4.1.0:
+  version "4.1.0"
+  resolved "http://registry.npm.taobao.org/gzip-size/download/gzip-size-4.1.0.tgz#8ae096257eabe7d69c45be2b67c448124ffb517c"
+  dependencies:
+    duplexer "^0.1.1"
+    pify "^3.0.0"
 
 handle-thing@^1.2.5:
   version "1.2.5"
@@ -4994,6 +5013,10 @@ mime@1.4.1:
   version "1.4.1"
   resolved "http://registry.npm.taobao.org/mime/download/mime-1.4.1.tgz#121f9ebc49e3766f311a76e1fa1c8003c4b03aa6"
 
+mime@^1.4.1:
+  version "1.6.0"
+  resolved "http://registry.npm.taobao.org/mime/download/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
+
 mime@^2.0.3, mime@^2.1.0:
   version "2.3.1"
   resolved "http://registry.npm.taobao.org/mime/download/mime-2.3.1.tgz#b1621c54d63b97c47d3cfe7f7215f7d64517c369"
@@ -5074,7 +5097,7 @@ mixin-deep@^1.2.0:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
 
-mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
+mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
   version "0.5.1"
   resolved "http://registry.npm.taobao.org/mkdirp/download/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
@@ -6009,6 +6032,16 @@ postcss-unique-selectors@^2.0.2:
     alphanum-sort "^1.0.1"
     postcss "^5.0.4"
     uniqs "^2.0.0"
+
+postcss-url@^7.3.2:
+  version "7.3.2"
+  resolved "http://registry.npm.taobao.org/postcss-url/download/postcss-url-7.3.2.tgz#5fea273807fb84b38c461c3c9a9e8abd235f7120"
+  dependencies:
+    mime "^1.4.1"
+    minimatch "^3.0.4"
+    mkdirp "^0.5.0"
+    postcss "^6.0.1"
+    xxhashjs "^0.2.1"
 
 postcss-value-parser@^3.0.1, postcss-value-parser@^3.0.2, postcss-value-parser@^3.1.1, postcss-value-parser@^3.1.2, postcss-value-parser@^3.2.3, postcss-value-parser@^3.3.0:
   version "3.3.0"
@@ -8415,6 +8448,12 @@ xdg-trashdir@^2.1.1:
 xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.1"
   resolved "http://registry.npm.taobao.org/xtend/download/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
+
+xxhashjs@^0.2.1:
+  version "0.2.2"
+  resolved "http://registry.npm.taobao.org/xxhashjs/download/xxhashjs-0.2.2.tgz#8a6251567621a1c46a5ae204da0249c7f8caa9d8"
+  dependencies:
+    cuint "^0.2.2"
 
 y18n@^3.2.1:
   version "3.2.1"
