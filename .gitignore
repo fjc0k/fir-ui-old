@@ -2,7 +2,6 @@
 node_modules
 dist
 lib
-.vuepress
 
 # local env files
 .env.local
