@@ -2,6 +2,7 @@
 node_modules
 dist
 lib
+docs/.vuepress/fir-ui
 
 # local env files
 .env.local
