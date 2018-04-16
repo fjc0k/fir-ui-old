@@ -19,7 +19,7 @@ export default {
     icon: String,
     mini: Boolean,
     plain: Boolean,
-    inline: Boolean,
+    block: Boolean,
     disabled: Boolean,
     whiteSpace: Boolean
   },
@@ -35,7 +35,7 @@ export default {
     })
 
     return h('a', mergeData(data, {
-      styleName: '@button $type :mini :plain :inline :disabled :white-space',
+      styleName: '@button $type :mini :plain :block :disabled :white-space',
       attrs: {
         href: 'javascript:;' // eslint-disable-line no-script-url
       }

@@ -72,7 +72,10 @@ module.exports = ({ config: configName = 'firb' } = {}) => {
           json(),
           postcss({
             extract: true,
-            minimize: compress && { discardUnused: false },
+            minimize: compress && {
+              discardUnused: false,
+              mergeLonghand: false
+            },
             sourceMap: config.sourceMap,
             ...config.postcss,
             plugins: [
