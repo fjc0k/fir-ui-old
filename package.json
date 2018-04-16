@@ -22,7 +22,6 @@
     "build": "yarn build:ui & yarn build:ui-doc & yarn build:lib",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "docs:deploy": "cd docs/.vuepress/dist & git add -A & git commit -m 'deploy' & git push -f git@github.com:fjc0k/fir-ui.git master:gh-pages",
     "ac": "node scripts/add-component.js",
     "ec": "node scripts/export-components.js",
     "rc": "node scripts/remove-component.js",
