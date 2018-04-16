@@ -72,11 +72,12 @@ module.exports = ({ config: configName = 'firb' } = {}) => {
           json(),
           postcss({
             extract: true,
-            minimize: compress,
+            minimize: compress && { discardUnused: false },
             sourceMap: config.sourceMap,
             ...config.postcss,
             plugins: [
               ...(config.postcss.plugins || []),
+              require('postcss-url')(config.postcss.url || { url: 'inline' }),
               require('autoprefixer')
             ],
             use: [
