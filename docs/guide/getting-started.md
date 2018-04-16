@@ -27,41 +27,49 @@ new Vue({
 以上便完成了 FirUI 的完整引入，需注意的是样式文件需单独引入。
 
 
-### 按需引入
+### 代码演示
+
 <demo-area>
-  <demo-box>
-  ```html
+
+<demo-box>
+```html
+<f-button type="primary" inline>提交</f-button>
+```
+::: tip 内联样式
+添加 `inline` 属性得到内联的按钮。
+:::
+</demo-box>
+
+<demo-box>
+```html
+<f-button type="primary" mini inline>确定</f-button>
+```
+::: tip 小型按钮
+添加 `mini` 属性得到小型化按钮。
+:::
+</demo-box>
+
+<demo-box>
+```html
+<f-button type="primary" mini inline>确定</f-button>
+```
+::: tip 小型按钮
+添加 `mini` 属性得到小型化按钮。
+:::
+</demo-box>
+
+<demo-box>
+```html
+<div>
   <f-button type="primary" whiteSpace>primary</f-button>
-  ```
-  ::: tip 加载中状态
-  添加 `loading` 属性即可让按钮处于加载状态，最后两个按钮演示点击后进入加载状态。
-  :::
-  </demo-box>
+  <f-button type="danger" whiteSpace>danger</f-button>
+</div>
+```
+::: tip 加载中状态
+添加 `loading` 属性即可让按钮处于加载状态，最后两个按钮演示点击后进入加载状态。
+:::
+</demo-box>
 
-
-
-
-
-  <demo-box>
-  ```html
-  <f-button type="primary" whiteSpace>primary</f-button>
-  ```
-  ::: tip 加载中状态
-  添加 `loading` 属性即可让按钮处于加载状态，最后两个按钮演示点击后进入加载状态。
-  :::
-  </demo-box>
-
-  <demo-box>
-  ```html
-  <div>
-    <f-button type="primary" whiteSpace>primary</f-button>
-    <f-button type="danger" whiteSpace>danger</f-button>
-  </div>
-  ```
-  ::: tip 加载中状态
-  添加 `loading` 属性即可让按钮处于加载状态，最后两个按钮演示点击后进入加载状态。
-  :::
-  </demo-box>
 </demo-area>
 
 ## 全局配置
