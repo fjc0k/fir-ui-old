@@ -1,6 +1,7 @@
 import createElement from 'vue-css-modules/lib/create-element'
-import mergeData from 'vue-merge-data'
 import styles from './divider.styl'
+
+const ALIGN = ['center', 'left', 'right']
 
 export default {
   name: 'f-divider',
@@ -9,27 +10,32 @@ export default {
 
   props: {
     color: String,
-    width: String
+    width: String,
+    padding: String,
+    align: {
+      type: String,
+      default: ALIGN[0],
+      validator: value => ALIGN.indexOf(value) >= 0
+    }
   },
 
   render(h, { props, data, children }) {
     h = createElement(h, styles, props)
 
-    const widthStyle = props.width && {
-      width: props.width
+    const innerStyle = {
+      width: props.width,
+      padding: props.padding
     }
     const colorStyle = { color: props.color }
 
-    return h('div', mergeData(data, {
-      styleName: '@divider'
-    }), [
+    return h('div', Object.assign(data, { styleName: '@divider' }), [
       h('div', {
-        styleName: 'inner',
-        staticStyle: widthStyle
+        styleName: 'inner $align',
+        staticStyle: innerStyle
       }, [
-        h('div', { styleName: 'line', staticStyle: colorStyle }),
-        h('div', { styleName: 'body' }, [children]),
-        h('div', { styleName: 'line', staticStyle: colorStyle })
+        h('div', { styleName: 'line lline', staticStyle: colorStyle }),
+        h('div', { styleName: 'body' }, children),
+        h('div', { styleName: 'line rline', staticStyle: colorStyle })
       ])
     ])
   }

@@ -57,7 +57,7 @@
 
     <f-button type="primary" whiteSpace>提交</f-button>
 
-    <f-divider>小22小墙<br/>提供技术支持</f-divider>
+    <f-divider align="left" width="100%">小小墙</f-divider>
 
 
   </div>

@@ -4,12 +4,12 @@
   flex-center: true;
   font-size: $divider.font.size;
   color: $divider.font.color;
-  padding: $divider.padding;
 }
 
 .inner {
   flex-center: true;
   width: $divider.width;
+  padding: $divider.padding;  
 }
 
 .body {
@@ -26,4 +26,12 @@
   min-width: $divider.line.minWidth;
   color: $divider.line.color;
   border-line: 0 top currentColor;
+}
+
+.right .rline {
+  flex: 0;  
+}
+
+.left .lline {
+  flex: 0;  
 }

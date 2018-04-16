@@ -16,9 +16,10 @@
   "scripts": {
     "prepublishOnly": "yarn build",
     "dev": "bundler dev playground/index.js --config config/dev.config.js",
-    "build": "bundler config/fir-ui.config.js",
+    "build:ui": "bundler config/fir-ui.config.js",
+    "build:ui-doc": "bundler config/fir-ui-doc.config.js",
     "build:lib": "bundler config/fir-lib.config.js",
-    "build:all": "yarn build & yarn build:lib",
+    "build": "yarn build:ui & yarn build:ui-doc & yarn build:lib",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "ac": "node scripts/add-component.js",
