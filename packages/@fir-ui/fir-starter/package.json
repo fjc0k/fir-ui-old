@@ -1,6 +1,6 @@
 {
   "name": "fir-starter",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "FirUI starter.",
   "main": "src/index.js",
   "author": "fjc0kb",
@@ -10,7 +10,7 @@
     "dev": "poi develop src/index.js --config config/dev.config.js"
   },
   "dependencies": {
-    "fir-ui": "^0.22.0",
+    "fir-ui": "^0.24.0",
     "vue": "^2.5.16"
   },
   "devDependencies": {

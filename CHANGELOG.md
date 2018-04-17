@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.24.0"></a>
+# [0.24.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.22.0...fir-ui@0.24.0) (2018-04-17)
+
+
+### Features
+
+* bdr ([11b73aa](https://github.com/fjc0k/fir-ui/commit/11b73aa))
+* travis-ci ([73ede20](https://github.com/fjc0k/fir-ui/commit/73ede20))
+* 添加 Starter 模板 ([684bc24](https://github.com/fjc0k/fir-ui/commit/684bc24))
+
+
+
+
+<a name="0.23.0"></a>
+# [0.23.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.22.0...fir-ui@0.23.0) (2018-04-17)
+
+
+### Features
+
+* bdr ([11b73aa](https://github.com/fjc0k/fir-ui/commit/11b73aa))
+* travis-ci ([73ede20](https://github.com/fjc0k/fir-ui/commit/73ede20))
+* 添加 Starter 模板 ([684bc24](https://github.com/fjc0k/fir-ui/commit/684bc24))
+
+
+
+
 <a name="0.22.0"></a>
 # [0.22.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.21.0...fir-ui@0.22.0) (2018-04-15)
 
