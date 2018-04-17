@@ -31,8 +31,7 @@
     "ec": "node scripts/export-components.js",
     "rc": "node scripts/remove-component.js",
     "pub": "lerna publish --conventional-commits",
-    "link": "lerna link",
-    "postinstall": "lerna link"
+    "link": "lerna link"
   },
   "eslintConfig": {
     "root": true,
