@@ -19,13 +19,23 @@
 <demo-box>
 ```html
 <div>
-  <f-button>默认按钮</f-button>
+  <f-button @click="name='kk'">{{ name }}默认按钮</f-button>
   <f-button type="primary">主要按钮</f-button>
   <f-button type="success">成功按钮</f-button>
   <f-button type="warning">警告按钮</f-button>
   <f-button type="danger">危险按钮</f-button>
   <f-button type="info">信息按钮</f-button>
 </div>
+
+<script>
+  export default {
+    data: function () {
+      return {
+        name: '方剑成'
+      }
+    }
+  }
+</script>
 ```
 ::: tip 按钮类型
 以上按钮类型按需选用，主要按钮在同一个操作区域应当最多出现一次。
