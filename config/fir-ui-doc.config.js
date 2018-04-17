@@ -1,18 +1,12 @@
-module.exports = {
+const baseConfig = require('./base.config')('src/styles/doc')
+
+module.exports = Object.assign(baseConfig, {
   entry: {
     'fir-ui': [
-      'src/index-doc.js',
+      'src/index.js',
       'fir'
     ]
   },
   format: 'umd-min',
-  dest: 'docs/.vuepress/fir-ui',
-  postcss: {
-    paths: [
-      'src/styles/doc'
-    ],
-    modules: {
-      generateScopedName: 'f-[hash:base64:3]'
-    }
-  }
-}
+  dest: 'docs/.vuepress/fir-ui'
+})

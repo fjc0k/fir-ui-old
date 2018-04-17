@@ -18,7 +18,6 @@ const t = _.flow([
 const COMPONENT_JS_PATH = r('../src/components')
 const COMPONENT_CSS_PATH = r('../src/components')
 const COMPONENT_VAR_CSS_PATH = r('../src/styles/variables')
-const COMPONENTS_JSON_FILE = r('../src/components.json')
 
 const COMPONENT_JS_TEMPLATE = t('component' + vueComponentExt)
 const COMPONENT_CSS_TEMPLATE = t('component' + cssExt)
@@ -33,16 +32,7 @@ cli
       return
     }
 
-    const cName = _.camelCase(componentName)
     const kName = _.kebabCase(componentName)
-
-    // components.json
-    const components = fs.readJsonSync(COMPONENTS_JSON_FILE)
-    if (components[cName] && !options.force) return
-    components[cName] = `f-${kName}`
-    fs.writeJsonSync(COMPONENTS_JSON_FILE, components, {
-      spaces: 2
-    })
 
     // component.js
     fs.outputFileSync(

@@ -7,8 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "poi develop src/index.js --config config/dev.config.js",
-    "build": "poi build src/index.js --config config/dev.config.js"
+    "dev": "poi develop src/index.js",
+    "build": "poi build src/index.js"
   },
   "dependencies": {
     "fir-ui": "^0.24.1",

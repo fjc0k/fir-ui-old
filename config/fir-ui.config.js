@@ -1,16 +1,10 @@
-module.exports = {
+const baseConfig = require('./base.config')('src/styles')
+
+module.exports = Object.assign(baseConfig, {
   entry: {
     'fir-ui': [
       'src/index.js',
       'fir'
     ]
-  },
-  postcss: {
-    paths: [
-      'src/styles'
-    ],
-    modules: {
-      generateScopedName: 'f-[hash:base64:3]'
-    }
   }
-}
+})

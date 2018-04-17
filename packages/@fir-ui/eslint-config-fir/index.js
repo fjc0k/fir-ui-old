@@ -14,10 +14,10 @@ module.exports = {
     // 使用两个空格缩进
     indent: [2, 2, { SwitchCase: 1 }],
 
-    // 字符串使用单引号
-    quotes: [2, 'single'],
+    // 字符串使用单引号，允许使用反勾号
+    quotes: [2, 'single', { avoidEscape: true, allowTemplateLiterals: true }],
 
-    // 行末无逗号
+    // 行末无分号
     semi: [2, 'never'],
 
     // 花括号之间有空格

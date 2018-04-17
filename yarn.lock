@@ -591,13 +591,13 @@
     babel-plugin-lodash "^3.3.2"
     fast-async "^6.3.1"
 
-"@fir-ui/date-formatter@^0.2.6":
-  version "0.2.6"
-  resolved "http://registry.npm.taobao.org/@fir-ui/date-formatter/download/@fir-ui/date-formatter-0.2.6.tgz#79ae303771c0977074d2d9af06a8dfbbbb925b23"
+"@fir-ui/date-formatter@^0.2.8":
+  version "0.2.8"
+  resolved "http://registry.npm.taobao.org/@fir-ui/date-formatter/download/@fir-ui/date-formatter-0.2.8.tgz#95308caaeae10c513486302a6f685a80fef1dbb5"
 
-"@fir-ui/eslint-config-fir@^0.3.2":
-  version "0.3.2"
-  resolved "http://registry.npm.taobao.org/@fir-ui/eslint-config-fir/download/@fir-ui/eslint-config-fir-0.3.2.tgz#90ec6e9511bd7d14c90d88ba9cee3228889d858a"
+"@fir-ui/eslint-config-fir@^0.3.3":
+  version "0.3.3"
+  resolved "http://registry.npm.taobao.org/@fir-ui/eslint-config-fir/download/@fir-ui/eslint-config-fir-0.3.3.tgz#2fcc8c1afd0f1a4ca0f3265c300c3395b9a9e073"
   dependencies:
     babel-eslint "^8.2.2"
     eslint-config-xo "^0.20.1"
