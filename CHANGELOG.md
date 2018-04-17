@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.24.1"></a>
+## [0.24.1](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.24.0...fir-ui@0.24.1) (2018-04-17)
+
+
+### Bug Fixes
+
+* css ([ede93d7](https://github.com/fjc0k/fir-ui/commit/ede93d7))
+
+
+
+
 <a name="0.24.0"></a>
 # [0.24.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.22.0...fir-ui@0.24.0) (2018-04-17)
 
