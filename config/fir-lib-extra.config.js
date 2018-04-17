@@ -7,6 +7,7 @@ module.exports = Object.assign(baseConfig, {
   entry: {
     '': 'src/{utils,mixins}/*.js'
   },
+  external: '**',
   format: 'es',
   banner: false,
   dest: 'lib',
