@@ -1,3 +1,6 @@
 <template>
-  <div>hello FirUI</div>
+  <div>
+    hello FirUI
+    <f-button>dd</f-button>
+  </div>
 </template>

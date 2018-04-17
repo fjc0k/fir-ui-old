@@ -1,14 +1,13 @@
-const importOnDemand = require('babel-plugin-import')
-
 module.exports = {
   babel: {
     babelrc: false,
     jsx: 'vue',
     plugins: [
-      [importOnDemand, {
+      [require.resolve('babel-plugin-import'), {
         libraryName: 'fir-ui',
         style: componentName => `${componentName}.css`
-      }]
+      }],
+      [require.resolve('babel-plugin-lodash')]
     ]
   }
 }

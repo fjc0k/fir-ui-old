@@ -7,7 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "poi develop src/index.js --config config/dev.config.js"
+    "dev": "poi develop src/index.js --config config/dev.config.js",
+    "build": "poi build src/index.js --config config/dev.config.js"
   },
   "dependencies": {
     "fir-ui": "^0.24.0",
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "babel-plugin-import": "^1.7.0",
+    "babel-plugin-lodash": "^3.3.2",
     "poi": "^10.0.3"
   }
 }
