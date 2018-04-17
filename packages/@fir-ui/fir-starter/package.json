@@ -7,16 +7,19 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "poi develop src/index.js",
-    "build": "poi build src/index.js"
+    "dev": "poi develop --config config/poi-develop.config.js",
+    "build": "poi build --config config/poi-build.config.js"
   },
   "dependencies": {
     "fir-ui": "^0.25.1",
     "vue": "^2.5.16"
   },
   "devDependencies": {
+    "autoprefixer": "^8.3.0",
     "babel-plugin-import": "^1.7.0",
     "babel-plugin-lodash": "^3.3.2",
-    "poi": "^10.0.3"
+    "poi": "^10.0.3",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2"
   }
 }
