@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.28.0"></a>
+# [0.28.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.27.0...fir-ui@0.28.0) (2018-04-18)
+
+
+### Features
+
+* add SinglePicker component ([55c8e57](https://github.com/fjc0k/fir-ui/commit/55c8e57))
+
+
+
+
 <a name="0.27.0"></a>
 # [0.27.0](https://github.com/fjc0k/fir-ui/compare/fir-ui@0.26.0...fir-ui@0.27.0) (2018-04-18)
 
