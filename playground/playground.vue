@@ -36,6 +36,11 @@
             苹果
           </f-tag>
         </f-field>
+        <f-field label="single-picker">
+          <f-single-picker v-model="selected" :data="data" placeholder="选择国家">
+            爱情价更高
+          </f-single-picker>
+        </f-field>
         <f-field label="等我">
           <f-picker
             :visible="false"
@@ -78,7 +83,7 @@ export default {
       age: 24,
       showPopup: false,
       toggle: false,
-      selected: '中国',
+      selected: '',
       name: '方剑成',
       taged: [],
       birthday: [],
