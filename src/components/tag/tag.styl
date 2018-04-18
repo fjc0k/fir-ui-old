@@ -1,0 +1,39 @@
+@import "settings";
+
+.tag {
+  line-height: 1;
+  justify-content: center;
+  height: $tag.height;
+  min-width: $tag.height;
+  font-size: $tag.font.size;
+  color: $tag.font.color;
+  padding: $tag.padding.vertical $tag.padding.horizontal;
+  border-line: $tag.border.radius;
+  border-line-color: $tag.border.color;
+
+  & + & {
+    margin-left: $tag.gutter;
+  }
+
+  &:global(.is-selected) {
+    color: $tag.selected.font.color;
+    border-line-color: $tag.selected.border.color;
+  }
+}
+
+.mini {
+  height: $tag.mini.height;
+  min-width: $tag.mini.height;
+  font-size: $tag.mini.font.size;
+}
+
+.icon {
+  position: absolute;
+  top: -.5em;
+  right: -.5em;
+  z-index: 2;
+}
+
+.disabled {
+  disabled: true;  
+}

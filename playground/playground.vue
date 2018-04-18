@@ -28,6 +28,14 @@
         <f-field label="等我">
           <f-switch v-model="toggle" />
         </f-field>
+        <f-field label="tag">
+          <f-tag v-model="taged" value="爱">
+            爱情价更高
+          </f-tag>
+          <f-tag v-model="taged" value="苹果" closable>
+            苹果
+          </f-tag>
+        </f-field>
         <f-field label="等我">
           <f-picker
             :visible="false"
@@ -72,6 +80,7 @@ export default {
       toggle: false,
       selected: '中国',
       name: '方剑成',
+      taged: [],
       birthday: [],
       birthtime: [],
       pickerValue: [],
