@@ -595,9 +595,9 @@
   version "0.2.8"
   resolved "http://registry.npm.taobao.org/@fir-ui/date-formatter/download/@fir-ui/date-formatter-0.2.8.tgz#95308caaeae10c513486302a6f685a80fef1dbb5"
 
-"@fir-ui/eslint-config-fir@^0.3.3":
-  version "0.3.3"
-  resolved "http://registry.npm.taobao.org/@fir-ui/eslint-config-fir/download/@fir-ui/eslint-config-fir-0.3.3.tgz#2fcc8c1afd0f1a4ca0f3265c300c3395b9a9e073"
+"@fir-ui/eslint-config-fir@^0.4.0":
+  version "0.4.0"
+  resolved "http://registry.npm.taobao.org/@fir-ui/eslint-config-fir/download/@fir-ui/eslint-config-fir-0.4.0.tgz#fa7924c07cfc67e8bea168b3f267909c4f354a48"
   dependencies:
     babel-eslint "^8.2.2"
     eslint-config-xo "^0.20.1"
@@ -7891,8 +7891,8 @@ vm-browserify@0.0.4:
     indexof "0.0.1"
 
 vue-better-sync@^3.1.0:
-  version "3.2.2"
-  resolved "http://registry.npm.taobao.org/vue-better-sync/download/vue-better-sync-3.2.2.tgz#1a9e22aec2dad322095712c433a457200ba949ed"
+  version "3.2.3"
+  resolved "http://registry.npm.taobao.org/vue-better-sync/download/vue-better-sync-3.2.3.tgz#11d0c7e415c56c7cd032ff5767f73dc95b47c2cc"
 
 vue-css-modules@^1.0.2:
   version "1.0.2"
@@ -7931,8 +7931,8 @@ vue-loader@^15.0.0-rc.1:
     vue-style-loader "^4.1.0"
 
 vue-merge-data@^0.1.0:
-  version "0.1.0"
-  resolved "http://registry.npm.taobao.org/vue-merge-data/download/vue-merge-data-0.1.0.tgz#a54f2c6dd6213df3460afe7c1a82187aa2b7ffc7"
+  version "0.1.3"
+  resolved "http://registry.npm.taobao.org/vue-merge-data/download/vue-merge-data-0.1.3.tgz#6c0a31fd2ef78efc708be436759792604071103e"
 
 vue-router@^3.0.1:
   version "3.0.1"
