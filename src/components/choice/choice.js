@@ -35,10 +35,7 @@ export default {
   ],
 
   props: {
-    selectedValue: {
-      type: null,
-      sync: true
-    },
+    selectedValue: null,
     value: null,
     icon: String,
     selectedIcon: String
@@ -110,7 +107,8 @@ export default {
 
   render(h) {
     return h('label', {
-      styleName: '@choice :selected'
+      styleName: '@choice :selected',
+      staticClass: this.selected ? 'is-selected' : ''
     }, [
       h('input', {
         styleName: 'input',
